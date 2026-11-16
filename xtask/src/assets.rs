@@ -42,6 +42,17 @@ pub const ALLOWED_LICENCES: &[&str] = &[
 /// (AGENTS.md §1.2).
 pub const BRAND_LICENCE: &str = "LicenseRef-Storyteller-Trademark";
 
+/// Lusk PDF : le logo et l'icône de l'association Lusk. Ils ne sont pas sous licence libre :
+/// l'association en autorise l'utilisation avec Lusk PDF (assets/app-icon/LICENSE-lusk.txt).
+/// Admis seulement pour les logos et icônes de `assets/app-icon/` dont le nom commence par
+/// `lusk-`.
+pub const LUSK_LICENCE: &str = "LicenseRef-Lusk-Trademark";
+
+/// Is this entry a Lusk logo or icon under the association's own licence?
+fn lusk_mark(path: &str, kind: &str, licence: &str) -> bool {
+    licence == LUSK_LICENCE && matches!(kind, "logo" | "icon") && path.starts_with("assets/app-icon/lusk-")
+}
+
 pub const ADOBE_DATA_ALLOWED: &[(&str, &str)] = &[("hayro-cmap", "assets/cmaps.brotli"), ("hayro-interpret", "src/font/generated/metrics.rs")];
 
 /// First-party files on that same closed list: generated tables of Adobe-authored non-visual
@@ -247,7 +258,7 @@ pub fn check(root: &Path, m: &Manifest, repo_files: &[String], lock: &BTreeSet<(
         if !seen.insert(a.path.clone()) {
             problems.push(format!("{}: listed twice", a.path));
         }
-        let brand = a.licence == BRAND_LICENCE && a.kind == "logo" && a.path.starts_with("docs/brand/");
+        let brand = (a.licence == BRAND_LICENCE && a.kind == "logo" && a.path.starts_with("docs/brand/")) || lusk_mark(&a.path, &a.kind, &a.licence);
         if !brand {
             licence_ok(&a.path, &a.licence, &mut problems);
         }
@@ -576,6 +587,23 @@ mod tests {
             a.licence_file = "docs/brand/LICENSE-brand.txt".into();
             let m = Manifest { asset: vec![a], ..Default::default() };
             let p = check(&root, &m, &[], &BTreeSet::new());
+            assert_eq!(p.iter().all(|p| !p.contains("allowlist")), pass, "{path} {kind}: {p:?}");
+        }
+    }
+
+    #[test]
+    fn the_lusk_licence_covers_only_lusk_logos_and_icons() {
+        for (path, kind, pass) in [
+            ("assets/app-icon/lusk-pdf-logo.png", "logo", true),
+            ("assets/app-icon/lusk-pdf-icone.png", "icon", true),
+            ("assets/app-icon/pdfcraft.svg", "icon", false),
+            ("assets/app-icon/lusk-pdf-logo.png", "image", false),
+            ("assets/icons/lusk-mark.svg", "logo", false),
+        ] {
+            let mut a = asset(path, "Lusk", kind, LUSK_LICENCE);
+            a.licence_file = "assets/app-icon/LICENSE-lusk.txt".into();
+            let m = Manifest { asset: vec![a], ..Default::default() };
+            let p = check(&root(), &m, &[], &BTreeSet::new());
             assert_eq!(p.iter().all(|p| !p.contains("allowlist")), pass, "{path} {kind}: {p:?}");
         }
     }

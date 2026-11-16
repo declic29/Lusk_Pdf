@@ -2647,6 +2647,28 @@ usage = "README header and assets/app-icon/README.md"
 sha256 = "b524df1a583f8034a5a23836955e4fb423e0149429d695e80d95e5056f408678"
 
 [[asset]]
+path = "assets/app-icon/lusk-pdf-logo.png"
+title = "Logo de Lusk PDF"
+author = "Association Lusk"
+source = "Fourni par l'association Lusk (16 novembre 2026)"
+licence = "LicenseRef-Lusk-Trademark"
+licence_file = "assets/app-icon/LICENSE-lusk.txt"
+kind = "logo"
+usage = "Logo complet de Lusk PDF (livre rouge et « PdF »), pour l'À propos, l'écran d'accueil et le README"
+sha256 = "f491f400795ca24ec678d3805680c687e0c90a14b99a8dd9ff060bbd33aaff6f"
+
+[[asset]]
+path = "assets/app-icon/lusk-pdf-icone.png"
+title = "Icône de Lusk PDF"
+author = "Association Lusk"
+source = "Tirée du logo fourni par l'association Lusk (le livre et le « P »)"
+licence = "LicenseRef-Lusk-Trademark"
+licence_file = "assets/app-icon/LICENSE-lusk.txt"
+kind = "icon"
+usage = "Image source des icônes de l'application (packaging/icons.sh)"
+sha256 = "6c658dbf6f29bf77348831e08ac39d10818db32831ecfab37514607407839a26"
+
+[[asset]]
 path = "assets/app-icon/pdfcraft-1024.png"
 title = "PdfCraft app icon, 1024 px on Apple's icon grid"
 author = "PdfCraft contributors (drawn by the project owner in ArtCraft)"
