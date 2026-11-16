@@ -66,6 +66,8 @@ pub use print_ui::{
 };
 pub use redact_ui::{HiddenDraft, PagesDraft as RedactPagesDraft, RedactPrefs, SearchDraft as RedactSearchDraft, SearchMode as RedactSearchMode};
 pub mod i18n;
+/// Lusk PDF : l'écran d'accueil.
+pub mod splash;
 pub mod theme;
 pub mod viewer_prefs;
 mod widgets;

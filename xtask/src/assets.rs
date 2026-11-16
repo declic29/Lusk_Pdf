@@ -45,12 +45,13 @@ pub const BRAND_LICENCE: &str = "LicenseRef-Storyteller-Trademark";
 /// Lusk PDF : le logo et l'icône de l'association Lusk. Ils ne sont pas sous licence libre :
 /// l'association en autorise l'utilisation avec Lusk PDF (assets/app-icon/LICENSE-lusk.txt).
 /// Admis seulement pour les logos et icônes de `assets/app-icon/` dont le nom commence par
-/// `lusk-`.
+/// `lusk-`, et pour les images de l'écran d'accueil (`assets/splash/`).
 pub const LUSK_LICENCE: &str = "LicenseRef-Lusk-Trademark";
 
 /// Is this entry a Lusk logo or icon under the association's own licence?
 fn lusk_mark(path: &str, kind: &str, licence: &str) -> bool {
-    licence == LUSK_LICENCE && matches!(kind, "logo" | "icon") && path.starts_with("assets/app-icon/lusk-")
+    licence == LUSK_LICENCE
+        && ((matches!(kind, "logo" | "icon") && path.starts_with("assets/app-icon/lusk-")) || (kind == "image" && path.starts_with("assets/splash/")))
 }
 
 pub const ADOBE_DATA_ALLOWED: &[(&str, &str)] = &[("hayro-cmap", "assets/cmaps.brotli"), ("hayro-interpret", "src/font/generated/metrics.rs")];
@@ -598,6 +599,8 @@ mod tests {
             ("assets/app-icon/lusk-pdf-icone.png", "icon", true),
             ("assets/app-icon/pdfcraft.svg", "icon", false),
             ("assets/app-icon/lusk-pdf-logo.png", "image", false),
+            ("assets/splash/accueil-lusk-pdf.jpg", "image", true),
+            ("assets/splash/accueil-lusk-pdf.jpg", "icon", false),
             ("assets/icons/lusk-mark.svg", "logo", false),
         ] {
             let mut a = asset(path, "Lusk", kind, LUSK_LICENCE);

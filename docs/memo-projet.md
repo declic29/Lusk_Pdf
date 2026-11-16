@@ -63,6 +63,23 @@ Claude de Philippe. État au 16 novembre 2026.
   s'appuie `cargo xtask assets`), les marques ArtCraft et les contributeurs (retirés à l'étape
   Marque, avec le code qui les affiche).
 
+- 16 novembre 2026, **écran d'accueil** : fond fourni par l'association
+  (`assets/splash/accueil-lusk-pdf.jpg`, réduit à 1440 × 810), logo, barre de chargement et
+  mentions, comme Lusk Texte et Lusk Tab (`crates/ui-egui/src/splash.rs`, textes modifiables en
+  haut du fichier). Il s'ouvre dans sa propre petite fenêtre sans bordure avant la fenêtre de
+  travail (`apps/pdfcraft/src/splash_window.rs`), qui garde ainsi sa taille et sa place
+  enregistrées. Pas d'écran d'accueil sur macOS, avec `--control` ni avec `LUSK_NO_SPLASH`.
+  `LUSK_SPLASH_SHOT=fichier.png cargo test -p pdfcraft-ui-egui --lib splash` en fait une capture.
+
+## À savoir
+
+- **Images déposées sur le PC** : en passant par le lien avec l'ordinateur, une image PNG ou JPEG
+  reçoit des données de provenance (C2PA) qui changent son empreinte. Après chaque dépôt d'image,
+  relire le fichier du PC et mettre son SHA-256 dans `ATTRIBUTION.toml`, puis
+  `cargo xtask assets --write`, sinon `cargo xtask assets` échoue en CI.
+- Clippy récent (Rust 1.97) signale une alerte déjà présente dans `crates/xfdf` ; vérifier les
+  crates modifiées avec `--no-deps`.
+
 ## À faire (dans l'ordre du cahier des charges)
 
 3. Marque : nom, `bzh.lusk.pdf`, icônes, À propos, couleur #A31B1F, écran d'accueil animé,

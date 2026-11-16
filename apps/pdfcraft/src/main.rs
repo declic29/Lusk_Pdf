@@ -44,6 +44,7 @@ mod motion;
 mod reopen;
 mod settings;
 mod single_instance;
+mod splash_window;
 mod startup;
 mod text_scale;
 #[cfg(test)]
@@ -283,6 +284,10 @@ fn main() -> eframe::Result {
     // Set once the app is created, which is after the renderer has started.
     let started = Rc::new(Cell::new(false));
     let first = if choice == RendererChoice::Gl { eframe::Renderer::Glow } else { eframe::Renderer::Wgpu };
+    // Lusk PDF : l'écran d'accueil, dans sa propre petite fenêtre, avant la fenêtre de travail.
+    if splash_window::wanted(launch.control_file.is_some(), std::env::var_os("LUSK_NO_SPLASH").is_some()) {
+        splash_window::run(first, APP_ID, APP_ICON_PNG);
+    }
     let result = eframe::run_native(
         "PdfCraft",
         native_options(launch.integrated, launch.window_controls.is_some(), first),

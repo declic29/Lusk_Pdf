@@ -4,7 +4,7 @@
 
 Every asset PdfCraft includes, bundles or uses to build its published material, with its author, source and licence. The policy is in [AGENTS.md](AGENTS.md) §1. The machine-readable list, with the SHA-256 of every asset, is [ATTRIBUTION.toml](ATTRIBUTION.toml). Licence texts are kept beside the assets and summarised in [NOTICE](NOTICE).
 
-## In this repository (259)
+## In this repository (260)
 
 | Asset | Title | Author | Licence | Source | Used for |
 |---|---|---|---|---|---|
@@ -217,6 +217,7 @@ Every asset PdfCraft includes, bundles or uses to build its published material, 
 | `assets/app-icon/pdfcraft-small.svg` | PdfCraft app icon (light vector) | PdfCraft contributors (drawn by the project owner in ArtCraft) | MIT OR Apache-2.0 | Contributor-original (see assets/app-icon/README.md) | README header and assets/app-icon/README.md |
 | `assets/app-icon/lusk-pdf-logo.png` | Logo de Lusk PDF | Association Lusk | LicenseRef-Lusk-Trademark | Fourni par l'association Lusk (16 novembre 2026) | Logo complet de Lusk PDF (livre rouge et « PdF »), pour l'À propos, l'écran d'accueil et le README |
 | `assets/app-icon/lusk-pdf-icone.png` | Icône de Lusk PDF | Association Lusk | LicenseRef-Lusk-Trademark | Tirée du logo fourni par l'association Lusk (le livre et le « P ») | Image source des icônes de l'application (packaging/icons.sh) |
+| `assets/splash/accueil-lusk-pdf.jpg` | Fond de l'écran d'accueil de Lusk PDF | Association Lusk | LicenseRef-Lusk-Trademark | Fourni par l'association Lusk (16 novembre 2026), réduit à 1440 × 810 | Image de fond de l'écran d'accueil (crates/ui-egui/src/splash.rs) |
 | `assets/app-icon/pdfcraft-1024.png` | PdfCraft app icon, 1024 px on Apple's icon grid | PdfCraft contributors (drawn by the project owner in ArtCraft) | MIT OR Apache-2.0 | Contributor-original (see assets/app-icon/README.md) | Runtime window/Dock icon on macOS (apps/pdfcraft/src/main.rs) |
 | `assets/app-icon/pdfcraft.icns` | PdfCraft app icon (macOS .icns) | PdfCraft contributors (drawn by the project owner in ArtCraft) | MIT OR Apache-2.0 | Contributor-original (see assets/app-icon/README.md) | macOS app bundle icon |
 | `assets/app-icon/pdfcraft.ico` | PdfCraft app icon (Windows .ico, 16-256 px) | PdfCraft contributors (drawn by the project owner in ArtCraft) | MIT OR Apache-2.0 | Contributor-original (see assets/app-icon/README.md) | Embedded in pdfcraft.exe by apps/pdfcraft/build.rs (Explorer, taskbar, Start menu, Alt-Tab) |

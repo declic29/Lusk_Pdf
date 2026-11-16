@@ -2655,7 +2655,7 @@ licence = "LicenseRef-Lusk-Trademark"
 licence_file = "assets/app-icon/LICENSE-lusk.txt"
 kind = "logo"
 usage = "Logo complet de Lusk PDF (livre rouge et « PdF »), pour l'À propos, l'écran d'accueil et le README"
-sha256 = "f491f400795ca24ec678d3805680c687e0c90a14b99a8dd9ff060bbd33aaff6f"
+sha256 = "cdcdfd26d65bef8a4032506706d3668fa54dbef1a1e1bc69345e66ff7cd727d7"
 
 [[asset]]
 path = "assets/app-icon/lusk-pdf-icone.png"
@@ -2666,7 +2666,18 @@ licence = "LicenseRef-Lusk-Trademark"
 licence_file = "assets/app-icon/LICENSE-lusk.txt"
 kind = "icon"
 usage = "Image source des icônes de l'application (packaging/icons.sh)"
-sha256 = "6c658dbf6f29bf77348831e08ac39d10818db32831ecfab37514607407839a26"
+sha256 = "dde9c616c2c29b0a22a5efe7623b721ba5f84a1319e042d18e5da0bc3361de0c"
+
+[[asset]]
+path = "assets/splash/accueil-lusk-pdf.jpg"
+title = "Fond de l'écran d'accueil de Lusk PDF"
+author = "Association Lusk"
+source = "Fourni par l'association Lusk (16 novembre 2026), réduit à 1440 × 810"
+licence = "LicenseRef-Lusk-Trademark"
+licence_file = "assets/app-icon/LICENSE-lusk.txt"
+kind = "image"
+usage = "Image de fond de l'écran d'accueil (crates/ui-egui/src/splash.rs)"
+sha256 = "901ba685883556fd15a206edd1a5d179bf97592497d09dbe53805fd459a0985c"
 
 [[asset]]
 path = "assets/app-icon/pdfcraft-1024.png"

@@ -21,6 +21,8 @@ craft-i18n = { workspace = true }
 # close also quits through `terminate:` (the Touch Bar crash, #1136).
 craft-quit = { workspace = true, features = ["egui"] }
 pdfcraft-fonts = { workspace = true }
+# Lusk PDF : l'image de fond et le logo de l'écran d'accueil (src/splash.rs).
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
 pdfcraft-engine = { workspace = true }
 pdfcraft-cos = { workspace = true }
 pdfcraft-content = { workspace = true }
