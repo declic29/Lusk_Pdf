@@ -1,5 +1,6 @@
 Logo et icône de Lusk PDF (lusk-pdf-logo.png, lusk-pdf-icone.png et les fichiers qui en seront
-tirés dans ce dossier), et fond de l'écran d'accueil (assets/splash/accueil-lusk-pdf.jpg).
+tirés dans ce dossier), fond de l'écran d'accueil (assets/splash/accueil-lusk-pdf.jpg), et
+renard de l'association (assets/avatar/lusk-renard.png et lusk-renard-tete.png).
 
 Ces images appartiennent à l'association Lusk (loi 1901), qui en autorise l'utilisation et la
 redistribution avec Lusk PDF. Elles ne sont pas couvertes par les licences MIT et Apache du code.

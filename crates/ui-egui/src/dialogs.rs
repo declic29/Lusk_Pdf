@@ -524,7 +524,7 @@ fn dialog_body(ui: &mut egui::Ui, app: &mut PdfCraftApp, dialog: Dialog, req: &m
             }
         }
         Dialog::About => {
-            if !dialog_about(ui, req) {
+            if !dialog_about(ui, app, req) {
                 return false;
             }
         }
@@ -1653,13 +1653,14 @@ fn dialog_shortcuts(ui: &mut egui::Ui) -> bool {
 }
 
 /// `Dialog::About` content. Returns `false` when it has its own buttons and no footer is wanted.
-fn dialog_about(ui: &mut egui::Ui, req: &mut Pending) -> bool {
+fn dialog_about(ui: &mut egui::Ui, app: &mut PdfCraftApp, req: &mut Pending) -> bool {
     let t = Tokens::get(ui.ctx());
     // Tabs About · Contributors · Models.
     let tab_id = egui::Id::unique("about_tab");
     let mut tab = ui.data_mut(|d| d.get_temp::<u8>(tab_id)).unwrap_or(0);
     ui.horizontal_wrapped(|ui| {
-        for (i, label) in ["About", "Contributors", "Models"].into_iter().enumerate() {
+        // Lusk PDF : un onglet Mises à jour, comme la page Fichier › Mises à jour de Lusk Texte.
+        for (i, label) in ["About", "Contributors", "Models", "Updates"].into_iter().enumerate() {
             let i = i as u8;
             if widgets::mode_tab(ui, tl!(label), tab == i).clicked() {
                 tab = i;
@@ -1671,6 +1672,7 @@ fn dialog_about(ui: &mut egui::Ui, req: &mut Pending) -> bool {
     match tab {
         1 => crate::credits::contributors_ui(ui),
         2 => crate::credits::models_ui(ui),
+        3 => about_updates(ui, app, req),
         _ => {
             ui.horizontal(|ui| {
                 widgets::lusk_mark(ui, 44.0);
@@ -1689,7 +1691,9 @@ fn dialog_about(ui: &mut egui::Ui, req: &mut Pending) -> bool {
                 .small(),
             );
             ui.add_space(12.0);
+            // Lusk PDF : la tête du renard de l'association, comme dans Lusk Texte.
             ui.horizontal(|ui| {
+                crate::home::lusk::fox_head(ui, 32.0);
                 ui.label(egui::RichText::new(tl!("By the Lusk association (loi 1901) · www.lusk.bzh")).color(t.text_muted));
             });
             ui.add_space(6.0);
@@ -1699,6 +1703,37 @@ fn dialog_about(ui: &mut egui::Ui, req: &mut Pending) -> bool {
         }
     }
     true
+}
+
+/// Lusk PDF : l'onglet Mises à jour de « À propos » : la version installée, « Rechercher des
+/// mises à jour », la recherche au démarrage, et ce que cette recherche envoie.
+fn about_updates(ui: &mut egui::Ui, app: &mut PdfCraftApp, req: &mut Pending) {
+    let t = Tokens::get(ui.ctx());
+    ui.add_space(4.0);
+    ui.label(egui::RichText::new(tl!("Lusk PDF updates")).font(theme::semibold(17.0)));
+    ui.label(crate::i18n::fmt(tl!("Installed version: {v}"), &[("v", &pdfcraft_engine::build_info::version())]));
+    ui.add_space(10.0);
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        let check = egui::Button::new(egui::RichText::new(tl!("Check for updates")).color(egui::Color32::WHITE)).fill(t.accent).corner_radius(14);
+        if ui.add(check).clicked() {
+            req.link_command = Some("help.check_updates");
+        }
+        ui.add_space(8.0);
+        ui.add(widgets::checkbox(&mut app.update_check_at_start, tl!("Check for updates when Lusk PDF starts")));
+        ui.add_space(8.0);
+        ui.label(
+            egui::RichText::new(tl!(
+                "To check, Lusk PDF only asks GitHub (github.com/declic29/Lusk_Pdf) for the latest version. Nothing about you or your documents is sent, and an update is installed only if you accept it."
+            ))
+            .color(t.text_muted),
+        );
+    }
+    #[cfg(target_arch = "wasm32")]
+    {
+        let _ = (app, req);
+        ui.label(egui::RichText::new(tl!("The web version is always up to date.")).color(t.text_muted));
+    }
 }
 
 fn dialog_pin_tool(ui: &mut egui::Ui, app: &mut PdfCraftApp, req: &mut Pending) -> bool {

@@ -1,0 +1,14 @@
+Listes de mots et motifs de césure du correcteur de Lusk PDF (crates/proof),
+repris tels quels de Lusk Texte.
+
+en-us.dic : la liste de mots « Moby Hyphenator II » de Grady Ward, placée dans le
+  domaine public par son auteur (Projet Gutenberg, livre 3204, fichier mhyph.txt),
+  convertie par les contributeurs de DesignCraft. Domaine public.
+
+en-us.pat : motifs de césure anglais calculés à partir de cette liste par les
+  contributeurs de DesignCraft. Dédiés au domaine public (CC0 1.0,
+  https://creativecommons.org/publicdomain/zero/1.0/).
+
+Les autres fichiers de motifs (de, fr, it, pl, pt) viennent du paquet hyph-utf8
+(https://github.com/hyphenation/tex-hyphen) et portent leur licence (MIT ou
+BSD 3-clause) et leurs auteurs en tête de fichier.

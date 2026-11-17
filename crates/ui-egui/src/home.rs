@@ -8,6 +8,7 @@ use crate::theme::{self, Tokens};
 use crate::{PdfCraftApp, icons, panels::human_size, widgets};
 
 pub mod folders_ui;
+pub(crate) mod lusk;
 
 const RECOMMENDED: [&str; 5] = ["organize", "comment", "form", "edit", "protect"];
 
@@ -76,13 +77,17 @@ pub fn show(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
     let t = Tokens::get(ui.ctx());
     egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
         egui::Frame::NONE.inner_margin(egui::Margin { left: 36, right: 36, top: 28, bottom: 28 }).show(ui, |ui| {
-            ui.label(egui::RichText::new(tl!("Welcome to Lusk PDF")).font(theme::semibold(24.0)));
+            // Lusk PDF : le renard et « Bonjour », puis Ouvrir (Parcourir…, OneDrive, Google Drive).
+            lusk::welcome(ui);
+            ui.add_space(4.0);
             ui.label(
                 egui::RichText::new(tl!("An open-source PDF workbench — local, private, and scriptable."))
                     .color(t.text_muted)
                     .font(theme::regular(14.0)),
             );
-            ui.add_space(14.0);
+            ui.add_space(18.0);
+            lusk::open_row(app, ui);
+            ui.add_space(22.0);
             if !app.community_card_closed {
                 egui::Frame::NONE
                     .fill(t.card)

@@ -35,6 +35,8 @@ pub const TABLE: &[(&str, Class)] = &[
     ("crypt", Class::Standalone(0)),
     ("arlington", Class::Standalone(0)),
     ("prc", Class::Standalone(0)),
+    // Lusk PDF : le correcteur d'orthographe repris de Lusk Texte (aucune dépendance du dépôt).
+    ("lusk-proof", Class::Standalone(0)),
     // L1 object layer
     ("cos", Class::Standalone(1)),
     // L2 core model

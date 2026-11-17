@@ -172,6 +172,8 @@ impl PdfCraftApp {
         // Set apart: one more key inside the macro above passes serde_json's recursion limit.
         v["default_page_gaps"] = serde_json::Value::Bool(self.view_defaults.show_page_gaps);
         v["recent_limit"] = serde_json::json!(self.recent_limit);
+        // Lusk PDF : la langue du correcteur d'orthographe (Préférences ▸ Orthographe).
+        v["spell_lang"] = serde_json::json!(crate::spelling::lang().key());
         v["fill_text_color"] = serde_json::json!(self.fill_text_color);
         v["redact_prefs"] = self.redact_defaults.to_json();
         v["pinned_tools"] = serde_json::json!(self.pinned_tools);
@@ -242,6 +244,9 @@ impl PdfCraftApp {
             self.recent_limit = usize::try_from(limit).map_or(crate::RECENT_FILES_MAX, |n| n.min(crate::RECENT_FILES_MAX));
         }
         self.recent.truncate(self.recent_limit);
+        if let Some(l) = v["spell_lang"].as_str().and_then(crate::spelling::SpellLang::from_key) {
+            crate::spelling::set_lang(l);
+        }
         self.restore_layout_prefs(&v);
         self.restore_behavior_prefs(&v);
         self.restore_view_prefs(&v);

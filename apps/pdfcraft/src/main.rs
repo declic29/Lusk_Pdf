@@ -476,6 +476,8 @@ fn app_creator<'a>(
         if let Some(json) = cc.storage.and_then(|s| s.get_string("pdfcraft").or_else(|| s.get_string(LEGACY_STORAGE_KEY))) {
             app.restore(&json);
         }
+        // Lusk PDF : le dictionnaire personnel et, en arrière-plan, celui de la langue choisie.
+        pdfcraft_ui_egui::spelling::start();
         app.window_state = pdfcraft_ui_egui::window_state::WindowState::started_with(cc.storage);
         app.integrated_titlebar = integrated;
         app.window_controls = window_controls;

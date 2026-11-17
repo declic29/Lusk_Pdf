@@ -209,19 +209,19 @@ fn text_box(ui: &mut egui::Ui, parts: &mut Parts<'_>, a: &Annotation, name: &str
     if parts.allowed && !a.locked {
         let typed = parts.cv.popup_text.as_ref().filter(|(p, i, _)| (*p, *i) == key).map(|(_, _, s)| s.clone());
         let mut text = typed.unwrap_or_else(|| a.contents.clone().unwrap_or_default());
-        let field = ui
-            .add(
-                egui::TextEdit::multiline(&mut text)
-                    .desired_rows(1)
-                    .desired_width(f32::INFINITY)
-                    .font(theme::regular(12.5))
-                    .text_color(parts.pal.ink)
-                    .background_color(Color32::WHITE)
-                    .margin(egui::Margin::symmetric(4, 2))
-                    .id_salt(("popup-text", a.page, a.index)),
-            )
-            .accessible_name(name);
-        if field.changed() {
+        let out = egui::TextEdit::multiline(&mut text)
+            .desired_rows(1)
+            .desired_width(f32::INFINITY)
+            .font(theme::regular(12.5))
+            .text_color(parts.pal.ink)
+            .background_color(Color32::WHITE)
+            .margin(egui::Margin::symmetric(4, 2))
+            .id_salt(("popup-text", a.page, a.index))
+            .show(ui);
+        // Lusk PDF : les fautes d'orthographe soulignées, corrigées d'un clic droit.
+        let corrected = crate::spelling::check(ui, &out, &mut text);
+        let field = out.response.response.accessible_name(name);
+        if field.changed() || corrected {
             parts.cv.popup_text = Some((a.page, a.index, text.clone()));
         }
         if field.lost_focus()
@@ -262,21 +262,23 @@ fn footer(ui: &mut egui::Ui, parts: &mut Parts<'_>, a: &Annotation) {
         });
     }
     let Some(mut reply) = parts.cv.popup_reply.as_ref().filter(|(p, i, _)| (*p, *i) == key).map(|(_, _, s)| s.clone()) else { return };
-    let field = ui.add(
-        egui::TextEdit::multiline(&mut reply)
-            .desired_rows(1)
-            .desired_width(f32::INFINITY)
-            .hint_text(tl!("Add a reply"))
-            .font(theme::regular(12.5))
-            .text_color(parts.pal.ink)
-            .background_color(Color32::WHITE)
-            .margin(egui::Margin::symmetric(4, 2))
-            .id_salt(("popup-reply", a.page, a.index)),
-    );
+    let out = egui::TextEdit::multiline(&mut reply)
+        .desired_rows(1)
+        .desired_width(f32::INFINITY)
+        .hint_text(tl!("Add a reply"))
+        .font(theme::regular(12.5))
+        .text_color(parts.pal.ink)
+        .background_color(Color32::WHITE)
+        .margin(egui::Margin::symmetric(4, 2))
+        .id_salt(("popup-reply", a.page, a.index))
+        .show(ui);
+    // Lusk PDF : les fautes d'orthographe soulignées, corrigées d'un clic droit.
+    let corrected = crate::spelling::check(ui, &out, &mut reply);
+    let field = out.response.response;
     if opened {
         field.request_focus();
     }
-    if field.changed() {
+    if field.changed() || corrected {
         parts.cv.popup_reply = Some((a.page, a.index, reply.clone()));
     }
     let enter = super::submit_key(ui, &field, false);

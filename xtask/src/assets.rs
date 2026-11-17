@@ -45,14 +45,30 @@ pub const BRAND_LICENCE: &str = "LicenseRef-Storyteller-Trademark";
 /// Lusk PDF : le logo et l'icône de l'association Lusk. Ils ne sont pas sous licence libre :
 /// l'association en autorise l'utilisation avec Lusk PDF (assets/app-icon/LICENSE-lusk.txt).
 /// Admis seulement pour les logos et icônes de `assets/app-icon/` (le logo, l'icône et les
-/// icônes qu'en tire packaging/icons.py), et pour les images de l'écran d'accueil
-/// (`assets/splash/`).
+/// icônes qu'en tire packaging/icons.py), pour les images de l'écran d'accueil
+/// (`assets/splash/`) et pour le renard de l'association (`assets/avatar/`).
 pub const LUSK_LICENCE: &str = "LicenseRef-Lusk-Trademark";
 
 /// Is this entry a Lusk logo or icon under the association's own licence?
 fn lusk_mark(path: &str, kind: &str, licence: &str) -> bool {
     licence == LUSK_LICENCE
-        && ((matches!(kind, "logo" | "icon") && path.starts_with("assets/app-icon/")) || (kind == "image" && path.starts_with("assets/splash/")))
+        && ((matches!(kind, "logo" | "icon") && path.starts_with("assets/app-icon/"))
+            || (kind == "image" && (path.starts_with("assets/splash/") || path.starts_with("assets/avatar/"))))
+}
+
+/// Lusk PDF : les dictionnaires français et breton du correcteur, repris tels quels de Lusk
+/// Texte. Ils sont sous licence MPL (2.0 pour le français, 1.1 pour le breton), une licence
+/// libre qui n'est pas dans la liste de PdfCraft : l'association l'a acceptée pour ses
+/// dictionnaires. Admise seulement pour les données (`kind = "data"`) de `assets/dictionaries/`,
+/// fichiers que le correcteur lit sans les modifier ; le code reste sous MIT ou Apache 2.0.
+pub const LUSK_DICTIONARY_LICENCES: &[&str] = &["MPL-2.0", "MPL-1.1"];
+
+/// Is this entry one of the Lusk spelling dictionaries under the Mozilla Public License?
+fn lusk_dictionary(path: &str, kind: &str, licence: &str) -> bool {
+    kind == "data"
+        && path.starts_with("assets/dictionaries/")
+        && licence_ids(licence).next().is_some()
+        && licence_ids(licence).all(|id| LUSK_DICTIONARY_LICENCES.contains(&id))
 }
 
 pub const ADOBE_DATA_ALLOWED: &[(&str, &str)] = &[("hayro-cmap", "assets/cmaps.brotli"), ("hayro-interpret", "src/font/generated/metrics.rs")];
@@ -260,7 +276,9 @@ pub fn check(root: &Path, m: &Manifest, repo_files: &[String], lock: &BTreeSet<(
         if !seen.insert(a.path.clone()) {
             problems.push(format!("{}: listed twice", a.path));
         }
-        let brand = (a.licence == BRAND_LICENCE && a.kind == "logo" && a.path.starts_with("docs/brand/")) || lusk_mark(&a.path, &a.kind, &a.licence);
+        let brand = (a.licence == BRAND_LICENCE && a.kind == "logo" && a.path.starts_with("docs/brand/"))
+            || lusk_mark(&a.path, &a.kind, &a.licence)
+            || lusk_dictionary(&a.path, &a.kind, &a.licence);
         if !brand {
             licence_ok(&a.path, &a.licence, &mut problems);
         }
@@ -603,6 +621,8 @@ mod tests {
             ("assets/app-icon/lusk-pdf-logo.png", "image", false),
             ("assets/splash/accueil-lusk-pdf.jpg", "image", true),
             ("assets/splash/accueil-lusk-pdf.jpg", "icon", false),
+            ("assets/avatar/lusk-renard.png", "image", true),
+            ("assets/avatar/lusk-renard-tete.png", "logo", false),
             ("assets/icons/lusk-mark.svg", "logo", false),
         ] {
             let mut a = asset(path, "Lusk", kind, LUSK_LICENCE);
@@ -610,6 +630,22 @@ mod tests {
             let m = Manifest { asset: vec![a], ..Default::default() };
             let p = check(&root(), &m, &[], &BTreeSet::new());
             assert_eq!(p.iter().all(|p| !p.contains("allowlist")), pass, "{path} {kind}: {p:?}");
+        }
+    }
+
+    #[test]
+    fn the_mpl_covers_only_the_lusk_dictionaries() {
+        for (path, kind, licence, pass) in [
+            ("assets/dictionaries/fr/fr_FR.dic", "data", "MPL-2.0", true),
+            ("assets/dictionaries/br/br_FR.aff", "data", "MPL-1.1", true),
+            ("assets/dictionaries/fr/fr_FR.dic", "image", "MPL-2.0", false),
+            ("assets/hyphenation/fr.pat", "data", "MPL-2.0", false),
+            ("assets/dictionaries/fr/fr_FR.dic", "data", "GPL-3.0", false),
+            ("assets/dictionaries/fr/fr_FR.dic", "data", "MPL-2.0 AND GPL-3.0", false),
+        ] {
+            let m = Manifest { asset: vec![asset(path, "Dicollecte", kind, licence)], ..Default::default() };
+            let p = check(&root(), &m, &[], &BTreeSet::new());
+            assert_eq!(p.iter().all(|p| !p.contains("allowlist")), pass, "{path} {kind} {licence}: {p:?}");
         }
     }
 

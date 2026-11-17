@@ -633,19 +633,19 @@ pub(crate) fn type_box(ctx: &egui::Context, keys: PageKeys, view: &mut DocView, 
             // The area's max rect is last frame's size, which caps the edit's width; widen it so the
             // box grows as text is typed.
             ui.set_min_width(width);
-            let r = ui
-                .add(
-                    egui::TextEdit::multiline(&mut t.text)
-                        .margin(margin)
-                        .desired_rows(1)
-                        .font(font)
-                        .desired_width(width)
-                        .background_color(Color32::from_rgba_unmultiplied(255, 255, 255, 230))
-                        .text_color(crate::comments::color32(t.color))
-                        .hint_text(tl!("Type text"))
-                        .id_salt("fill-text-edit"),
-                )
-                .accessible_name(tl!("Text to place"));
+            let out = egui::TextEdit::multiline(&mut t.text)
+                .margin(margin)
+                .desired_rows(1)
+                .font(font)
+                .desired_width(width)
+                .background_color(Color32::from_rgba_unmultiplied(255, 255, 255, 230))
+                .text_color(crate::comments::color32(t.color))
+                .hint_text(tl!("Type text"))
+                .id_salt("fill-text-edit")
+                .show(ui);
+            // Lusk PDF : les fautes d'orthographe soulignées, corrigées d'un clic droit.
+            crate::spelling::check(ui, &out, &mut t.text);
+            let r = out.response.response.accessible_name(tl!("Text to place"));
             // The border the text will get, around the box being typed into.
             if t.border.width > 0.0 {
                 let w = (t.border.width as f32 * zoom).max(1.0);

@@ -16,7 +16,7 @@ sha256 = "38c047734d2b6758b070141331fdac84bf2c5e65cc56f2ebd626489ee911fa36"
 [[document]]
 source = "NOTICE"
 destination = "NOTICE"
-sha256 = "504d31a163b8e01a52dcf50076b907a3bfe817c58fe4152574287a334526991e"
+sha256 = "a5afb131c1a14d6d23d7fbd80ab65207ddd8299cb335fc08d749439accf21c2b"
 
 [[document]]
 source = "vendor/edit-session/LICENSE-MIT"
@@ -58,7 +58,7 @@ sha256 = "a76abf002c49097d146e86740a3105a5d00450b1592e820a1109a8c5680cd697"
 [[document]]
 source = "assets/app-icon/LICENSE-lusk.txt"
 destination = "assets/app-icon/LICENSE-lusk.txt"
-sha256 = "2778e27a836d15f9d6ba34d89626931624c9f3c56bc0afd8ed7cea0ddd89a631"
+sha256 = "24fd95eade8a537f3976242a320e56a125a62d1b16aa02a21b5592f280e26d9d"
 
 [[document]]
 source = "assets/icons/LICENSE-lucide.txt"
@@ -147,6 +147,55 @@ source = "vendor/vello_common/LICENSE-MIT"
 licences = ["MIT"]
 destination = "vendor/vello_common/LICENSE-MIT"
 sha256 = "adf157330f722fe7cfd5964a2a6974eff851b718228c6735724a11706e6f4dec"
+
+# Lusk PDF : licences des dictionnaires et des motifs de césure du correcteur (crates/proof).
+# Les fichiers de motifs portent leur notice de licence en tête ; LISEZ-MOI.txt couvre la
+# liste de mots anglaise (domaine public) et les motifs anglais (CC0).
+
+[[document]]
+source = "assets/dictionaries/fr/LICENCE-dictionnaire-fr.txt"
+destination = "assets/dictionaries/fr/LICENCE-dictionnaire-fr.txt"
+sha256 = "4a25abf740ad6ba5e8d0cfc0d2ffadc3c13c303f8fe389f323b061a389350f83"
+
+[[document]]
+source = "assets/dictionaries/br/MPL-1.1.txt"
+destination = "assets/dictionaries/br/MPL-1.1.txt"
+sha256 = "6214f8b1300bb9f37b16ebc146f8f61af0187e0025042ff95c8b3030744a8795"
+
+[[document]]
+source = "assets/hyphenation/LISEZ-MOI.txt"
+destination = "assets/hyphenation/LISEZ-MOI.txt"
+sha256 = "a2b0dfd33121bde6d6a7a600b241233d0d6b18ef6d8793807bc032aa201d2b8d"
+
+[[document]]
+source = "assets/hyphenation/pl.pat"
+licences = ["MIT"]
+destination = "assets/hyphenation/pl.pat"
+sha256 = "83ddbbd21bc06a44bc4f4a4c49c38782e809cff5f026b764c044daa29e818843"
+
+[[document]]
+source = "assets/hyphenation/pt.pat"
+licences = ["BSD-3-Clause"]
+destination = "assets/hyphenation/pt.pat"
+sha256 = "c110a39e501db372d1d755e1c64464321a2efa7d8e9617f66001000389b941f2"
+
+[[document]]
+source = "assets/hyphenation/it.pat"
+licences = ["MIT"]
+destination = "assets/hyphenation/it.pat"
+sha256 = "6ce56ed6ed2ca7c0688838e366e6595e0429f984f4fc6e96ec045cebb1e76a47"
+
+[[document]]
+source = "assets/hyphenation/fr.pat"
+licences = ["MIT"]
+destination = "assets/hyphenation/fr.pat"
+sha256 = "526cad6fe8f52fcd3caa3fcaf667cb1740cfc14bca198680e00dc343a84594de"
+
+[[document]]
+source = "assets/hyphenation/de.pat"
+licences = ["MIT"]
+destination = "assets/hyphenation/de.pat"
+sha256 = "374ad1ce3263f8a2791ec070ef9b516c532dae64456f3fb656e617e8ae53a9d3"
 
 [[bundled]]
 crate = "epaint_default_fonts"

@@ -1036,6 +1036,14 @@ impl PdfCraftApp {
         Self::open_filters().into_iter().fold(rfd::AsyncFileDialog::new(), |dialog, (name, extensions)| dialog.add_filter_any_case(name, &extensions))
     }
 
+    /// Lusk PDF : the File ▸ Open picker, opened in `dir` (Home's OneDrive and Google Drive
+    /// buttons: the folder those apps keep in step with the user's account).
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn open_dialog_in(&mut self, dir: std::path::PathBuf) {
+        self.startup_superseded = true;
+        self.pick(pickers::PickFor::Open, Self::open_picker().set_directory(dir), true);
+    }
+
     pub fn open_dialog(&mut self) {
         self.startup_superseded = true;
         #[cfg(not(target_arch = "wasm32"))]

@@ -3,7 +3,7 @@
 Mémoire du projet, pour reprendre le travail dans une nouvelle conversation avec Claude : il suffit
 de lui demander de lire ce fichier (`C:\LuskPdf\docs\memo-projet.md`). La méthode commune est le
 document « Adapter une application Craft pour Lusk — cahier des charges » dans les artefacts
-Claude de Philippe. État au 16 novembre 2026.
+Claude de Philippe. État au 17 novembre 2026.
 
 ## Le projet en bref
 
@@ -84,6 +84,31 @@ Claude de Philippe. État au 16 novembre 2026.
   et le français sont proposés ; « PdfCraft » remplacé par « Lusk PDF » dans les traductions ;
   environ 110 textes ajoutés ou traduits (ceux qui manquaient et ceux restés en anglais).
 
+- 17 novembre 2026, **dictionnaires (étape 5)** : le correcteur de Lusk Texte (`crates/proof`,
+  paquet `lusk-proof`) et ses dictionnaires, repris à l'octet près (`assets/dictionaries/fr` et
+  `br`, `assets/hyphenation`, `assets/spelling`). Dans les commentaires, les réponses et le texte
+  ajouté par « Remplir et signer », les mots inconnus sont soulignés en rouge ; clic droit :
+  corrections, « Tout ignorer », « Ajouter au dictionnaire » (dictionnaire personnel
+  `orthographe.txt`, dans le dossier `Dictionary` des données de l'application). Langue :
+  Préférences › Documents et affichage › Orthographe (Français par défaut, Breton, Anglais,
+  Désactivé). Le dictionnaire se charge en arrière-plan au démarrage (`src/spelling.rs`).
+  Licence MPL des dictionnaires français (2.0) et breton (1.1) : hors de la liste de PdfCraft,
+  admise par `cargo xtask assets` pour les seules données de `assets/dictionaries/`
+  (`LUSK_DICTIONARY_LICENCES`), mentionnée dans NOTICE. Pas de dictionnaire des synonymes :
+  celui de Lusk Texte n'est qu'une petite liste anglaise, sans intérêt ici. Les champs de
+  formulaire et l'édition du texte des pages ne sont pas vérifiés (texte du document lui-même).
+
+- 17 novembre 2026, **pages communes (étape 6)** : sur l'Accueil, le renard de l'association
+  (`assets/avatar/`, repris de Lusk Texte) à côté de « Bonjour », « Bon après-midi » ou
+  « Bonsoir » selon l'heure, puis « Ouvrir » avec trois boutons carrés 96 × 88 : Parcourir…,
+  OneDrive, Google Drive (grisés avec un « ? » quand l'application n'est pas installée ; ils
+  ouvrent le sélecteur dans le dossier synchronisé, Lusk PDF ne se connecte à aucun compte)
+  (`crates/ui-egui/src/home/lusk.rs`). « À propos » : la tête du renard, et un onglet
+  « Mises à jour » (version installée, « Rechercher des mises à jour », recherche au démarrage,
+  ce qui est envoyé). Pas encore fait : Enregistrer sous avec OneDrive et Google Drive (Lusk PDF
+  enregistre par la fenêtre du système, qui a déjà OneDrive dans sa barre latérale sous Windows) ;
+  le lien Confidentialité viendra avec l'étape 7.
+
 ## À savoir
 
 - **Images déposées sur le PC** : en passant par le lien avec l'ordinateur, une image PNG ou JPEG
@@ -103,9 +128,7 @@ Claude de Philippe. État au 16 novembre 2026.
 
 ## À faire (dans l'ordre du cahier des charges)
 
-5. Dictionnaires (si l'application en utilise : annotations, formulaires).
-6. Pages communes : Accueil avec le renard, Ouvrir / Enregistrer sous avec OneDrive et Google
-   Drive, Mises à jour, À propos.
+6. (reste) Enregistrer sous avec OneDrive et Google Drive, si l'association le souhaite.
 7. Aide, Confidentialité (relevé réseau).
 8. Installateurs Windows, macOS, Linux en français.
 9. Publication : workflow « Publication », version 1.0.0.

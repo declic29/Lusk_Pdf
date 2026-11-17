@@ -1,0 +1,19 @@
+# Lusk PDF : copie de crates/proof de Lusk Texte (declic29/LuskTX), elle-même issue de WordCraft
+# (MIT OR Apache-2.0). Voir docs/memo-projet.md.
+[package]
+name = "lusk-proof"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Lusk PDF : correcteur orthographique repris de Lusk Texte (crates/proof de WordCraft) : français et breton intégrés, anglais (liste Moby), suggestions"
+
+[lints]
+workspace = true
+
+[dependencies]
+log = { workspace = true }
+miniz_oxide = "0.9"
+unicode-normalization = "0.1"
+
+[dev-dependencies]
+proptest = { workspace = true }

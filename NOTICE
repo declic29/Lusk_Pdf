@@ -4,8 +4,8 @@ Adapted from PdfCraft, Copyright (c) 2026 ArtCraft Team and the PdfCraft contrib
 Licensed under the MIT License or the Apache License, Version 2.0, at your option
 (LICENSE-MIT, LICENSE-APACHE).
 
-The Lusk PDF logo, icon and start-screen picture (assets/app-icon/lusk-*, assets/splash/) belong
-to the Lusk association. They are not covered by the license above; their terms are in
+The Lusk PDF logo, icon and start-screen picture (assets/app-icon/lusk-*, assets/splash/) and
+the association's fox (assets/avatar/) belong to the Lusk association. They are not covered by the license above; their terms are in
 assets/app-icon/LICENSE-lusk.txt. The ArtCraft name and logos are not part of Lusk PDF.
 
 Lusk PDF keeps its own copy of craft-update (vendor/craft-update, from storytold/craft-libs,
@@ -41,6 +41,17 @@ list (author, source, license) is in ATTRIBUTION.md.
   standard-14 Type 1 fonts under BSD-3-Clause ("Copyright 2014 PDFium Authors"), and hayro-cmap bundles
   Adobe CMap resources under BSD-3-Clause.
 - lopdf (bootstrap document inspection, via crates.io) — MIT.
+- Spelling dictionaries (assets/dictionaries/), taken unchanged from Lusk Texte and embedded by
+  crates/proof (the Lusk Texte spell checker, MIT OR Apache-2.0):
+  French, from Dicollecte / Grammalecte (fr-toutesvariantes 7.7, https://grammalecte.net/), by
+  Olivier R. and the Dicollecte contributors — Mozilla Public License 2.0; see
+  assets/dictionaries/fr/LICENCE-dictionnaire-fr.txt and the changes in MODIFICATIONS.txt.
+  Breton, from Korvigelloù An Drouizig (https://github.com/Drouizig/hunspell-br) — Mozilla Public
+  License 1.1; see assets/dictionaries/br/MPL-1.1.txt and the changes in MODIFICATIONS.txt.
+  The source form of these files is the files themselves, in this repository.
+- Hyphenation patterns (assets/hyphenation/*.pat) from hyph-utf8 (https://github.com/hyphenation/tex-hyphen),
+  MIT or BSD-3-Clause, each with its notice in its header; the English word list (Moby Hyphenator II,
+  Grady Ward) is in the public domain and the English patterns are CC0 (assets/hyphenation/LISEZ-MOI.txt).
 - egui default fonts (epaint_default_fonts, via eframe) — Ubuntu Light (Ubuntu Font Licence 1.0),
   Hack (MIT / Bitstream Vera licence), Noto Emoji (SIL OFL 1.1), emoji-icon-font (MIT).
 - Colour profile in hayro-interpret — CGATS001Compat-v2-micro.icc (CC0-1.0, Clinton Ingram).

@@ -4699,3 +4699,18 @@ review-suggestion	Replacement text	Texte de remplacement
 	Lusk PDF, by the Lusk association	Lusk PDF, par l'association Lusk
 	Get help, share feedback or follow the project: write to us or visit lusk.bzh.	Une question, une remarque, envie de suivre le projet ? Écrivez-nous ou rendez-vous sur lusk.bzh.
 	Contact Lusk	Contacter Lusk
+	Breton	Breton
+	Misspelled words in comments and added text are underlined in red; right-click one for corrections.	Les mots mal orthographiés des commentaires et du texte ajouté sont soulignés en rouge ; un clic droit sur l'un d'eux propose des corrections.
+	Good morning	Bonjour
+	Good afternoon	Bon après-midi
+	Good evening	Bonsoir
+	The Lusk association's fox	Le renard de l'association Lusk
+	Open a PDF from this computer	Ouvrir un PDF de cet ordinateur
+	To use OneDrive, the OneDrive app must be installed on this computer and signed in to your Microsoft account (it comes with Windows). Lusk PDF then opens the documents in your OneDrive folder, which OneDrive keeps in step with your account.	Pour utiliser OneDrive, l'application OneDrive doit être installée sur cet ordinateur et connectée à votre compte Microsoft (elle est fournie avec Windows). Lusk PDF ouvre alors les documents de votre dossier OneDrive, que OneDrive tient à jour avec votre compte.
+	To use Google Drive, the free Google Drive for desktop app must be installed on this computer and signed in to your Google account. Lusk PDF then opens the documents in My Drive, which Google Drive keeps in step with your account.	Pour utiliser Google Drive, l'application gratuite « Google Drive pour ordinateur » doit être installée sur cet ordinateur et connectée à votre compte Google. Lusk PDF ouvre alors les documents de « Mon Drive », que Google Drive tient à jour avec votre compte.
+	{service} is not installed on this computer.	{service} n'est pas installé sur cet ordinateur.
+	Open a document from your {service} space ({dir})	Ouvrir un document de votre espace {service} ({dir})
+	Lusk PDF updates	Mises à jour de Lusk PDF
+	Installed version: {v}	Version installée : {v}
+	To check, Lusk PDF only asks GitHub (github.com/declic29/Lusk_Pdf) for the latest version. Nothing about you or your documents is sent, and an update is installed only if you accept it.	Pour vérifier, Lusk PDF demande seulement à GitHub (github.com/declic29/Lusk_Pdf) quelle est la dernière version. Rien sur vous ni sur vos documents n'est envoyé, et une mise à jour ne s'installe que si vous l'acceptez.
+	The web version is always up to date.	La version web est toujours à jour.

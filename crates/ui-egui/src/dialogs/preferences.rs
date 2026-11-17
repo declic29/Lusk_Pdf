@@ -672,6 +672,17 @@ fn card_general(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens, ctx: &mut 
         ctx.label_secondary(ui, tl!("Lowering this forgets the oldest files. At 0 there is no list."), t);
     }
 
+    // Lusk PDF : la langue du correcteur d'orthographe des commentaires et du texte ajouté.
+    ui.horizontal(|ui| {
+        ctx.label_primary(ui, tl!("Spelling"), t);
+        let mut l = crate::spelling::lang();
+        let choices: Vec<(crate::spelling::SpellLang, &str)> = crate::spelling::SpellLang::ALL.iter().map(|&l| (l, l.label())).collect();
+        if ctx.pill_choice(ui, t, &mut l, &choices) {
+            crate::spelling::set_lang(l);
+        }
+    });
+    ctx.label_secondary(ui, tl!("Misspelled words in comments and added text are underlined in red; right-click one for corrections."), t);
+
     if app.window_controls.is_some() {
         ctx.checkbox(ui, &mut app.system_title_bar, tl!("Use system title bar"), t).on_hover_text(tl!(
             "Show a basic title bar for the window buttons instead of the tab strip. GNOME doesn't draw title bars for apps, so this one doesn't follow its theme."

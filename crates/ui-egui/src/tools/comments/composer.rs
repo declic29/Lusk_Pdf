@@ -73,10 +73,12 @@ pub(crate) fn composer(ctx: &egui::Context, keys: PageKeys, view: &mut DocView, 
                 ComposerKind::Replace => tl!("Replacement text"),
                 _ => tl!("Add a comment"),
             };
-            let edit = ui
-                .add(egui::TextEdit::multiline(&mut c.text).hint_text(hint).desired_rows(3).desired_width(f32::INFINITY).id_salt("composer-text"))
-                // 0.37 kittest rejects an unnamed text input; the hint is its logical name.
-                .accessible_name(hint);
+            let out =
+                egui::TextEdit::multiline(&mut c.text).hint_text(hint).desired_rows(3).desired_width(f32::INFINITY).id_salt("composer-text").show(ui);
+            // Lusk PDF : les fautes d'orthographe soulignées, corrigées d'un clic droit.
+            crate::spelling::check(ui, &out, &mut c.text);
+            // 0.37 kittest rejects an unnamed text input; the hint is its logical name.
+            let edit = out.response.response.accessible_name(hint);
             if c.focus {
                 edit.request_focus();
                 c.focus = false;
