@@ -1,7 +1,6 @@
-PdfCraft app icon (pdfcraft.svg, pdfcraft-small.svg and every file derived from them in this
-directory: pdfcraft-1024.png, pdfcraft.icns, pdfcraft.ico, hicolor/).
+PdfCraft app icon (pdfcraft.svg and pdfcraft-small.svg in this directory).
 
-Original artwork made for this project by the project owner, drawn in ArtCraft and vectorised for
+Original artwork made for PdfCraft by its project owner, drawn in ArtCraft and vectorised for
 PdfCraft (no third-party material). Licensed like the rest of PdfCraft, under either of
 
   * Apache License, Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
@@ -9,4 +8,7 @@ PdfCraft (no third-party material). Licensed like the rest of PdfCraft, under ei
 
 at your option.
 
-Regenerate the derived files with packaging/icons.sh.
+Lusk PDF no longer uses it as its app icon: the icons in hicolor/, pdfcraft-1024.png,
+pdfcraft.ico and pdfcraft.icns are now drawn from the Lusk association's icon by
+packaging/icons.py (terms in LICENSE-lusk.txt). These two vectors stay for the macOS disk
+image background (packaging/macos/dmg/), until it is redrawn for Lusk PDF.

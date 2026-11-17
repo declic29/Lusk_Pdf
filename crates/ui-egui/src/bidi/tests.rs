@@ -279,7 +279,8 @@ fn file_names_are_laid_out_left_to_right() {
 /// strong character is Latin. With English the same text stays left to right.
 #[test]
 fn arabic_ui_labels_use_an_explicit_paragraph_direction() {
-    if pdfcraft_fonts::ui_arabic_fonts().is_empty() {
+    // Lusk PDF embeds no Arabic catalog.
+    if pdfcraft_fonts::ui_arabic_fonts().is_empty() || crate::i18n::Lang::from_code("ar").is_none() {
         return;
     }
     let previous = crate::i18n::current();

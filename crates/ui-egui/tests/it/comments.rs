@@ -4517,7 +4517,8 @@ fn closing_a_pop_up_saves_its_typed_text() {
 /// so longer labels (German here) pushed it over the side panel next to a selection on the right.
 #[test]
 fn the_selection_bar_stays_inside_the_pages_area() {
-    let mut h = harness(|app| app.set_option("language", "de").unwrap());
+    // Lusk PDF : French, the only other language it embeds.
+    let mut h = harness(|app| app.set_option("language", "fr").unwrap());
     // Narrower than the harness, as with a side panel open.
     h.set_size(egui::vec2(1100.0, 900.0));
     h.run_steps(4);

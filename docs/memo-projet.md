@@ -71,21 +71,38 @@ Claude de Philippe. État au 16 novembre 2026.
   enregistrées. Pas d'écran d'accueil sur macOS, avec `--control` ni avec `LUSK_NO_SPLASH`.
   `LUSK_SPLASH_SHOT=fichier.png cargo test -p pdfcraft-ui-egui --lib splash` en fait une capture.
 
+- 17 novembre 2026, **marque (étape 3)** : « Lusk PDF » dans les textes de l'interface (titre,
+  accueil, Préférences, À propos, messages) ; identifiant `bzh.lusk.pdf` partout (fichiers Linux
+  renommés) ; mise à jour vers `declic29/Lusk_Pdf` avec la copie corrigée de craft-update
+  (`vendor/craft-update`, comme Lusk Diapo) ; icônes tirées de l'icône de l'association par
+  `packaging/icons.py` (remplace `icons.sh`) ; couleur d'accent #A31B1F (clair) et #E0565A
+  (sombre) ; marques ArtCraft retirées (`docs/brand/`, À propos, accueil, bouton Discord remplacé
+  par « Écrire à l'association Lusk », liens d'aide vers lusk.bzh et GitHub) ; README en
+  français ; NOTICE.
+- 17 novembre 2026, **français (étape 4)** : catalogues intégrés au dépôt (`i18n/locales/fr/`,
+  toujours embarqués, `CRAFT_I18N_DIR` ignoré) ; « Automatique » = français ; seuls l'anglais
+  et le français sont proposés ; « PdfCraft » remplacé par « Lusk PDF » dans les traductions ;
+  environ 110 textes ajoutés ou traduits (ceux qui manquaient et ceux restés en anglais).
+
 ## À savoir
 
 - **Images déposées sur le PC** : en passant par le lien avec l'ordinateur, une image PNG ou JPEG
   reçoit des données de provenance (C2PA) qui changent son empreinte. Après chaque dépôt d'image,
   relire le fichier du PC et mettre son SHA-256 dans `ATTRIBUTION.toml`, puis
   `cargo xtask assets --write`, sinon `cargo xtask assets` échoue en CI.
+- **Catalogues de traduction** : chaque modification de `i18n/locales/fr/*.tsv` change leur
+  empreinte ; la remettre dans `ATTRIBUTION.toml` puis `cargo xtask assets --write`.
+- **Textes encore en anglais** : les messages d'erreur du moteur (affichés tels quels, par
+  choix de PdfCraft), l'outil en ligne de commande, et quelques messages construits par
+  morceaux. Les noms techniques gardent « PdfCraft » (dossiers de données `PdfCraft`, programme
+  `pdfcraft`).
+- **Reste de PdfCraft à remplacer plus tard** : l'icône des documents PDF sous Windows
+  (`pdfcraft-document.ico`) et le fond du .dmg macOS, encore dessinés d'après le lion de PdfCraft.
 - Clippy récent (Rust 1.97) signale une alerte déjà présente dans `crates/xfdf` ; vérifier les
   crates modifiées avec `--no-deps`.
 
 ## À faire (dans l'ordre du cahier des charges)
 
-3. Marque : nom, `bzh.lusk.pdf`, icônes, À propos, couleur #A31B1F, écran d'accueil animé,
-   README, NOTICE ; retirer les marques ArtCraft (`docs/brand/`, À propos, menu Aide, accueil),
-   les contributeurs et les captures PdfCraft.
-4. Français : catalogues intégrés, français par défaut, 0 texte manquant, relecture des écrans.
 5. Dictionnaires (si l'application en utilise : annotations, formulaires).
 6. Pages communes : Accueil avec le renard, Ouvrir / Enregistrer sous avec OneDrive et Google
    Drive, Mises à jour, À propos.

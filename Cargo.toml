@@ -121,7 +121,7 @@ proptest = "1"
 
 # ui
 egui = "0.37"
-egui_extras = { version = "0.37", default-features = false, features = ["svg"] }
+egui_extras = { version = "0.37", default-features = false, features = ["svg", "image"] }
 eframe = { version = "0.37", default-features = false }
 egui_kittest = "0.37"
 rfd = "0.17"
@@ -160,6 +160,11 @@ lto = "thin"
 codegen-units = 1
 
 # Vendored, patched third-party crates (see vendor/README.md). Each patch is meant to go upstream.
+# Lusk PDF : notre copie de craft-update, qui trouve les fichiers « Lusk-Pdf-<version>-… » des
+# Releases (voir vendor/craft-update/LISEZ-MOI.md).
+[patch."https://github.com/storytold/craft-libs"]
+craft-update = { path = "vendor/craft-update" }
+
 [patch.crates-io]
 hayro-interpret = { path = "vendor/hayro-interpret" }
 hayro = { path = "vendor/hayro" }

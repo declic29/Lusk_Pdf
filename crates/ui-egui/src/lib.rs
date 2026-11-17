@@ -9,13 +9,26 @@
 // The settings object in `persist` is one `json!` literal past the default limit of 128.
 #![recursion_limit = "256"]
 
-/// PdfCraft as craft-update knows it, with its 128 px icon and accent colour: the update
-/// prompt shows both, and an AppImage's menu entry gets the icon.
+/// Lusk PDF as craft-update knows it, with its 128 px icon and accent colour: the update prompt
+/// shows both, and an AppImage's menu entry gets the icon.
+///
+/// Lusk PDF (comme Lusk Texte, Lusk Tab et Lusk Diapo) : les versions publiées par l'association
+/// sur GitHub (`declic29/Lusk_Pdf`). Les fichiers s'appellent
+/// `Lusk-Pdf-<version>-<système>-<architecture>.<ext>` (le nom de `former_ids`, que notre copie
+/// de craft-update, dans vendor/, cherche aussi) ; l'identifiant reste `pdfcraft`, le nom du
+/// programme (`pdfcraft.exe`) et de ses dossiers.
 #[cfg(not(target_arch = "wasm32"))]
 pub const UPDATE_APP: craft_update::app::App = craft_update::app::App {
-    icon_png: Some(include_bytes!("../../../assets/app-icon/hicolor/128x128/apps/ai.storyteller.pdfcraft.png")),
-    accent: Some([0xb7, 0x02, 0x28]),
-    ..craft_update::suite::PDFCRAFT
+    id: "pdfcraft",
+    name: "Lusk PDF",
+    tagline: "Lire, organiser et protéger des PDF",
+    repo: "declic29/Lusk_Pdf",
+    former_ids: &["Lusk-Pdf", "printcraft"],
+    former_names: &["PdfCraft", "PrintCraft"],
+    icon_png: Some(include_bytes!("../../../assets/app-icon/hicolor/128x128/apps/bzh.lusk.pdf.png")),
+    accent: Some([0xa3, 0x1b, 0x1f]),
+    developer: "Lusk",
+    bundle_id_override: Some("bzh.lusk.pdf"),
 };
 
 use crate::control::Host as _;
@@ -863,4 +876,41 @@ pub struct PdfCraftApp {
     pub pending_window: Option<viewer_prefs::PendingWindow>,
     /// An absolute GoToR target waiting for approval, before any target-file I/O (#1364).
     pub pending_remote_link: Option<PendingRemoteLink>,
+}
+
+/// Lusk PDF : la mise à jour trouve les fichiers publiés sous le nom « Lusk-Pdf-… », sans copie
+/// au nom technique « pdfcraft-… » dans la Release.
+#[cfg(all(test, not(target_arch = "wasm32")))]
+mod lusk_update_tests {
+    use craft_update::platform::{Arch, Os, PackageKind, Platform, pick_asset};
+    use craft_update::release::{Asset, Release};
+
+    #[test]
+    fn updates_find_the_lusk_pdf_files() {
+        let names = [
+            "Lusk-Pdf-1.0.1-windows-x64.msi",
+            "Lusk-Pdf-1.0.1-windows-x64-portable.zip",
+            "Lusk-Pdf-1.0.1-macos-universal.dmg",
+            "Lusk-Pdf-1.0.1-linux-x86_64.AppImage",
+            "Lusk-Pdf-Windows.msi",
+            "SHA256SUMS.txt",
+        ];
+        let release = Release {
+            assets: names.iter().map(|n| Asset { name: (*n).into(), size: 1, url: format!("https://x/{n}"), sha256: None }).collect(),
+            ..Release::default()
+        };
+        let stems: Vec<&str> = super::UPDATE_APP.stems().collect();
+        for (os, arch, kind, expected) in [
+            (Os::Windows, Arch::X64, PackageKind::Msi, "Lusk-Pdf-1.0.1-windows-x64.msi"),
+            (Os::Windows, Arch::X64, PackageKind::PortableZip, "Lusk-Pdf-1.0.1-windows-x64-portable.zip"),
+            (Os::MacOs, Arch::Arm64, PackageKind::Dmg, "Lusk-Pdf-1.0.1-macos-universal.dmg"),
+            (Os::Linux, Arch::X64, PackageKind::AppImage, "Lusk-Pdf-1.0.1-linux-x86_64.AppImage"),
+        ] {
+            let picked = pick_asset(&release, &stems, Platform { os, arch }, &[kind]).map(|(a, _)| a.name.as_str());
+            assert_eq!(picked, Some(expected), "{os:?} {kind:?}");
+        }
+        assert!(pick_asset(&release, &["pdfcraft"], Platform { os: Os::Windows, arch: Arch::X64 }, &[PackageKind::Msi]).is_none());
+        assert_eq!(super::UPDATE_APP.repo, "declic29/Lusk_Pdf");
+        assert_eq!(super::UPDATE_APP.bundle_id(), "bzh.lusk.pdf");
+    }
 }

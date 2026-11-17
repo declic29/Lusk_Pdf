@@ -111,11 +111,14 @@ fn remote_document_paths_to_other_computers_and_devices_are_refused() {
 }
 
 #[test]
-fn urls_follow_the_artcraft_scheme() {
-    assert_eq!(super::APP_PAGE, format!("{}/apps/{}", super::WEBSITE, super::APP));
-    assert_eq!(super::GITHUB, format!("https://github.com/storytold/{}", super::APP));
+fn urls_follow_the_lusk_scheme() {
+    // Lusk PDF : les pages de l'association et le dépôt declic29/Lusk_Pdf ; le contact est une
+    // adresse e-mail.
+    assert_eq!(super::WEBSITE, "https://www.lusk.bzh");
+    assert_eq!(super::GITHUB, "https://github.com/declic29/Lusk_Pdf");
+    assert_eq!(super::DISCORD, "mailto:contact@lusk.bzh");
     for l in super::LINKS {
-        assert!(l.url.starts_with("https://"), "{}", l.url);
+        assert!(l.url.starts_with("https://") || l.url.starts_with("mailto:"), "{}", l.url);
         assert!(crate::commands::command(l.command).is_some(), "{} is a registered command", l.command);
     }
 }

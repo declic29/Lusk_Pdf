@@ -8,11 +8,12 @@
 //!
 //! A missing or malformed file gives empty tables (or no names) and a warning.
 //!
-//! - `CRAFT_I18N_DIR`, a craft-i18n checkout (storytold/craft-i18n, at the SHA in
-//!   `craft-i18n.rev`): `craft_i18n.rs` holds `CRAFT_I18N`, one (locale, shared catalog, PdfCraft
-//!   catalog) entry per locale that has a `pdfcraft.tsv`. Unset, or not a checkout (a warning),
-//!   it is empty and the interface is English only; with `CRAFT_I18N_REQUIRED=1` (CI and releases)
-//!   that is an error instead. Recipe: craft-i18n's `docs/integration.md`.
+//! - Lusk PDF : les catalogues de traduction sont dans le dépôt, `i18n/locales/<code>/`
+//!   (`common.tsv` et `pdfcraft.tsv`, repris de storytold/craft-i18n au commit de
+//!   `craft-i18n.rev`, puis complétés et adaptés par Lusk). `craft_i18n.rs` holds `CRAFT_I18N`, one
+//!   (locale, shared catalog, PdfCraft catalog) entry per locale that has a `pdfcraft.tsv`.
+//!   `CRAFT_I18N_DIR` is ignored: an upstream checkout would replace Lusk's French. A missing
+//!   `i18n/locales` is an error, so a build never ships English only by accident.
 
 use std::fmt::Write as _;
 
@@ -41,23 +42,13 @@ const APP_CATALOG: &str = "pdfcraft.tsv";
 
 /// `CRAFT_I18N` from `CRAFT_I18N_DIR`: the `Embedded` list the craft-i18n crate reads.
 fn craft_i18n() -> String {
-    println!("cargo::rerun-if-env-changed=CRAFT_I18N_DIR");
-    println!("cargo::rerun-if-env-changed=CRAFT_I18N_REQUIRED");
-    let required = std::env::var("CRAFT_I18N_REQUIRED").is_ok_and(|v| v.trim() == "1");
-    let entries = match std::env::var_os("CRAFT_I18N_DIR").filter(|d| !d.is_empty()) {
-        // Not canonicalized: on Windows that gives `\\?\C:\…`, which `include_str!` can't read.
-        Some(dir) => match locales(&std::path::PathBuf::from(dir).join("locales")) {
-            Ok(entries) => entries,
-            Err(e) => {
-                let level = if required { "error" } else { "warning" };
-                println!("cargo::{level}=CRAFT_I18N_DIR: {e}; the interface is English only");
-                Vec::new()
-            }
-        },
-        None => {
-            if required {
-                println!("cargo::error=CRAFT_I18N_REQUIRED=1 but CRAFT_I18N_DIR is unset: a release must embed the translations");
-            }
+    // Lusk PDF : les catalogues du dépôt. Not canonicalized: on Windows that gives `\\?\C:\…`,
+    // which `include_str!` can't read.
+    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../i18n/locales");
+    let entries = match locales(&dir) {
+        Ok(entries) => entries,
+        Err(e) => {
+            println!("cargo::error=i18n/locales: {e}; Lusk PDF needs its French catalogs");
             Vec::new()
         }
     };

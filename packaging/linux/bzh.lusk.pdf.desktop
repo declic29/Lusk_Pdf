@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=Lusk PDF
+GenericName=PDF Editor
+GenericName[fr]=Éditeur de PDF
+Comment=Read, organize, combine, split and secure PDFs
+Comment[fr]=Lire, organiser, combiner, découper et protéger des PDF
+Exec=pdfcraft %U
+TryExec=pdfcraft
+Icon=bzh.lusk.pdf
+Terminal=false
+StartupNotify=true
+StartupWMClass=bzh.lusk.pdf
+Categories=Office;Viewer;
+Keywords=pdf;viewer;editor;annotate;sign;forms;merge;split;
+MimeType=application/pdf;

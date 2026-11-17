@@ -337,7 +337,10 @@ impl Lang {
 /// Whether this build embeds the craft-i18n catalogs (`CRAFT_I18N_DIR` was set). Without them the
 /// interface is English only; tests that need a translation skip with a note.
 pub fn catalogs_embedded() -> bool {
-    !CRAFT_I18N.is_empty()
+    // Lusk PDF n'embarque que le français : les tests des autres langues de PdfCraft (allemand,
+    // arabe, chinois…) se mettent de côté, comme dans une compilation sans traductions. Le
+    // français a ses propres tests (`lusk_tests`).
+    CRAFT_I18N.len() > 1
 }
 
 /// The canonical `language` preference for user input: [`AUTO`] or a registered code (any case).
@@ -395,7 +398,9 @@ pub fn system_lang() -> Lang {
         return Lang::EN;
     }
     static SYSTEM: OnceLock<Lang> = OnceLock::new();
-    *SYSTEM.get_or_init(detect_system_lang)
+    // Lusk PDF : en français d'abord. « Automatique » donne le français quel que soit le système ;
+    // l'anglais reste au choix dans les Préférences.
+    *SYSTEM.get_or_init(|| Lang::from_code("fr").unwrap_or_else(detect_system_lang))
 }
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -737,6 +742,43 @@ pub(crate) fn needs_catalogs() -> bool {
 
 #[cfg(test)]
 mod tests;
+
+/// Lusk PDF : le français est intégré, choisi par défaut, et ne parle pas de PdfCraft.
+#[cfg(test)]
+mod lusk_tests {
+    use super::*;
+
+    #[test]
+    fn french_is_embedded_and_offered_after_english() {
+        let fr = Lang::from_code("fr").expect("French is embedded");
+        assert_eq!(fr.name(), "Français");
+        let picker: Vec<&str> = Lang::for_picker().iter().map(|l| l.code()).collect();
+        assert_eq!(picker, ["en", "fr"], "Lusk PDF offers English and French only");
+        assert_eq!(tr(fr, "Open"), "Ouvrir");
+    }
+
+    #[test]
+    fn automatic_language_is_french_outside_tests() {
+        // `system_lang` answers English under `cfg(test)`; the shipped rule is French.
+        assert_eq!(Lang::from_code("fr").unwrap_or_else(detect_system_lang).code(), "fr");
+        assert_eq!(normalize_pref("FR"), Some("fr"));
+    }
+
+    #[test]
+    fn the_french_catalogs_never_name_pdfcraft() {
+        for (code, shared, app) in CRAFT_I18N {
+            for (n, line) in shared.lines().chain(app.lines()).enumerate() {
+                if line.starts_with('#') {
+                    continue;
+                }
+                let translation = line.split('\t').nth(2).unwrap_or_default();
+                // Only where the text says where Lusk PDF comes from.
+                let origin = translation.contains("adapté de PdfCraft");
+                assert!(origin || !translation.contains("PdfCraft"), "{code} line {}: {line}", n + 1);
+            }
+        }
+    }
+}
 
 #[cfg(test)]
 mod picker_order_tests {
