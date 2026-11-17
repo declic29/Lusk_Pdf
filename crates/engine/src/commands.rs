@@ -435,13 +435,16 @@ pub const COMMANDS: &[CommandSpec] = &[
     c("prepress.convert_colors", "Convert colours…", None, None, Modification, "palette"),
     c("prepress.hairlines", "Fix hairlines…", None, None, Modification, "minus"),
     c("page.properties", "Page properties…", PAGES, None, Modification, "info"),
+    // Lusk PDF : l'aide en français et sa page Confidentialité (crates/ui-egui/src/help.rs).
+    c("help.guide", "Lusk PDF Help", HELP, None, Nothing, "book-open"),
+    c("help.privacy", "Privacy", HELP, None, Nothing, "shield-check"),
     c("help.shortcuts", "Keyboard shortcuts", HELP, None, Nothing, "circle-help"),
     c("help.discord", "Write to the Lusk association", HELP, None, Nothing, "send"),
     c("help.app_page", "Lusk PDF web page", HELP, None, Nothing, "globe"),
     c("help.github", "Lusk PDF on GitHub", HELP, None, Nothing, "code-xml"),
     c("help.website", "Lusk website", HELP, None, Nothing, "external-link"),
     c("help.check_updates", "Check for updates…", HELP, None, Nothing, "cloud"),
-    c("help.about", "About PdfCraft", HELP, None, Nothing, "info"),
+    c("help.about", "About Lusk PDF", HELP, None, Nothing, "info"),
 ];
 
 pub fn command(id: &str) -> Option<&'static CommandSpec> {

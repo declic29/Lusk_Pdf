@@ -260,6 +260,11 @@ impl PdfCraftApp {
             "create.clipboard" => self.create_from_clipboard(),
             "optimize.reduce" => self.reduce_file_size(),
             "help.shortcuts" => self.dialog = Some(Dialog::Shortcuts),
+            "help.guide" => self.dialog = Some(Dialog::Help),
+            "help.privacy" => {
+                self.help_page = crate::help::PRIVACY;
+                self.dialog = Some(Dialog::Help);
+            }
             "help.about" => self.dialog = Some(Dialog::About),
             "help.check_updates" => self.check_for_updates(),
             _ => return None,

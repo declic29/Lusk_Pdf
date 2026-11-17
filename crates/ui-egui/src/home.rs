@@ -301,9 +301,15 @@ pub fn show(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
             ui.add_space(20.0);
             widgets::section_title(ui, tl!("Privacy"));
             ui.label(
-                egui::RichText::new(tl!("Lusk PDF works offline. No telemetry, no account, and no cloud processing unless you add a provider."))
-                    .color(t.text_muted),
+                egui::RichText::new(tl!(
+                    "Lusk PDF works offline: no account, no telemetry, and your documents are never sent anywhere. Only the update check asks GitHub for the latest version."
+                ))
+                .color(t.text_muted),
             );
+            // Lusk PDF : la page Confidentialité de l'aide.
+            if ui.link(tl!("Your data and your privacy")).clicked() {
+                app.execute("help.privacy");
+            }
         });
     });
 }

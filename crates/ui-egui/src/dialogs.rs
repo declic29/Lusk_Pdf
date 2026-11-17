@@ -159,6 +159,7 @@ fn dialogs(app: &mut PdfCraftApp, ctx: &egui::Context) {
             Dialog::FieldProps | Dialog::BulkFieldProps => 600.0,
             Dialog::Preferences => 610.0,
             Dialog::About => 820.0,
+            Dialog::Help => 940.0,
             Dialog::PinTool => 540.0,
             _ => 520.0,
         });
@@ -523,6 +524,7 @@ fn dialog_body(ui: &mut egui::Ui, app: &mut PdfCraftApp, dialog: Dialog, req: &m
                 return false;
             }
         }
+        Dialog::Help => crate::help::dialog(ui, app),
         Dialog::About => {
             if !dialog_about(ui, app, req) {
                 return false;
@@ -1728,6 +1730,10 @@ fn about_updates(ui: &mut egui::Ui, app: &mut PdfCraftApp, req: &mut Pending) {
             ))
             .color(t.text_muted),
         );
+        ui.add_space(6.0);
+        if ui.link(tl!("Your data and your privacy")).clicked() {
+            req.link_command = Some("help.privacy");
+        }
     }
     #[cfg(target_arch = "wasm32")]
     {

@@ -676,8 +676,11 @@ fn card_general(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens, ctx: &mut 
     ui.horizontal(|ui| {
         ctx.label_primary(ui, tl!("Spelling"), t);
         let mut l = crate::spelling::lang();
-        let choices: Vec<(crate::spelling::SpellLang, &str)> = crate::spelling::SpellLang::ALL.iter().map(|&l| (l, l.label())).collect();
-        if ctx.pill_choice(ui, t, &mut l, &choices) {
+        // Named with « Spelling » for screen readers: « Off » is also an Animation effects choice.
+        let names: Vec<String> = crate::spelling::SpellLang::ALL.iter().map(|l| format!("{}: {}", tl!("Spelling"), l.label())).collect();
+        let choices: Vec<(crate::spelling::SpellLang, &str, &str)> =
+            crate::spelling::SpellLang::ALL.iter().zip(&names).map(|(&l, n)| (l, l.label(), n.as_str())).collect();
+        if ctx.pill_choice_a11y(ui, t, &mut l, &choices) {
             crate::spelling::set_lang(l);
         }
     });

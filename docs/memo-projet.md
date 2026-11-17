@@ -109,6 +109,17 @@ Claude de Philippe. État au 17 novembre 2026.
   enregistre par la fenêtre du système, qui a déjà OneDrive dans sa barre latérale sous Windows) ;
   le lien Confidentialité viendra avec l'étape 7.
 
+- 17 novembre 2026, **aide et confidentialité (étape 7)** : Aide › **Aide de Lusk PDF**, une
+  fenêtre avec sommaire et sept guides en français (`crates/ui-egui/aide/*.md`, affichés par
+  `src/help.rs`) : Bien démarrer, Lire et naviguer, Commenter et annoter, Remplir et signer,
+  Organiser/modifier/protéger, Convertir/imprimer/OCR, Confidentialité ; plus un lien vers les
+  Raccourcis clavier. Aide › **Confidentialité** ouvre directement la page « Vos données et
+  votre vie privée », aussi accessible depuis À propos › Mises à jour et l'Accueil. Le relevé
+  réseau qui la fonde est dans `docs/releve-reseau.md` : seule la recherche de mises à jour
+  (GitHub) se connecte ; liens ouverts après accord ; formulaires jamais envoyés. Page des
+  versions de la version web corrigée vers declic29/Lusk_Pdf. L'aide reste en français même
+  quand l'interface est en anglais.
+
 ## À savoir
 
 - **Images déposées sur le PC** : en passant par le lien avec l'ordinateur, une image PNG ou JPEG
@@ -129,6 +140,5 @@ Claude de Philippe. État au 17 novembre 2026.
 ## À faire (dans l'ordre du cahier des charges)
 
 6. (reste) Enregistrer sous avec OneDrive et Google Drive, si l'association le souhaite.
-7. Aide, Confidentialité (relevé réseau).
 8. Installateurs Windows, macOS, Linux en français.
 9. Publication : workflow « Publication », version 1.0.0.

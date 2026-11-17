@@ -145,6 +145,7 @@ impl PdfCraftApp {
             all_tools_tab: (None, false),
             recent: Vec::new(),
             recent_limit: crate::RECENT_FILES_DEFAULT,
+            help_page: 0,
             reopen_last_session: false,
             restore_last_view: true,
             last_views: Vec::new(),

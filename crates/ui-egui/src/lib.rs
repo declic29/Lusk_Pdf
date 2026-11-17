@@ -78,6 +78,8 @@ pub use print_ui::{
     TwoSidedSource, Which as PrintWhich, system_printers, system_two_sided,
 };
 pub use redact_ui::{HiddenDraft, PagesDraft as RedactPagesDraft, RedactPrefs, SearchDraft as RedactSearchDraft, SearchMode as RedactSearchMode};
+/// Lusk PDF : l'aide en français (Aide › Aide de Lusk PDF).
+mod help;
 pub mod i18n;
 /// Lusk PDF : le correcteur d'orthographe des zones de texte (repris de Lusk Texte).
 pub mod spelling;
@@ -479,6 +481,8 @@ pub struct PdfCraftApp {
     pub recent: Vec<RecentFile>,
     /// How many recent files to keep, 0 for no list (Preferences ▸ Documents and view, #5572).
     pub recent_limit: usize,
+    /// Lusk PDF : la page de l'aide affichée (`help::GUIDES`).
+    pub help_page: usize,
     /// Preferences: reopen the files that were open when PdfCraft last closed (#442).
     pub reopen_last_session: bool,
     /// Restore last view settings when reopening documents (Preferences ▸ Documents and view;

@@ -106,6 +106,8 @@ pub enum Dialog {
     Properties(PropsTab),
     About,
     Shortcuts,
+    /// Lusk PDF : Aide › Aide de Lusk PDF (`help.rs`), à la page `PdfCraftApp::help_page`.
+    Help,
     Split,
     /// Pages ▸ Number pages… (page labels).
     NumberPages,

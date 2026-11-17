@@ -4714,3 +4714,6 @@ review-suggestion	Replacement text	Texte de remplacement
 	Installed version: {v}	Version installée : {v}
 	To check, Lusk PDF only asks GitHub (github.com/declic29/Lusk_Pdf) for the latest version. Nothing about you or your documents is sent, and an update is installed only if you accept it.	Pour vérifier, Lusk PDF demande seulement à GitHub (github.com/declic29/Lusk_Pdf) quelle est la dernière version. Rien sur vous ni sur vos documents n'est envoyé, et une mise à jour ne s'installe que si vous l'acceptez.
 	The web version is always up to date.	La version web est toujours à jour.
+	Lusk PDF Help	Aide de Lusk PDF
+	Your data and your privacy	Vos données et votre vie privée
+	Lusk PDF works offline: no account, no telemetry, and your documents are never sent anywhere. Only the update check asks GitHub for the latest version.	Lusk PDF fonctionne sans connexion : pas de compte, pas de mesure d'audience, et vos documents ne sont jamais envoyés. Seule la recherche des mises à jour demande à GitHub la dernière version.
