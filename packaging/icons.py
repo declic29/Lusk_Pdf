@@ -7,9 +7,12 @@ assets/app-icon/lusk-pdf-icone.png (le livre et le « P », tirés du logo).
   - hicolor/scalable/apps/bzh.lusk.pdf.svg (l'image 512 px dans un SVG) ;
   - pdfcraft-1024.png (1024 px sur la grille d'Apple : l'icône du Dock sur macOS) ;
   - pdfcraft.ico (Windows, 16 à 256 px, intégré à pdfcraft.exe) ;
-  - pdfcraft.icns (macOS).
+  - pdfcraft.icns (macOS) ;
+  - pdfcraft-document.ico (l'icône des fichiers PDF sous Windows, ressource 2 de pdfcraft.exe),
+    rendue depuis pdfcraft-document.svg à chaque taille.
 
-Il faut Python 3 et Pillow (pip install pillow). Ensuite : mettre à jour les sha256 de
+Il faut Python 3, Pillow (pip install pillow) et rsvg-convert (paquet librsvg2-bin), pour
+l'icône des documents. Ensuite : mettre à jour les sha256 de
 ATTRIBUTION.toml, puis `cargo xtask assets --write`.
 
     python3 packaging/icons.py
@@ -18,6 +21,7 @@ ATTRIBUTION.toml, puis `cargo xtask assets --write`.
 import base64
 import io
 import pathlib
+import subprocess
 
 from PIL import Image
 
@@ -60,6 +64,21 @@ def main() -> None:
     mac.save(DIR / "pdfcraft-1024.png", optimize=True)
     square(src, 256, 1.0).save(DIR / "pdfcraft.ico", sizes=[(s, s) for s in (16, 20, 24, 32, 40, 48, 64, 128, 256)])
     mac.save(DIR / "pdfcraft.icns")
+    document_icon()
+
+
+def document_icon() -> None:
+    """pdfcraft-document.ico from pdfcraft-document.svg, each size drawn by rsvg-convert."""
+    sizes = (16, 20, 24, 32, 40, 48, 64, 128, 256)
+    images = []
+    for s in sizes:
+        png = subprocess.run(
+            ["rsvg-convert", "-w", str(s), "-h", str(s), str(DIR / "pdfcraft-document.svg")],
+            check=True,
+            capture_output=True,
+        ).stdout
+        images.append(Image.open(io.BytesIO(png)).convert("RGBA"))
+    images[-1].save(DIR / "pdfcraft-document.ico", sizes=[(s, s) for s in sizes], append_images=images[:-1])
 
 
 if __name__ == "__main__":

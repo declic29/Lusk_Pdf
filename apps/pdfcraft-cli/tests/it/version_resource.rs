@@ -33,9 +33,10 @@ fn the_exe_has_version_info_with_the_package_version() {
     let start = find(&exe, &utf16("VS_VERSION_INFO")).expect("no version resource");
     let resource = &exe[start..];
     for (key, value) in [
-        ("ProductName", "PdfCraft"),
-        ("FileDescription", "PdfCraft command-line tool"),
-        ("LegalCopyright", "Copyright (c) the PdfCraft contributors. MIT OR Apache-2.0."),
+        ("ProductName", "Lusk PDF"),
+        ("CompanyName", "Lusk"),
+        ("FileDescription", "Lusk PDF - outil en ligne de commande"),
+        ("LegalCopyright", "(c) 2026 Lusk, association loi 1901. Derived from PdfCraft. MIT OR Apache-2.0."),
         ("OriginalFilename", "pdfcraft-cli.exe"),
         ("InternalName", "pdfcraft-cli"),
         ("FileVersion", env!("CARGO_PKG_VERSION")),

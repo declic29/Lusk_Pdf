@@ -7,17 +7,17 @@ scripting on CI, nothing extra installed in the signing job).
 
 | File | What |
 |---|---|
-| `background.svg` | Source of the background: the app icon (`assets/app-icon/pdfcraft.svg`, linked, not copied) cropped as a cover on the PdfCraft colour field (`#b70228`), Ink and Paper. Its text (Inter, JetBrains Mono) is outlined, so rendering it needs no fonts. No paper grain: noise doesn't compress, and this keeps `background.tiff` small. |
-| `background.tiff` | The background at 1x (660 × 400 px, 72 dpi) and 2x (1320 × 800 px, 144 dpi) in one HiDPI TIFF (16-colour palette, Deflate, sRGB). Goes to `.background/background.tiff`. |
-| `dmg-layout.DS_Store` | Finder's view settings for the volume: window size, icon size 128, PdfCraft.app at (326, 205), `Applications` at (574, 205), and the background. Goes to `.DS_Store` in the image; named so it isn't mistaken for (or ignored like) a Finder-generated `.DS_Store`. |
+| `background.svg` | Source of the background: the Lusk PDF icon (`assets/app-icon/hicolor/256x256/apps/bzh.lusk.pdf.png`) and the Lusk fox (`assets/avatar/lusk-renard.png`), both linked, not copied, with Lusk red (`#a31b1f`) accents, Ink and Paper, and « Glissez vers Applications pour installer ». Its text (Inter) is outlined, so rendering it needs no fonts; to change the wording, edit `background.py` (it writes this file, outlining the text with fontTools from Inter, in `assets/fonts` or `LUSK_FONTS_DIR`), then run `generate.py`. No paper grain: noise doesn't compress, and this keeps `background.tiff` small. |
+| `background.tiff` | The background at 1x (660 × 400 px, 72 dpi) and 2x (1320 × 800 px, 144 dpi) in one HiDPI TIFF (256-colour palette, Deflate, sRGB). Goes to `.background/background.tiff`. |
+| `dmg-layout.DS_Store` | Finder's view settings for the volume: window size, icon size 128, Lusk PDF.app at (326, 205), `Applications` at (574, 205), and the background. Goes to `.DS_Store` in the image; named so it isn't mistaken for (or ignored like) a Finder-generated `.DS_Store`. |
 | `generate.py` | Writes `background.tiff` and `dmg-layout.DS_Store` from the SVG and the layout above. |
 
 ## The volume name has no version
 
-The mounted volume is called `PdfCraft`, not `PdfCraft <version>`. The layout points at the background
+The mounted volume is called `Lusk PDF`, not `Lusk PDF <version>`. The layout points at the background
 through an alias that includes the volume name, and Finder resolves it by that name: with a
 versioned name the window keeps its size and icon positions but shows no background (tested).
-The DMG file name (`pdfcraft-<version>-macos-<arch>.dmg`) still carries the version.
+The DMG file name (`Lusk-Pdf-<version>-macos-<arch>.dmg`) still carries the version.
 
 ## Rules
 
@@ -28,7 +28,7 @@ The DMG file name (`pdfcraft-<version>-macos-<arch>.dmg`) still carries the vers
 
 ## Regenerate
 
-Edit `background.svg` (or the layout constants in `generate.py`), then run, on any OS:
+Edit `background.py` and run it (or edit the layout constants in `generate.py`), then run, on any OS:
 
 ```sh
 pip install 'pillow>=12' ds_store==1.3.3 mac_alias==2.2.3

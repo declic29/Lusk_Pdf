@@ -35,9 +35,12 @@ fn main() {
     res.set_icon("../../assets/app-icon/pdfcraft.ico")
         .set_icon_with_id("../../assets/app-icon/pdfcraft-document.ico", "2")
         .set_manifest(windows_manifest::WINDOWS_MANIFEST)
-        .set("ProductName", "PdfCraft")
-        .set("FileDescription", "PdfCraft PDF workbench")
-        .set("LegalCopyright", "Copyright (c) the PdfCraft contributors. MIT OR Apache-2.0.")
+        // Lusk PDF : the name Windows shows (Task Manager, "Open with"). ASCII only: the resource
+        // compiler's code page is not UTF-8 everywhere.
+        .set("ProductName", "Lusk PDF")
+        .set("CompanyName", "Lusk")
+        .set("FileDescription", "Lusk PDF")
+        .set("LegalCopyright", "(c) 2026 Lusk, association loi 1901. Derived from PdfCraft. MIT OR Apache-2.0.")
         .set("OriginalFilename", "pdfcraft.exe")
         .set("InternalName", "pdfcraft");
     if let Err(e) = res.compile() {

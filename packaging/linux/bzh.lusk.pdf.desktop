@@ -13,4 +13,5 @@ StartupNotify=true
 StartupWMClass=bzh.lusk.pdf
 Categories=Office;Viewer;
 Keywords=pdf;viewer;editor;annotate;sign;forms;merge;split;
+Keywords[fr]=pdf;lecteur;éditeur;annoter;commenter;signer;formulaire;fusionner;combiner;découper;
 MimeType=application/pdf;

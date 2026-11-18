@@ -39,16 +39,21 @@
     <keyword>viewer</keyword>
     <keyword>annotate</keyword>
     <keyword>forms</keyword>
+    <keyword xml:lang="fr">lecteur</keyword>
+    <keyword xml:lang="fr">annoter</keyword>
+    <keyword xml:lang="fr">formulaire</keyword>
+    <keyword xml:lang="fr">signer</keyword>
   </keywords>
   <screenshots>
     <screenshot type="default">
       <caption>A PDF open with its threaded comments</caption>
+      <caption xml:lang="fr">Un PDF ouvert avec ses commentaires</caption>
       <image>https://raw.githubusercontent.com/storytold/pdfcraft/main/docs/images/pdfcraft-viewer.png</image>
     </screenshot>
   </screenshots>
   <branding>
-    <color type="primary" scheme_preference="light">#9fd0ff</color>
-    <color type="primary" scheme_preference="dark">#1f64ba</color>
+    <color type="primary" scheme_preference="light">#f8e5e6</color>
+    <color type="primary" scheme_preference="dark">#a31b1f</color>
   </branding>
   <requires>
     <display_length compare="ge">760</display_length>

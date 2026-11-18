@@ -5,9 +5,11 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleDevelopmentRegion</key>
-  <string>en</string>
+  <string>fr</string>
   <!-- UI translations are embedded in Rust; declare them for AppKit's system dialogs (open and
-       save panels, overwrite confirmation). Keep in sync with LANGUAGES in crates/ui-egui/src/i18n.rs. -->
+       save panels, overwrite confirmation). Keep in sync with LANGUAGES in crates/ui-egui/src/i18n.rs.
+       Lusk PDF opens in French and offers English; the other catalogs PdfCraft had stay declared
+       while LANGUAGES lists them. -->
   <key>CFBundleLocalizations</key>
   <array>
     <string>en</string>
@@ -48,11 +50,11 @@
     <string>nb</string>
   </array>
   <key>CFBundleDisplayName</key>
-  <string>PdfCraft</string>
+  <string>Lusk PDF</string>
   <key>CFBundleName</key>
-  <string>PdfCraft</string>
+  <string>Lusk PDF</string>
   <key>CFBundleExecutable</key>
-  <string>PdfCraft</string>
+  <string>Lusk PDF</string>
   <key>CFBundleIdentifier</key>
   <string>bzh.lusk.pdf</string>
   <key>CFBundleInfoDictionaryVersion</key>
@@ -67,12 +69,16 @@
   <string>@SHORT_VERSION@</string>
   <key>PdfCraftVersion</key>
   <string>@VERSION@</string>
+  <!-- Lusk PDF : craft-update reads the full version (with a pre-release suffix) from
+       `<app name>Version`, the app's name being « Lusk PDF » (UPDATE_APP). -->
+  <key>Lusk PDFVersion</key>
+  <string>@VERSION@</string>
   <key>PdfCraftBuildCommit</key>
   <string>@BUILD_SHA@</string>
   <key>CFBundleIconFile</key>
-  <string>PdfCraft</string>
+  <string>Lusk PDF</string>
   <key>LSApplicationCategoryType</key>
-  <string>public.app-category.graphics-design</string>
+  <string>public.app-category.productivity</string>
   <!-- Must match MACOSX_DEPLOYMENT_TARGET in package.sh. Big Sur is the first release on
        Apple silicon and has the Metal feature set wgpu targets. -->
   <key>LSMinimumSystemVersion</key>
@@ -84,9 +90,9 @@
   <key>NSRequiresAquaSystemAppearance</key>
   <false/>
   <key>NSHumanReadableCopyright</key>
-  <string>Copyright © the PdfCraft authors. MIT OR Apache-2.0.</string>
+  <string>© 2026 Lusk, association loi 1901. Logiciel libre sous licence MIT OR Apache-2.0, dérivé de PdfCraft.</string>
 
-  <!-- Documents PdfCraft opens (#73): it is offered under Open With and can be made the default
+  <!-- Documents Lusk PDF opens (#73): it is offered under Open With and can be made the default
        for PDFs, without taking over from the system's viewer on install ("Alternate"). Declared by
        UTI (LSItemContentTypes, what modern macOS filters Open With > Recommended Applications on),
        plus extension and MIME type for backward compatibility. Finder hands the
@@ -95,13 +101,13 @@
   <array>
     <dict>
       <key>CFBundleTypeName</key>
-      <string>PDF Document</string>
+      <string>Document PDF</string>
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>LSHandlerRank</key>
       <string>Alternate</string>
       <key>CFBundleTypeIconFile</key>
-      <string>PdfCraft</string>
+      <string>Lusk PDF</string>
       <key>LSItemContentTypes</key>
       <array><string>com.adobe.pdf</string></array>
       <key>CFBundleTypeExtensions</key>

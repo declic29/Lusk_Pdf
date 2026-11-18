@@ -1,47 +1,51 @@
-PdfCraft portable mode
+﻿Lusk PDF, version portable
 
-While this file sits next to pdfcraft.exe, PdfCraft keeps its settings, log files, crash-recovery
-autosaves and new digital IDs in the PdfCraftData folder beside it, and writes nothing to
-%APPDATA% or %LOCALAPPDATA%. Copy the whole folder to move PdfCraft with its settings.
+Tant que ce fichier est à côté de pdfcraft.exe, Lusk PDF garde ses réglages, ses journaux, ses
+copies de récupération et les nouvelles identités numériques dans le dossier PdfCraftData, à côté
+de lui, et n'écrit rien dans %APPDATA% ni dans %LOCALAPPDATA%. Copiez tout le dossier pour emporter
+Lusk PDF avec ses réglages.
 
-Delete this file to use the normal per-user folders (%APPDATA%\PdfCraft and
-%LOCALAPPDATA%\PdfCraft) instead. If PdfCraftData can't be written (for example on a read-only
-drive), PdfCraft says so and uses the per-user folders instead.
+Supprimez ce fichier pour utiliser les dossiers habituels de votre compte (%APPDATA%\PdfCraft et
+%LOCALAPPDATA%\PdfCraft). Si PdfCraftData ne peut pas être écrit (par exemple sur un support en
+lecture seule), Lusk PDF le signale et utilise les dossiers de votre compte.
 
-Opening PDF files with this copy
+Ouvrir les fichiers PDF avec cette copie
 
-The portable copy doesn't register itself with Windows, so picking it under "Open with" may not
-stick. To offer it in Settings > Apps > Default apps, open PowerShell in this folder and run:
+La version portable ne s'inscrit pas auprès de Windows : la choisir dans « Ouvrir avec » peut ne pas
+être retenu. Pour la proposer dans Paramètres > Applications > Applications par défaut, ouvrez
+PowerShell dans ce dossier et lancez :
 
   $exe = (Resolve-Path .\pdfcraft.exe).Path
   $c = "HKCU:\Software\Classes"
-  $cap = "HKCU:\Software\PdfCraft.Portable\Capabilities"
-  foreach ($k in "$c\PdfCraft.Portable\shell\open\command", "$c\.pdf\OpenWithProgids",
+  $cap = "HKCU:\Software\LuskPdf.Portable\Capabilities"
+  foreach ($k in "$c\LuskPdf.Portable\shell\open\command", "$c\.pdf\OpenWithProgids",
                  "$cap\FileAssociations", "HKCU:\Software\RegisteredApplications") {
     if (!(Test-Path $k)) { New-Item -Path $k -Force | Out-Null }
   }
-  Set-Item -Path "$c\PdfCraft.Portable" -Value "PDF Document"
-  Set-Item -Path "$c\PdfCraft.Portable\shell\open\command" -Value "`"$exe`" `"%1`""
-  New-ItemProperty -Path "$c\.pdf\OpenWithProgids" -Name PdfCraft.Portable -Value "" -PropertyType String -Force | Out-Null
-  New-ItemProperty -Path $cap -Name ApplicationName -Value "PdfCraft (portable)" -PropertyType String -Force | Out-Null
-  New-ItemProperty -Path $cap -Name ApplicationDescription -Value "Open-source PDF workbench" -PropertyType String -Force | Out-Null
-  New-ItemProperty -Path "$cap\FileAssociations" -Name .pdf -Value PdfCraft.Portable -PropertyType String -Force | Out-Null
-  New-ItemProperty -Path "HKCU:\Software\RegisteredApplications" -Name "PdfCraft (portable)" -Value "Software\PdfCraft.Portable\Capabilities" -PropertyType String -Force | Out-Null
+  Set-Item -Path "$c\LuskPdf.Portable" -Value "Document PDF"
+  Set-Item -Path "$c\LuskPdf.Portable\shell\open\command" -Value "`"$exe`" `"%1`""
+  New-ItemProperty -Path "$c\.pdf\OpenWithProgids" -Name LuskPdf.Portable -Value "" -PropertyType String -Force | Out-Null
+  New-ItemProperty -Path $cap -Name ApplicationName -Value "Lusk PDF (portable)" -PropertyType String -Force | Out-Null
+  New-ItemProperty -Path $cap -Name ApplicationDescription -Value "Lecteur et editeur de PDF libre" -PropertyType String -Force | Out-Null
+  New-ItemProperty -Path "$cap\FileAssociations" -Name .pdf -Value LuskPdf.Portable -PropertyType String -Force | Out-Null
+  New-ItemProperty -Path "HKCU:\Software\RegisteredApplications" -Name "Lusk PDF (portable)" -Value "Software\LuskPdf.Portable\Capabilities" -PropertyType String -Force | Out-Null
 
-Then open Settings > Apps > Default apps, search for .pdf (or for PdfCraft) and choose it. This
-changes only your own user's settings (HKEY_CURRENT_USER), and it doesn't change the default app by
-itself. If you move or rename this folder, run it again from the new place.
+Ouvrez ensuite Paramètres > Applications > Applications par défaut, cherchez .pdf (ou Lusk PDF) et
+choisissez-le. Cela ne change que les réglages de votre compte (HKEY_CURRENT_USER), et ne change
+pas à lui seul l'application par défaut. Si vous déplacez ou renommez ce dossier, relancez ces
+lignes depuis le nouvel emplacement.
 
-To undo, first choose another app for .pdf in Settings > Apps > Default apps (otherwise Windows
-keeps pointing PDF files at the removed entry), then run:
+Pour revenir en arrière, choisissez d'abord une autre application pour .pdf dans Paramètres >
+Applications > Applications par défaut (sinon Windows continue d'envoyer les PDF vers l'entrée
+supprimée), puis lancez :
 
-  Remove-Item -Path "HKCU:\Software\Classes\PdfCraft.Portable", "HKCU:\Software\PdfCraft.Portable" -Recurse -ErrorAction SilentlyContinue
-  Remove-ItemProperty -Path "HKCU:\Software\Classes\.pdf\OpenWithProgids" -Name PdfCraft.Portable -ErrorAction SilentlyContinue
-  Remove-ItemProperty -Path "HKCU:\Software\RegisteredApplications" -Name "PdfCraft (portable)" -ErrorAction SilentlyContinue
+  Remove-Item -Path "HKCU:\Software\Classes\LuskPdf.Portable", "HKCU:\Software\LuskPdf.Portable" -Recurse -ErrorAction SilentlyContinue
+  Remove-ItemProperty -Path "HKCU:\Software\Classes\.pdf\OpenWithProgids" -Name LuskPdf.Portable -ErrorAction SilentlyContinue
+  Remove-ItemProperty -Path "HKCU:\Software\RegisteredApplications" -Name "Lusk PDF (portable)" -ErrorAction SilentlyContinue
   foreach ($k in "HKCU:\Software\Classes\.pdf\OpenWithProgids", "HKCU:\Software\Classes\.pdf") {
     $i = Get-Item -Path $k -ErrorAction SilentlyContinue
     if ($i -and $i.ValueCount -eq 0 -and $i.SubKeyCount -eq 0) { Remove-Item -Path $k }
   }
 
-The last lines delete the .pdf keys only when nothing else is left in them, so another app's entry
-there stays.
+Les dernières lignes ne suppriment les clés .pdf que lorsqu'elles sont vides : l'entrée d'une autre
+application y reste.

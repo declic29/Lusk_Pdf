@@ -46,15 +46,20 @@ pub const BRAND_LICENCE: &str = "LicenseRef-Storyteller-Trademark";
 /// l'association en autorise l'utilisation avec Lusk PDF (assets/app-icon/LICENSE-lusk.txt).
 /// Admis seulement pour les logos et icônes de `assets/app-icon/` (le logo, l'icône et les
 /// icônes qu'en tire packaging/icons.py), pour les images de l'écran d'accueil
-/// (`assets/splash/`) et pour le renard de l'association (`assets/avatar/`).
+/// (`assets/splash/`), pour le renard de l'association (`assets/avatar/`) et pour les images des
+/// installateurs qui reprennent le logo et le renard (`packaging/windows/images/`, le fond du DMG
+/// dans `packaging/macos/dmg/`).
 pub const LUSK_LICENCE: &str = "LicenseRef-Lusk-Trademark";
 
 /// Is this entry a Lusk logo or icon under the association's own licence?
 fn lusk_mark(path: &str, kind: &str, licence: &str) -> bool {
     licence == LUSK_LICENCE
         && ((matches!(kind, "logo" | "icon") && path.starts_with("assets/app-icon/"))
-            || (kind == "image" && (path.starts_with("assets/splash/") || path.starts_with("assets/avatar/"))))
+            || (kind == "image" && LUSK_IMAGE_FOLDERS.iter().any(|f| path.starts_with(f))))
 }
+
+/// The folders whose images may carry the Lusk logo or fox ([`lusk_mark`]).
+const LUSK_IMAGE_FOLDERS: [&str; 4] = ["assets/splash/", "assets/avatar/", "packaging/windows/images/", "packaging/macos/dmg/"];
 
 /// Lusk PDF : les dictionnaires français et breton du correcteur, repris tels quels de Lusk
 /// Texte. Ils sont sous licence MPL (2.0 pour le français, 1.1 pour le breton), une licence
@@ -631,6 +636,9 @@ mod tests {
             ("assets/splash/accueil-lusk-pdf.jpg", "icon", false),
             ("assets/avatar/lusk-renard.png", "image", true),
             ("assets/avatar/lusk-renard-tete.png", "logo", false),
+            ("packaging/windows/images/banner.bmp", "image", true),
+            ("packaging/macos/dmg/background.tiff", "image", true),
+            ("packaging/linux/banner.png", "image", false),
             ("assets/icons/lusk-mark.svg", "logo", false),
         ] {
             let mut a = asset(path, "Lusk", kind, LUSK_LICENCE);

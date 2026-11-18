@@ -3,7 +3,7 @@
 Mémoire du projet, pour reprendre le travail dans une nouvelle conversation avec Claude : il suffit
 de lui demander de lire ce fichier (`C:\LuskPdf\docs\memo-projet.md`). La méthode commune est le
 document « Adapter une application Craft pour Lusk — cahier des charges » dans les artefacts
-Claude de Philippe. État au 17 novembre 2026.
+Claude de Philippe. État au 18 novembre 2026.
 
 ## Le projet en bref
 
@@ -138,6 +138,31 @@ Claude de Philippe. État au 17 novembre 2026.
   `cargo xtask assets` pour les seules données de `assets/thesaurus/`. Carte « Ouvrir un
   fichier » retirée des Outils recommandés de l'Accueil (Ouvrir › Parcourir… la remplace).
 
+- 18 novembre 2026, **installateurs (étape 8)**, à vérifier par la CI (rien de Windows ni de
+  macOS ne se construit dans l'environnement de Claude) :
+  - **Windows** (`packaging/windows/`) : `.msi` en français (langue 1036), éditeur « Lusk »,
+    nouvel UpgradeCode `DF1BDDAB-0D5E-4E20-B858-F4C287CE1576`, dossier `Programs\Lusk\Lusk PDF`,
+    clé `Software\Learning Machines LLC\Lusk PDF` (InstallDir, demandée par le cahier des
+    charges). Les PDF sont proposés dans « Ouvrir avec » sans prendre la place du lecteur par
+    défaut ; raccourci sur le Bureau coché ; « Lancer Lusk PDF » à la fin. Bandeau avec le
+    renard et le logo (`images/banner.bmp`, `images/generate.py`). Fichiers
+    `Lusk-Pdf-<version>-windows-<arch>.msi` et `…-portable.zip`.
+  - **macOS** (`packaging/macos/`) : `Lusk PDF.app` universelle, Info.plist en français
+    (région fr), fond du DMG redessiné (icône, renard, rouge Lusk, « Glissez vers Applications
+    pour installer » ; `dmg/background.py` puis `dmg/generate.py`), volume « Lusk PDF », fichier
+    `Lusk-Pdf-<version>-macos-universal.dmg`, À propos (Credits.rtf) en français.
+  - **Linux** (`packaging/linux/`) : paquets `lusk-pdf` (.deb, .rpm), AppImage et .tar.gz nommés
+    `Lusk-Pdf-…`, mises à jour de l'AppImage depuis declic29/Lusk_Pdf, .desktop et AppStream
+    avec le français.
+  - Icône des documents PDF sous Windows en rouge Lusk ; lion de PdfCraft retiré
+    (`pdfcraft.svg`, `pdfcraft-small.svg`, `LICENSE.txt` de `assets/app-icon/`).
+  - craft-update accepte l'éditeur « Lusk » en plus de « Learning Machines LLC » : sans cela
+    une installation par le .msi n'aurait jamais été mise à jour. **Lusk Diapo et Lusk Tab ont
+    probablement le même défaut** (Manufacturer « Lusk » dans leur .msi).
+  - Test : `the_updater_reads_the_names_of_the_lusk_pdf_packages` vérifie que la mise à jour
+    reconnaît chaque fichier publié.
+  - Pas repris : Flatpak et FreeBSD (hors publication Lusk), qui gardent les noms PdfCraft.
+
 ## À savoir
 
 - **Images déposées sur le PC** : en passant par le lien avec l'ordinateur, une image PNG ou JPEG
@@ -150,8 +175,6 @@ Claude de Philippe. État au 17 novembre 2026.
   choix de PdfCraft), l'outil en ligne de commande, et quelques messages construits par
   morceaux. Les noms techniques gardent « PdfCraft » (dossiers de données `PdfCraft`, programme
   `pdfcraft`).
-- **Reste de PdfCraft à remplacer plus tard** : l'icône des documents PDF sous Windows
-  (`pdfcraft-document.ico`) et le fond du .dmg macOS, encore dessinés d'après le lion de PdfCraft.
 - `cargo xtask i18n-report` compte de nouveau les textes français manquants ;
   `LUSK_I18N_ALL=1` les liste tous.
 - Les tests OCR ne passent qu'avec les modèles (`cargo xtask models`), que l'environnement de
@@ -160,5 +183,4 @@ Claude de Philippe. État au 17 novembre 2026.
 ## À faire (dans l'ordre du cahier des charges)
 
 6. (reste) Enregistrer sous avec OneDrive et Google Drive, si l'association le souhaite.
-8. Installateurs Windows, macOS, Linux en français.
 9. Publication : workflow « Publication », version 1.0.0.

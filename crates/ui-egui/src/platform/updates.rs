@@ -402,4 +402,28 @@ mod tests {
         app.on_exit(None);
         assert_eq!(app.updates.exits, 1);
     }
+
+    /// Lusk PDF : the updater recognises the files the packaging scripts publish
+    /// (`Lusk-Pdf-<version>-<system>-<arch>.<ext>`), and never takes a CLI archive for the app.
+    #[test]
+    fn the_updater_reads_the_names_of_the_lusk_pdf_packages() {
+        use craft_update::platform::{PackageKind, parse_asset_name};
+        let stems: Vec<&str> = crate::UPDATE_APP.stems().collect();
+        for (name, token, kind) in [
+            ("Lusk-Pdf-1.0.0-windows-x64.msi", "windows-x64", PackageKind::Msi),
+            ("Lusk-Pdf-1.0.0-windows-x64-portable.zip", "windows-x64", PackageKind::PortableZip),
+            ("Lusk-Pdf-1.0.0-macos-universal.dmg", "macos-universal", PackageKind::Dmg),
+            ("Lusk-Pdf-1.0.0-linux-x86_64.AppImage", "linux-x86_64", PackageKind::AppImage),
+            ("Lusk-Pdf-1.0.0-linux-x86_64.deb", "linux-x86_64", PackageKind::Deb),
+            ("Lusk-Pdf-1.0.0-linux-aarch64.rpm", "linux-aarch64", PackageKind::Rpm),
+            ("Lusk-Pdf-1.0.0-linux-x86_64.tar.gz", "linux-x86_64", PackageKind::TarGz),
+        ] {
+            let parsed = parse_asset_name(name, &stems).unwrap_or_else(|| panic!("{name} is not read"));
+            assert_eq!((parsed.version.as_str(), parsed.token.as_str(), parsed.kind), ("1.0.0", token, kind), "{name}");
+        }
+        for name in ["Lusk-Pdf-cli-1.0.0-linux-x86_64.tar.gz", "Lusk-Pdf-cli-1.0.0-macos-universal.zip", "Lusk-Pdf-1.0.0-linux-x86_64.AppImage.zsync"]
+        {
+            assert!(parse_asset_name(name, &stems).is_none(), "{name} is not an app package");
+        }
+    }
 }

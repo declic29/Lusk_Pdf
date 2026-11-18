@@ -27,5 +27,8 @@ Licensed under either the MIT License or the Apache License, Version 2.0,
 at your option. Full texts are LICENSE-MIT and LICENSE-APACHE at the
 repository root, and beside this file in Windows distributions.
 
+Lusk PDF recolours it in Lusk red (#a31b1f, fold #f8e5e6). Copyright (c) 2026
+Association Lusk, under the same terms.
+
 The icon uses no typeface or external image. Regenerate the ICO with
-packaging/icons.sh; every asset and its SHA-256 is recorded in ATTRIBUTION.toml.
+packaging/icons.py; every asset and its SHA-256 is recorded in ATTRIBUTION.toml.

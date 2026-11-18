@@ -88,15 +88,18 @@ pub(crate) fn appimage_version(name: &str, stems: &[&str]) -> Option<Option<Stri
     (parsed.kind == crate::PackageKind::AppImage && parsed.token.starts_with("linux-")).then_some(Some(parsed.version))
 }
 
-/// Who our Windows Installer packages name as their publisher.
+/// Who our Windows Installer packages name as their publisher. Lusk PDF : l'installateur de Lusk
+/// PDF (`packaging/windows/pdfcraft.wxs`) a pour éditeur « Lusk », comme Lusk Texte, Tab et Diapo ;
+/// sans lui, une copie installée par le .msi n'aurait pas de code produit et ne se mettrait pas à
+/// jour (« Windows lists this app's installation more than once or not at all »).
 #[cfg_attr(not(windows), allow(dead_code))]
-const PUBLISHER: &str = "Learning Machines LLC";
+const PUBLISHERS: [&str; 2] = ["Learning Machines LLC", "Lusk"];
 
 /// Whether an uninstall entry's `DisplayName` and `Publisher` are `app`'s, under any name its
 /// installers have registered.
 #[cfg_attr(not(windows), allow(dead_code))]
 fn is_installer_entry(app: &App, display_name: &str, publisher: &str) -> bool {
-    publisher == PUBLISHER && app.names().any(|n| n == display_name)
+    PUBLISHERS.contains(&publisher) && app.names().any(|n| n == display_name)
 }
 
 /// Where a Windows install of `app` may keep its exe, in the order to try: the entry's
@@ -726,6 +729,16 @@ mod tests {
     fn pdfcraft_matches_its_former_printcraft_installer_name() {
         let pdf = App::by_id("pdfcraft").unwrap();
         assert!(is_installer_entry(pdf, "PrintCraft", LEARNING_MACHINES), "a PrintCraft entry from {LEARNING_MACHINES} should be PdfCraft's");
+    }
+
+    /// Lusk PDF : its MSI says « Lusk PDF » by « Lusk », and an older PdfCraft entry still counts.
+    #[test]
+    fn lusk_pdf_matches_its_lusk_installer() {
+        let lusk = App { name: "Lusk PDF", former_names: &["PdfCraft", "PrintCraft"], ..*App::by_id("pdfcraft").unwrap() };
+        assert!(is_installer_entry(&lusk, "Lusk PDF", "Lusk"));
+        assert!(is_installer_entry(&lusk, "PdfCraft", LEARNING_MACHINES));
+        assert!(!is_installer_entry(&lusk, "Lusk PDF", "Some Other Publisher"));
+        assert!(!is_installer_entry(&lusk, "Lusk Texte", "Lusk"));
     }
 
     #[test]

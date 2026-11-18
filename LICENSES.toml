@@ -16,7 +16,7 @@ sha256 = "38c047734d2b6758b070141331fdac84bf2c5e65cc56f2ebd626489ee911fa36"
 [[document]]
 source = "NOTICE"
 destination = "NOTICE"
-sha256 = "bf3a634d69d20bd033671b226a527a23c2100fa4a012537da9ee0934d1adbe94"
+sha256 = "f5ad20a97efbf5810c7a8fd6b92e051b853214af94a1ffb4127c0f7e3779f230"
 
 [[document]]
 source = "vendor/edit-session/LICENSE-MIT"
@@ -33,12 +33,7 @@ sha256 = "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
 [[document]]
 source = "assets/app-icon/LICENSE-document.txt"
 destination = "assets/app-icon/LICENSE-document.txt"
-sha256 = "64a3137e3d5cc41e5b78d2ad8dd9ddddd6588283f9f7b3128aa6a8a50852fb9a"
-
-[[document]]
-source = "assets/app-icon/LICENSE.txt"
-destination = "assets/app-icon/LICENSE.txt"
-sha256 = "85b72344e6da3bbca7cfb0d794a5bbacb414181c8d1fe14cce1e795cfda5249c"
+sha256 = "c3f2aa6bc9bb9d4868be2bfa270f8b819f3d73ca8137292cabf142112fb53fcb"
 
 [[document]]
 source = "assets/fonts/OFL-DancingScript.txt"
@@ -58,7 +53,7 @@ sha256 = "a76abf002c49097d146e86740a3105a5d00450b1592e820a1109a8c5680cd697"
 [[document]]
 source = "assets/app-icon/LICENSE-lusk.txt"
 destination = "assets/app-icon/LICENSE-lusk.txt"
-sha256 = "24fd95eade8a537f3976242a320e56a125a62d1b16aa02a21b5592f280e26d9d"
+sha256 = "b8b6252786a245b8bbd1c6e7878717a7829445f588df372bcbbf5148877c34bf"
 
 [[document]]
 source = "assets/icons/LICENSE-lucide.txt"

@@ -26,9 +26,12 @@ fn main() {
         println!("cargo:rustc-link-arg-bins=delayimp.lib");
     }
     let mut res = winresource::WindowsResource::new();
-    res.set("ProductName", "PdfCraft")
-        .set("FileDescription", "PdfCraft command-line tool")
-        .set("LegalCopyright", "Copyright (c) the PdfCraft contributors. MIT OR Apache-2.0.")
+    // Lusk PDF : the names Windows shows. ASCII only: the resource compiler's code page is not
+    // UTF-8 everywhere.
+    res.set("ProductName", "Lusk PDF")
+        .set("CompanyName", "Lusk")
+        .set("FileDescription", "Lusk PDF - outil en ligne de commande")
+        .set("LegalCopyright", "(c) 2026 Lusk, association loi 1901. Derived from PdfCraft. MIT OR Apache-2.0.")
         .set("OriginalFilename", "pdfcraft-cli.exe")
         .set("InternalName", "pdfcraft-cli");
     if let Err(e) = res.compile() {

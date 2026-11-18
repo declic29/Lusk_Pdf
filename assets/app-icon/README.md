@@ -15,13 +15,12 @@ rouge et le « P » (`lusk-pdf-icone.png`). Ces images appartiennent à l'associ
 | `pdfcraft-1024.png` | 1024 px sur la grille d'Apple : l'icône du Dock sur macOS |
 | `pdfcraft.icns` | icône macOS |
 | `pdfcraft.ico` | icône Windows (16 à 256 px), intégrée à `pdfcraft.exe` par `apps/pdfcraft/build.rs` |
-| `pdfcraft-document.svg`, `pdfcraft-document.ico` | icône des fichiers PDF sous Windows, encore celle de PdfCraft |
-| `pdfcraft.svg`, `pdfcraft-small.svg` | l'ancienne icône de PdfCraft (le lion), gardée pour le fond du .dmg macOS |
+| `pdfcraft-document.svg`, `pdfcraft-document.ico` | icône des fichiers PDF sous Windows : la feuille et le badge « PDF » de PdfCraft, en rouge Lusk (`LICENSE-document.txt`) |
 
 Pour régénérer les icônes après un changement de `lusk-pdf-icone.png` :
 
 ```sh
-python3 packaging/icons.py        # il faut Pillow (pip install pillow)
+python3 packaging/icons.py        # il faut Pillow (pip install pillow) et rsvg-convert pour l’icône des documents
 ```
 
 Puis mettre à jour les `sha256` de `ATTRIBUTION.toml` et lancer `cargo xtask assets --write`.
