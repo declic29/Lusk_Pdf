@@ -130,6 +130,8 @@ fn warm_up(l: SpellLang) {
         let spawned = std::thread::Builder::new().name("lusk-orthographe".into()).spawn(move || {
             let _ = lusk_proof::check_spelling_in("Lusk", proof);
             READY.fetch_or(l.bit(), Ordering::Relaxed);
+            // The thesaurus reads its list on first use too.
+            let _ = lusk_proof::thesaurus::lookup("maison", true);
         });
         if let Err(e) = spawned {
             log::warn!("orthographe : dictionnaire non chargé : {e}");
@@ -194,8 +196,16 @@ struct Target {
     start: usize,
     end: usize,
     word: String,
+    /// Underlined: the menu offers corrections, Ignore All and Add to Dictionary.
+    misspelled: bool,
     suggestions: Vec<String>,
+    /// A correct word's senses (part of speech, synonyms), from the thesaurus.
+    synonyms: Vec<(String, Vec<String>)>,
 }
+
+/// Senses and synonyms per sense shown in the menu.
+const MAX_SENSES: usize = 6;
+const MAX_SYNONYMS: usize = 10;
 
 /// The longest text checked: a pasted book is not checked on every frame.
 const MAX_CHECKED_BYTES: usize = 20_000;
@@ -204,12 +214,15 @@ const MAX_CHECKED_BYTES: usize = 20_000;
 /// click on one of them. Call it right after `TextEdit::show`, with the field's text. Returns
 /// whether a correction changed `text`.
 pub fn check(ui: &Ui, out: &egui::text_edit::TextEditOutput, text: &mut String) -> bool {
-    let Some((l, proof)) = active() else { return false };
     if text.is_empty() || text.len() > MAX_CHECKED_BYTES {
         return false;
     }
     let id = out.response.response.id;
-    let words = cached_check(ui, id, text, l, proof);
+    // Spelling off or still loading: nothing is underlined, but synonyms still answer a right click.
+    let checked = active();
+    let words = checked.map(|(l, proof)| cached_check(ui, id, text, l, proof)).unwrap_or_default();
+    let proof = checked.map(|(_, proof)| proof);
+    let french = !matches!(lang(), SpellLang::English);
     let galley = &out.galley;
     // The word being typed is left alone until the cursor leaves it.
     let typing_at = out.response.response.has_focus().then(|| out.cursor_range.map(|r| r.primary.index.0)).flatten();
@@ -235,7 +248,7 @@ pub fn check(ui: &Ui, out: &egui::text_edit::TextEditOutput, text: &mut String) 
     let response = &out.response.response;
     let target_id = id.with("lusk-spelling-target");
     if response.secondary_clicked() {
-        let target = response.interact_pointer_pos().and_then(|p| word_under(text, galley, out.galley_pos, p, &words, proof));
+        let target = response.interact_pointer_pos().and_then(|p| word_under(text, galley, out.galley_pos, p, &words, proof, french));
         ui.data_mut(|d| match target {
             Some(t) => {
                 d.insert_temp(target_id, t);
@@ -269,29 +282,85 @@ fn cached_check(ui: &Ui, id: Id, text: &str, l: SpellLang, proof: ProofLang) -> 
     words
 }
 
-/// The misspelled word under `pointer`, with its suggestions.
-fn word_under(text: &str, galley: &egui::Galley, galley_pos: Pos2, pointer: Pos2, words: &[(usize, usize)], proof: ProofLang) -> Option<Target> {
+/// The word under `pointer`: a misspelled one with its suggestions, or a correct one with its
+/// synonyms (French first when `french`). `None` off a word, or for a word with neither.
+fn word_under(
+    text: &str,
+    galley: &egui::Galley,
+    galley_pos: Pos2,
+    pointer: Pos2,
+    misspelled: &[(usize, usize)],
+    proof: Option<ProofLang>,
+    french: bool,
+) -> Option<Target> {
     let at = galley.cursor_from_pos(pointer - galley_pos).index.0;
     let byte = text.char_indices().nth(at).map_or(text.len(), |(i, _)| i);
-    let &(start, end) = words.iter().find(|(a, b)| *a <= byte && byte <= *b)?;
-    let word = text.get(start..end)?.to_owned();
-    let suggestions = lusk_proof::suggest_in(&word, 6, proof);
-    Some(Target { start, end, word, suggestions })
+    word_at(text, byte, misspelled, proof, french)
 }
 
-/// The right-click menu on a misspelled word. Returns whether it changed `text`.
+/// [`word_under`] for the word around byte `byte` of `text`.
+fn word_at(text: &str, byte: usize, misspelled: &[(usize, usize)], proof: Option<ProofLang>, french: bool) -> Option<Target> {
+    if let (Some(&(start, end)), Some(proof)) = (misspelled.iter().find(|(a, b)| *a <= byte && byte <= *b), proof) {
+        let word = text.get(start..end)?.to_owned();
+        let suggestions = lusk_proof::suggest_in(&word, 6, proof);
+        return Some(Target { start, end, word, misspelled: true, suggestions, synonyms: Vec::new() });
+    }
+    let (start, end) = lusk_proof::words(text).into_iter().find(|(a, b)| *a <= byte && byte <= *b)?;
+    let word = text.get(start..end)?.to_owned();
+    let synonyms: Vec<(String, Vec<String>)> = lusk_proof::thesaurus::lookup(&word, french)
+        .into_iter()
+        .filter(|s| !s.synonyms.is_empty())
+        .take(MAX_SENSES)
+        .map(|s| (s.pos, s.synonyms.into_iter().take(MAX_SYNONYMS).collect()))
+        .collect();
+    (!synonyms.is_empty()).then_some(Target { start, end, word, misspelled: false, suggestions: Vec::new(), synonyms })
+}
+
+/// Put `with` in place of the target word, if it is still where it was clicked.
+fn replace(t: &Target, text: &mut String, with: &str) -> bool {
+    if text.get(t.start..t.end) == Some(t.word.as_str()) {
+        text.replace_range(t.start..t.end, with);
+        return true;
+    }
+    false
+}
+
+/// The right-click menu on a word: corrections for a misspelled one, synonyms for a correct one.
+/// Returns whether it changed `text`.
 fn menu(ui: &mut Ui, t: &Target, text: &mut String) -> bool {
     let mut changed = false;
+    if !t.misspelled {
+        ui.add_enabled(false, egui::Label::new(crate::i18n::fmt(tl!("Synonyms for « {word} »"), &[("word", &t.word)])));
+        ui.separator();
+        let mut pick = |ui: &mut Ui, s: &str| {
+            if ui.button(s).clicked() {
+                changed |= replace(t, text, s);
+                ui.close();
+            }
+        };
+        if let [(_, synonyms)] = t.synonyms.as_slice() {
+            for s in synonyms {
+                pick(ui, s);
+            }
+        } else {
+            for (pos, synonyms) in &t.synonyms {
+                let first: Vec<&str> = synonyms.iter().take(2).map(String::as_str).collect();
+                let title = if pos.is_empty() { format!("{}…", first.join(", ")) } else { format!("{pos} : {}…", first.join(", ")) };
+                ui.menu_button(title, |ui| {
+                    for s in synonyms {
+                        pick(ui, s);
+                    }
+                });
+            }
+        }
+        return changed;
+    }
     if t.suggestions.is_empty() {
         ui.add_enabled(false, egui::Button::new(tl!("No suggestions")));
     }
     for s in &t.suggestions {
         if ui.button(egui::RichText::new(s).strong()).clicked() {
-            // Only if the word is still where it was clicked.
-            if text.get(t.start..t.end) == Some(t.word.as_str()) {
-                text.replace_range(t.start..t.end, s);
-                changed = true;
-            }
+            changed |= replace(t, text, s);
             ui.close();
         }
     }
@@ -401,5 +470,53 @@ mod tests {
         h.get_by_label("maison").click();
         h.run_steps(2);
         assert_eq!(h.state(), "maison");
+    }
+
+    /// Lusk PDF : a right click on a correct word offers its synonyms (from Lusk Diapo's
+    /// thesaurus), and picking one puts it in place of the word.
+    #[test]
+    fn a_correct_word_offers_its_synonyms() {
+        let text = "Une belle maison.";
+        let at = text.find("maison").unwrap() + 2;
+        let t = word_at(text, at, &[], Some(ProofLang::Fr), true).expect("synonyms");
+        assert!(!t.misspelled && t.word == "maison");
+        assert!(t.synonyms.iter().any(|(_, s)| s.iter().any(|x| x == "foyer")), "{:?}", t.synonyms);
+        let mut edited = text.to_owned();
+        assert!(replace(&t, &mut edited, "demeure"));
+        assert_eq!(edited, "Une belle demeure.");
+        // A misspelled word gets corrections instead; a word with no synonyms, no menu.
+        let wrong = "ma maisson";
+        let t = word_at(wrong, 5, &misspelled(wrong, ProofLang::Fr), Some(ProofLang::Fr), true).expect("corrections");
+        assert!(t.misspelled && t.suggestions.iter().any(|s| s == "maison"));
+        assert!(word_at("zqxwv", 1, &[], None, true).is_none());
+    }
+
+    /// The synonyms menu, end to end: a right click on « maison », then a synonym replaces it.
+    /// `LUSK_SYN_SHOT=<file.png>` saves a picture of the open menu.
+    #[test]
+    fn a_right_click_on_a_correct_word_replaces_it_with_a_synonym() {
+        use egui_kittest::kittest::Queryable;
+        ready_for_tests(SpellLang::French);
+        let mut h = egui_kittest::Harness::builder().with_size(egui::vec2(420.0, 360.0)).build_ui_state(
+            |ui, text: &mut String| {
+                let out = egui::TextEdit::multiline(text).desired_width(f32::INFINITY).id_salt("syn-test").show(ui);
+                check(ui, &out, text);
+                let _ = out.response.response.accessible_name("Champ");
+            },
+            "maison".to_owned(),
+        );
+        h.run_steps(2);
+        h.get_by_label("Champ").click_secondary();
+        h.run_steps(3);
+        if let Ok(path) = std::env::var("LUSK_SYN_SHOT") {
+            h.render().expect("rendered").save(path).expect("saved");
+        }
+        // Several senses: the first opens its own list.
+        // Several senses: each opens its own list.
+        h.get_by_label_contains("baraque").hover();
+        h.run_steps(3);
+        h.get_by_label("cabane").click();
+        h.run_steps(2);
+        assert_eq!(h.state(), "cabane");
     }
 }

@@ -94,8 +94,8 @@ Claude de Philippe. État au 17 novembre 2026.
   Désactivé). Le dictionnaire se charge en arrière-plan au démarrage (`src/spelling.rs`).
   Licence MPL des dictionnaires français (2.0) et breton (1.1) : hors de la liste de PdfCraft,
   admise par `cargo xtask assets` pour les seules données de `assets/dictionaries/`
-  (`LUSK_DICTIONARY_LICENCES`), mentionnée dans NOTICE. Pas de dictionnaire des synonymes :
-  celui de Lusk Texte n'est qu'une petite liste anglaise, sans intérêt ici. Les champs de
+  (`LUSK_DICTIONARY_LICENCES`), mentionnée dans NOTICE. Synonymes : voir le 18 novembre (repris de Lusk
+  Diapo, celui de Lusk Texte n'étant qu'une petite liste anglaise). Les champs de
   formulaire et l'édition du texte des pages ne sont pas vérifiés (texte du document lui-même).
 
 - 17 novembre 2026, **pages communes (étape 6)** : sur l'Accueil, le renard de l'association
@@ -131,6 +131,13 @@ Claude de Philippe. État au 17 novembre 2026.
   « Utilisateur » par défaut (et non le nom de session de l'ordinateur), A4 et millimètres quand
   la région du système est inconnue, ligne des crédits de l'À propos traduite, README.
 
+- 18 novembre 2026, **synonymes** : le dictionnaire des synonymes de Lusk Diapo, repris à
+  l'octet près (`assets/thesaurus/`, myThes 2.3 de Dicollecte sous LGPL 2.1 ou ultérieure, plus
+  une petite liste anglaise ; `crates/proof/src/thesaurus.rs`). Un clic droit sur un mot bien
+  orthographié propose ses synonymes, par sens ; un clic remplace le mot. La LGPL est admise par
+  `cargo xtask assets` pour les seules données de `assets/thesaurus/`. Carte « Ouvrir un
+  fichier » retirée des Outils recommandés de l'Accueil (Ouvrir › Parcourir… la remplace).
+
 ## À savoir
 
 - **Images déposées sur le PC** : en passant par le lien avec l'ordinateur, une image PNG ou JPEG
@@ -153,6 +160,5 @@ Claude de Philippe. État au 17 novembre 2026.
 ## À faire (dans l'ordre du cahier des charges)
 
 6. (reste) Enregistrer sous avec OneDrive et Google Drive, si l'association le souhaite.
-   Pas de dictionnaire des synonymes : Lusk Texte n'en a pas de français à reprendre.
 8. Installateurs Windows, macOS, Linux en français.
 9. Publication : workflow « Publication », version 1.0.0.

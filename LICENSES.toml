@@ -16,7 +16,7 @@ sha256 = "38c047734d2b6758b070141331fdac84bf2c5e65cc56f2ebd626489ee911fa36"
 [[document]]
 source = "NOTICE"
 destination = "NOTICE"
-sha256 = "a5afb131c1a14d6d23d7fbd80ab65207ddd8299cb335fc08d749439accf21c2b"
+sha256 = "bf3a634d69d20bd033671b226a527a23c2100fa4a012537da9ee0934d1adbe94"
 
 [[document]]
 source = "vendor/edit-session/LICENSE-MIT"
@@ -196,6 +196,13 @@ source = "assets/hyphenation/de.pat"
 licences = ["MIT"]
 destination = "assets/hyphenation/de.pat"
 sha256 = "374ad1ce3263f8a2791ec070ef9b516c532dae64456f3fb656e617e8ae53a9d3"
+
+# Lusk PDF : licence du dictionnaire des synonymes français (assets/thesaurus/).
+
+[[document]]
+source = "assets/thesaurus/LGPL-2.1.txt"
+destination = "assets/thesaurus/LGPL-2.1.txt"
+sha256 = "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
 
 [[bundled]]
 crate = "epaint_default_fonts"

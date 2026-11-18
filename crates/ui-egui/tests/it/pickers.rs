@@ -852,7 +852,7 @@ fn the_open_password_can_be_typed_through_an_input_method_however_the_file_is_op
             }
             OpenedFrom::StartPage => {
                 h.state_mut().pick_override = Some(vec![path.clone()]);
-                h.get_by_label("Open file").click();
+                h.get_by_label("Browse…").click();
             }
             OpenedFrom::Drop => h.input_mut().dropped_files.push(std::sync::Arc::new(Dropped(file.clone(), bytes.clone()))),
         }

@@ -4778,3 +4778,4 @@ review-suggestion	Replacement text	Texte de remplacement
 	The trailer has no file identifier (ID)	Le trailer n'a pas d'identifiant de fichier (ID)
 	This signature carries certification permissions, but the document does not name it as its certification, so it is checked as an approval signature.	Cette signature porte des autorisations de certification, mais le document ne la désigne pas comme sa certification : elle est donc vérifiée comme une signature d'approbation.
 	the range selects more than {limit} pages	la plage sélectionne plus de {limit} pages
+	Synonyms for « {word} »	Synonymes de « {word} »

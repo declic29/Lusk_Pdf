@@ -70,9 +70,11 @@ pub mod id;
 pub mod it;
 pub mod lang;
 pub mod patterns;
+// Lusk PDF : le dictionnaire des synonymes de Lusk Diapo.
 pub mod pl;
 pub mod pt;
 pub mod ru;
+pub mod thesaurus;
 pub mod tr;
 pub mod vi;
 

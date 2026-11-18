@@ -2578,7 +2578,7 @@ licence = "MIT OR Apache-2.0"
 licence_file = "LICENSE-MIT"
 kind = "data"
 usage = "Interface en français, intégrée par crates/ui-egui/build.rs"
-sha256 = "c4a456d059a976439f42a8b0c105e174d86e81762ece6322dd65af850a0d7c72"
+sha256 = "358ed6864e44b21c2183584f30bee4d9c895ab6b98c63c377887649733a47b9d"
 
 [[asset]]
 path = "assets/dictionaries/fr/fr_FR.aff"
@@ -2810,6 +2810,50 @@ licence_file = "assets/app-icon/LICENSE-lusk.txt"
 kind = "image"
 usage = "Icône de l'association dans « À propos de Lusk PDF »"
 sha256 = "8b5aa857532c9b980f457c82d27d19a3282525eb96b8cceb6f072ab5d1495e8d"
+
+[[asset]]
+path = "assets/thesaurus/thesaurus_fr.txt"
+title = "Dictionnaire des synonymes français myThes 2.3"
+author = "Frédéric Labbé (Dicollecte) ; converti par Lusk Diapo"
+source = "https://grammalecte.net/ (thes_fr.dat des dictionnaires de LibreOffice), converti par Lusk Diapo (declic29/Lusk-Diapo, crates/engine/data/thesaurus_fr.txt) et repris tel quel"
+licence = "LGPL-2.1-or-later"
+licence_file = "assets/thesaurus/LGPL-2.1.txt"
+kind = "data"
+usage = "Synonymes du menu du clic droit (commentaires, texte ajouté), lus par crates/proof/src/thesaurus.rs"
+sha256 = "9f363c6aa7eeca3b90953fd956e45f2b81c9e5e791dd8931f4efcf4756d2ef2a"
+
+[[asset]]
+path = "assets/thesaurus/README_thes_fr.txt"
+title = "Notice d'origine du dictionnaire des synonymes français"
+author = "Frédéric Labbé (Dicollecte)"
+source = "https://grammalecte.net/ (README de thes_fr), via Lusk Diapo"
+licence = "LGPL-2.1-or-later"
+licence_file = "assets/thesaurus/LGPL-2.1.txt"
+kind = "data"
+usage = "Notice et licence du dictionnaire des synonymes"
+sha256 = "2726e7a1c201ef77cd43599ae09db4b195d1efdd55229bda8c960a6ce751b8e2"
+
+[[asset]]
+path = "assets/thesaurus/LGPL-2.1.txt"
+title = "Texte de la GNU Lesser General Public License 2.1"
+author = "Free Software Foundation"
+source = "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt, via Lusk Diapo"
+licence = "LGPL-2.1-or-later"
+licence_file = "assets/thesaurus/LGPL-2.1.txt"
+kind = "data"
+usage = "Licence du dictionnaire des synonymes français"
+sha256 = "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+
+[[asset]]
+path = "assets/thesaurus/thesaurus_en.txt"
+title = "Small English thesaurus"
+author = "DeckCraft contributors"
+source = "original list written for DeckCraft, via Lusk Diapo"
+licence = "MIT OR Apache-2.0"
+licence_file = "LICENSE-MIT"
+kind = "data"
+usage = "English synonyms of the right-click menu, read by crates/proof/src/thesaurus.rs"
+sha256 = "eee3d32fdd3646b191cf891d53f512971799b25541161fdfa51b140c5ce86e93"
 
 [[asset]]
 path = "assets/app-icon/lusk-pdf-logo.png"

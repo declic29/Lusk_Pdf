@@ -36,7 +36,7 @@ fn home_shows_welcome_and_tools() {
     let h = harness(|_| {});
     h.get_by_label_contains("An open-source PDF workbench");
     assert!(h.query_all_by_label("Organize pages").count() >= 2, "tool list + home card");
-    h.get_by_label("Open file");
+    h.get_by_label("Browse…");
 }
 
 #[test]

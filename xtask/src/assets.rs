@@ -63,8 +63,16 @@ fn lusk_mark(path: &str, kind: &str, licence: &str) -> bool {
 /// fichiers que le correcteur lit sans les modifier ; le code reste sous MIT ou Apache 2.0.
 pub const LUSK_DICTIONARY_LICENCES: &[&str] = &["MPL-2.0", "MPL-1.1"];
 
+/// Lusk PDF : le dictionnaire des synonymes français de Lusk Diapo (myThes 2.3 de Dicollecte),
+/// sous LGPL 2.1 ou ultérieure. Admis seulement pour les données (`kind = "data"`) de
+/// `assets/thesaurus/`, que le correcteur lit sans les modifier.
+pub const LUSK_THESAURUS_LICENCE: &str = "LGPL-2.1-or-later";
+
 /// Is this entry one of the Lusk spelling dictionaries under the Mozilla Public License?
 fn lusk_dictionary(path: &str, kind: &str, licence: &str) -> bool {
+    if kind == "data" && path.starts_with("assets/thesaurus/") && licence == LUSK_THESAURUS_LICENCE {
+        return true;
+    }
     kind == "data"
         && path.starts_with("assets/dictionaries/")
         && licence_ids(licence).next().is_some()
@@ -642,6 +650,9 @@ mod tests {
             ("assets/hyphenation/fr.pat", "data", "MPL-2.0", false),
             ("assets/dictionaries/fr/fr_FR.dic", "data", "GPL-3.0", false),
             ("assets/dictionaries/fr/fr_FR.dic", "data", "MPL-2.0 AND GPL-3.0", false),
+            ("assets/thesaurus/thesaurus_fr.txt", "data", "LGPL-2.1-or-later", true),
+            ("assets/thesaurus/thesaurus_fr.txt", "data", "GPL-3.0", false),
+            ("assets/dictionaries/fr/fr_FR.dic", "data", "LGPL-2.1-or-later", false),
         ] {
             let m = Manifest { asset: vec![asset(path, "Dicollecte", kind, licence)], ..Default::default() };
             let p = check(&root(), &m, &[], &BTreeSet::new());

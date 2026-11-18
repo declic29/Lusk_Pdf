@@ -4,7 +4,7 @@
 
 Every asset PdfCraft includes, bundles or uses to build its published material, with its author, source and licence. The policy is in [AGENTS.md](AGENTS.md) §1. The machine-readable list, with the SHA-256 of every asset, is [ATTRIBUTION.toml](ATTRIBUTION.toml). Licence texts are kept beside the assets and summarised in [NOTICE](NOTICE).
 
-## In this repository (275)
+## In this repository (279)
 
 | Asset | Title | Author | Licence | Source | Used for |
 |---|---|---|---|---|---|
@@ -230,6 +230,10 @@ Every asset PdfCraft includes, bundles or uses to build its published material, 
 | `assets/spelling/ru-extra.txt` | Extra Russian words | WordCraft contributors | MIT OR Apache-2.0 | original word list, via Lusk Texte | Common modern Russian words, embedded by crates/proof |
 | `assets/avatar/lusk-renard.png` | Renard de l'association Lusk | Association Lusk | LicenseRef-Lusk-Trademark | avatar de lusk.bzh, repris de Lusk Texte (fourni par le président de l'association le 8 novembre 2026, recadré 256 × 256) | Le renard affiché à côté du message de bienvenue de l'Accueil |
 | `assets/avatar/lusk-renard-tete.png` | Tête du renard de l'association Lusk | Association Lusk | LicenseRef-Lusk-Trademark | tête du renard de lusk.bzh, reprise de Lusk Texte (fournie par le président de l'association le 12 novembre 2026, détourée 128 × 128) | Icône de l'association dans « À propos de Lusk PDF » |
+| `assets/thesaurus/thesaurus_fr.txt` | Dictionnaire des synonymes français myThes 2.3 | Frédéric Labbé (Dicollecte) ; converti par Lusk Diapo | LGPL-2.1-or-later | https://grammalecte.net/ (thes_fr.dat des dictionnaires de LibreOffice), converti par Lusk Diapo (declic29/Lusk-Diapo, crates/engine/data/thesaurus_fr.txt) et repris tel quel | Synonymes du menu du clic droit (commentaires, texte ajouté), lus par crates/proof/src/thesaurus.rs |
+| `assets/thesaurus/README_thes_fr.txt` | Notice d'origine du dictionnaire des synonymes français | Frédéric Labbé (Dicollecte) | LGPL-2.1-or-later | https://grammalecte.net/ (README de thes_fr), via Lusk Diapo | Notice et licence du dictionnaire des synonymes |
+| `assets/thesaurus/LGPL-2.1.txt` | Texte de la GNU Lesser General Public License 2.1 | Free Software Foundation | LGPL-2.1-or-later | https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt, via Lusk Diapo | Licence du dictionnaire des synonymes français |
+| `assets/thesaurus/thesaurus_en.txt` | Small English thesaurus | DeckCraft contributors | MIT OR Apache-2.0 | original list written for DeckCraft, via Lusk Diapo | English synonyms of the right-click menu, read by crates/proof/src/thesaurus.rs |
 | `assets/app-icon/lusk-pdf-logo.png` | Logo de Lusk PDF | Association Lusk | LicenseRef-Lusk-Trademark | Fourni par l'association Lusk (16 novembre 2026) | Logo complet de Lusk PDF (livre rouge et « PdF »), pour l'À propos, l'écran d'accueil et le README |
 | `assets/app-icon/lusk-pdf-icone.png` | Icône de Lusk PDF | Association Lusk | LicenseRef-Lusk-Trademark | Tirée du logo fourni par l'association Lusk (le livre et le « P ») | Image source des icônes de l'application (packaging/icons.sh) |
 | `assets/splash/accueil-lusk-pdf.jpg` | Fond de l'écran d'accueil de Lusk PDF | Association Lusk | LicenseRef-Lusk-Trademark | Fourni par l'association Lusk (16 novembre 2026), réduit à 1440 × 810 | Image de fond de l'écran d'accueil (crates/ui-egui/src/splash.rs) |

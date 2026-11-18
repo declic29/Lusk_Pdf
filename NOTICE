@@ -49,6 +49,12 @@ list (author, source, license) is in ATTRIBUTION.md.
   Breton, from Korvigelloù An Drouizig (https://github.com/Drouizig/hunspell-br) — Mozilla Public
   License 1.1; see assets/dictionaries/br/MPL-1.1.txt and the changes in MODIFICATIONS.txt.
   The source form of these files is the files themselves, in this repository.
+- French thesaurus (assets/thesaurus/thesaurus_fr.txt), taken unchanged from Lusk Diapo: the myThes
+  « Dictionnaire des synonymes français » 2.3 by Frédéric Labbé (Dicollecte, https://grammalecte.net),
+  from LibreOffice's dictionaries (fr_FR/thes_fr.dat), under the GNU Lesser General Public License
+  2.1 or later. Lusk converted it to one line per sense and kept at most 16 synonyms per sense; the
+  converted file is its source form, and it can be replaced by another list in the same format.
+  Its readme and the licence text are in assets/thesaurus/.
 - Hyphenation patterns (assets/hyphenation/*.pat) from hyph-utf8 (https://github.com/hyphenation/tex-hyphen),
   MIT or BSD-3-Clause, each with its notice in its header; the English word list (Moby Hyphenator II,
   Grady Ward) is in the public domain and the English patterns are CC0 (assets/hyphenation/LISEZ-MOI.txt).

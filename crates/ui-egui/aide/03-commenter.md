@@ -27,3 +27,7 @@ Dans les commentaires, les réponses et le texte ajouté, les mots inconnus sont
 - **Ajouter au dictionnaire** : le mot est ajouté à votre dictionnaire personnel, gardé sur votre ordinateur.
 
 La langue du correcteur (français, breton, anglais) ou son arrêt se choisit dans **Préférences › Orthographe**.
+
+## Les synonymes
+
+Un **clic droit** sur un mot bien orthographié propose ses synonymes, classés par sens (nom, verbe, adjectif…) : cliquez sur l'un d'eux pour remplacer le mot. Le dictionnaire des synonymes français est intégré au programme et fonctionne sans connexion.
