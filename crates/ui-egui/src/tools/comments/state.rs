@@ -4,18 +4,15 @@ use super::geometry::{corner_ratio, frame, is_markup, resized};
 use super::{Annotation, CommentPrefs, CommentTool, DocInfo, Edit, PagePointer, PageXform, Pos2, QuickTool, Rect, pos2, vec2};
 use crate::page_keys::PageKeys;
 
-/// The user's login name, which Acrobat uses as the default comment author.
+/// Lusk PDF : the default comment author, « Utilisateur », as in Lusk Texte and Lusk Tab. Not
+/// the computer's login name: a shared PDF would carry it without the user knowing. Preferences
+/// › Author changes it.
 pub(super) fn login_name() -> String {
-    #[cfg(not(target_arch = "wasm32"))]
-    for var in ["USER", "USERNAME", "LOGNAME"] {
-        if let Ok(v) = std::env::var(var)
-            && !v.trim().is_empty()
-        {
-            return v;
-        }
-    }
-    "Guest".into()
+    DEFAULT_AUTHOR.into()
 }
+
+/// See [`login_name`].
+pub(crate) const DEFAULT_AUTHOR: &str = "Utilisateur";
 
 /// A drag in progress on a page.
 #[derive(Clone, Debug, PartialEq)]
@@ -770,5 +767,15 @@ impl PageCx<'_> {
             }
             _ => r,
         }
+    }
+}
+
+#[cfg(test)]
+mod lusk_author_tests {
+    /// Lusk PDF : comments are signed « Utilisateur » until the user gives a name, never with the
+    /// computer's login.
+    #[test]
+    fn the_default_author_is_utilisateur() {
+        assert_eq!(super::super::CommentPrefs::default().author, "Utilisateur");
     }
 }

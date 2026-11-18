@@ -1686,9 +1686,9 @@ fn dialog_about(ui: &mut egui::Ui, app: &mut PdfCraftApp, req: &mut Pending) -> 
             ui.add_space(6.0);
             ui.label(tl!("A free PDF workbench by the Lusk association, adapted from PdfCraft (ArtCraft Team). MIT OR Apache-2.0."));
             ui.label(
-                egui::RichText::new(
-                    "Rendering: hayro (bootstrap) · UI: egui · Icons: Lucide (ISC) · Fonts: Inter, JetBrains Mono, Dancing Script (OFL)",
-                )
+                egui::RichText::new(tl!(
+                    "Rendering: hayro (bootstrap) · UI: egui · Icons: Lucide (ISC) · Fonts: Inter, JetBrains Mono, Dancing Script (OFL)"
+                ))
                 .color(t.text_muted)
                 .small(),
             );

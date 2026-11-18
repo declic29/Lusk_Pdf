@@ -1538,14 +1538,21 @@ fn english_keys() -> std::collections::BTreeSet<(String, String)> {
 /// plural and dynamically looked-up strings the scan can't see).
 #[test]
 fn translation_gaps_report() {
-    const SHOWN: usize = 3;
-    if !catalogs_embedded() {
+    // Lusk PDF : `LUSK_I18N_ALL=1` lists every missing string, not only the first three.
+    let shown = if std::env::var_os("LUSK_I18N_ALL").is_some() { usize::MAX } else { 3 };
+    // Lusk PDF : French is always embedded (`catalogs_embedded` is false with one language).
+    if crate::i18n::CRAFT_I18N.is_empty() {
         println!("{REPORT_START}\nTranslation gaps: skipped, built without craft-i18n (set CRAFT_I18N_DIR to a craft-i18n checkout)\n{REPORT_END}");
         return;
     }
     let keys = english_keys();
     let problems = I18N.check_all();
     let mut report = format!("Translation gaps: {} English strings; {} catalog rows skipped (they show in English)\n", keys.len(), problems.len());
+    if shown == usize::MAX {
+        for p in &problems {
+            report.push_str(&format!("  skipped: {p:?}\n"));
+        }
+    }
     for lang in Lang::all().filter(|l| *l != Lang::EN) {
         let found = |context: &str, source: &str| lang.i18n().get(lang.lang, context, source).map(str::to_owned);
         let missing: Vec<&(String, String)> = keys
@@ -1558,8 +1565,8 @@ fn translation_gaps_report() {
             .collect();
         let kept = keys.iter().filter(|(context, source)| context.is_empty() && found("", source).as_ref() == Some(source)).count();
         let mut line = format!("  {:<8} {:>5} missing, {kept:>4} kept in English", lang.code(), missing.len());
-        for (i, (context, source)) in missing.iter().take(SHOWN).enumerate() {
-            let mut shown: String = source.chars().take(48).collect();
+        for (i, (context, source)) in missing.iter().take(shown).enumerate() {
+            let mut shown: String = source.chars().take(if shown == usize::MAX { usize::MAX } else { 48 }).collect();
             if shown.len() < source.len() {
                 shown.push('…');
             }
@@ -1567,7 +1574,7 @@ fn translation_gaps_report() {
             line.push_str(if i == 0 { ": " } else { ", " });
             line.push_str(&key);
         }
-        if missing.len() > SHOWN {
+        if missing.len() > shown {
             line.push_str(", …");
         }
         report.push_str(&line);

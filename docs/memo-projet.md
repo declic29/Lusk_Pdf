@@ -120,6 +120,17 @@ Claude de Philippe. État au 17 novembre 2026.
   versions de la version web corrigée vers declic29/Lusk_Pdf. L'aide reste en français même
   quand l'interface est en anglais.
 
+- 18 novembre 2026, **vérification d'ensemble** avant l'étape 8 : clippy de tout l'espace de
+  travail et 10 010 tests passent ; seuls échouent ici les tests de reconnaissance de texte
+  (modèles OCR non téléchargeables dans l'environnement de Claude, la CI les a) et un test qui
+  échoue quand on est administrateur. Corrigé à cette occasion : alerte clippy de
+  `crates/xfdf` (Rust 1.97), fenêtres de mise à jour en français (traducteur passé à
+  craft-update, test qui vérifie chaque texte), 41 textes encore en anglais (contrôle PDF/A,
+  signets, pièce jointe…) et 3 doublons du catalogue (`cargo xtask i18n-report` : « fr 0
+  missing »), palette de commandes sans tenir compte des accents, auteur des commentaires
+  « Utilisateur » par défaut (et non le nom de session de l'ordinateur), A4 et millimètres quand
+  la région du système est inconnue, ligne des crédits de l'À propos traduite, README.
+
 ## À savoir
 
 - **Images déposées sur le PC** : en passant par le lien avec l'ordinateur, une image PNG ou JPEG
@@ -134,11 +145,14 @@ Claude de Philippe. État au 17 novembre 2026.
   `pdfcraft`).
 - **Reste de PdfCraft à remplacer plus tard** : l'icône des documents PDF sous Windows
   (`pdfcraft-document.ico`) et le fond du .dmg macOS, encore dessinés d'après le lion de PdfCraft.
-- Clippy récent (Rust 1.97) signale une alerte déjà présente dans `crates/xfdf` ; vérifier les
-  crates modifiées avec `--no-deps`.
+- `cargo xtask i18n-report` compte de nouveau les textes français manquants ;
+  `LUSK_I18N_ALL=1` les liste tous.
+- Les tests OCR ne passent qu'avec les modèles (`cargo xtask models`), que l'environnement de
+  Claude ne peut pas télécharger.
 
 ## À faire (dans l'ordre du cahier des charges)
 
 6. (reste) Enregistrer sous avec OneDrive et Google Drive, si l'association le souhaite.
+   Pas de dictionnaire des synonymes : Lusk Texte n'en a pas de français à reprendre.
 8. Installateurs Windows, macOS, Linux en français.
 9. Publication : workflow « Publication », version 1.0.0.

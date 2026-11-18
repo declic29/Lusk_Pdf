@@ -7,6 +7,7 @@
 //!   connecte à aucun compte. Sans l'application, le bouton est grisé, et le « ? » à côté dit
 //!   quoi installer.
 
+#[cfg(not(target_arch = "wasm32"))]
 use std::path::{Path, PathBuf};
 
 use chrono::Timelike;

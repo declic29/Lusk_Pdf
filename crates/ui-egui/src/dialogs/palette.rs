@@ -22,12 +22,19 @@ fn score(hay: &str, needle: &str) -> Option<usize> {
     score_for_direction(hay, needle, crate::i18n::current().rtl())
 }
 
+/// Lusk PDF : `s` folded for searching: case folded and without accents, so « creer » finds
+/// « Créer un PDF » and « Créer » finds « Create » typed without its accent the other way round.
+pub(crate) fn fold(s: &str) -> String {
+    use unicode_normalization::UnicodeNormalization;
+    pdfcraft_render::text::fold_case(s).nfd().filter(|c| !unicode_normalization::char::is_combining_mark(*c)).collect()
+}
+
 /// Rank logical text, accepting reordered query words for right-to-left locales.
 fn score_for_direction(hay: &str, needle: &str, rtl: bool) -> Option<usize> {
     if needle.is_empty() {
         return Some(0);
     }
-    let h = pdfcraft_render::text::fold_case(hay);
+    let h = fold(hay);
     if let Some(p) = h.find(needle) {
         return Some(p);
     }
@@ -54,7 +61,7 @@ pub fn show(app: &mut PdfCraftApp, ctx: &egui::Context) {
         app.palette_open = false;
         return;
     }
-    let q = pdfcraft_render::text::fold_case(app.palette_query.trim());
+    let q = fold(app.palette_query.trim());
     let mut hits: Vec<(usize, Hit)> = Vec::new();
     let active = app.active_ids().map(|(_, id)| id);
     for spec in pdfcraft_engine::commands::COMMANDS {
@@ -233,26 +240,34 @@ pub fn show(app: &mut PdfCraftApp, ctx: &egui::Context) {
 
 #[cfg(test)]
 mod search {
-    use super::{score, score_for_direction};
-    use pdfcraft_render::text::fold_case;
+    use super::{fold, score, score_for_direction};
 
     /// Word-order tolerance is RTL-only and still requires every requested word.
     #[test]
     fn rtl_palette_queries_accept_reordered_words_without_reversing_text() {
         let label = "تنظيم الصفحات";
-        assert_eq!(score_for_direction(label, &fold_case("الصفحات تنظيم"), true), Some(0));
-        assert_eq!(score_for_direction(label, &fold_case("تنظيم الصفحات"), true), Some(0));
-        assert_eq!(score_for_direction(label, &fold_case("الصفحات مفقود"), true), None);
-        assert_eq!(score_for_direction(label, &fold_case("الصفحات تنظيم"), false), None);
-        assert_eq!(score_for_direction("Organize Pages", &fold_case("Pages Organize"), false), None);
+        assert_eq!(score_for_direction(label, &fold("الصفحات تنظيم"), true), Some(0));
+        assert_eq!(score_for_direction(label, &fold("تنظيم الصفحات"), true), Some(0));
+        assert_eq!(score_for_direction(label, &fold("الصفحات مفقود"), true), None);
+        assert_eq!(score_for_direction(label, &fold("الصفحات تنظيم"), false), None);
+        assert_eq!(score_for_direction("Organize Pages", &fold("Pages Organize"), false), None);
     }
 
     #[test]
     fn commands_match_in_any_case_with_turkish_i() {
-        assert_eq!(score("İçe aktar", &fold_case("içe")), Some(0));
-        assert_eq!(score("Yazdır", &fold_case("YAZDIR")), Some(0));
-        assert_eq!(score("Insert Pages", &fold_case("ınsert")), Some(0));
-        assert_eq!(score("Print", &fold_case("print")), Some(0));
-        assert_eq!(score("Print", &fold_case("zz")), None);
+        assert_eq!(score("İçe aktar", &fold("içe")), Some(0));
+        assert_eq!(score("Yazdır", &fold("YAZDIR")), Some(0));
+        assert_eq!(score("Insert Pages", &fold("ınsert")), Some(0));
+        assert_eq!(score("Print", &fold("print")), Some(0));
+        assert_eq!(score("Print", &fold("zz")), None);
+    }
+
+    /// Lusk PDF : accents don't matter, either way round.
+    #[test]
+    fn french_commands_match_without_accents() {
+        assert_eq!(score("Créer un PDF", &fold("creer")), Some(0));
+        assert_eq!(score("Préférences…", &fold("PREFERENCES")), Some(0));
+        assert_eq!(score("Creer", &fold("créer")), Some(0));
+        assert_eq!(score("Imprimer…", &fold("éxporter")), None);
     }
 }

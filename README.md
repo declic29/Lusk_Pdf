@@ -36,7 +36,11 @@ vos documents ne sont jamais envoyés nulle part.
   protéger par mot de passe, gérer les autorisations, optimiser le poids d'un fichier.
 - **Convertir et imprimer** : export en images, en texte et en Word ; impression en livret ;
   reconnaissance de texte (OCR) pour rendre un scan cherchable.
-- **En français d'abord**, avec l'anglais au choix dans les Préférences.
+- **En français d'abord**, avec l'anglais au choix dans les Préférences ; correcteur
+  d'orthographe français, breton et anglais dans les commentaires et le texte ajouté ; aide
+  complète en français (menu **Aide**), qui fonctionne sans connexion.
+- **OneDrive et Google Drive** : l'Accueil ouvre directement le dossier que ces applications
+  synchronisent, sans que Lusk PDF se connecte à aucun compte.
 
 ## Télécharger et installer
 

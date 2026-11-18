@@ -2607,7 +2607,7 @@ certificate	Public key	Clé publique
 	Rename bookmark	Renommer le signet
 	Rename “{name}”	Renommer « {name} »
 	Renamed to {name}	Renommé en {name}
-	Rendering: hayro (bootstrap) · UI: egui · Icons: Lucide (ISC) · Fonts: Inter, JetBrains Mono, Dancing Script (OFL)	Rendu : hayro (amorçage) · Interface : egui · Icônes : Lucide (ISC) · Polices : Inter, JetBrains Mono, Dancing Script (OFL)
+	Rendering: hayro (bootstrap) · UI: egui · Icons: Lucide (ISC) · Fonts: Inter, JetBrains Mono, Dancing Script (OFL)	Affichage : hayro · Interface : egui · Icônes : Lucide (ISC) · Polices : Inter, JetBrains Mono, Dancing Script (OFL) · Correcteur : dictionnaires Grammalecte et An Drouizig (MPL)
 	Rendering…	Rendu en cours…
 	Reopen Closed Tab	Rouvrir l’onglet fermé
 	Reopen the files that were open when PdfCraft last closed	Rouvrir les fichiers qui étaient ouverts lors de la dernière fermeture de Lusk PDF
@@ -4691,8 +4691,6 @@ review-suggestion	Replacement text	Texte de remplacement
 	This script is too long to edit here ({kib} KiB); its start is shown. It is kept as it is.	Ce script est trop long pour être modifié ici ({kib} Kio) ; seul son début est affiché. Il est gardé tel quel.
 	by	×
 	Write to the Lusk association	Écrire à l'association Lusk
-	Lusk PDF web page	Page web de Lusk PDF
-	Lusk PDF on GitHub	Lusk PDF sur GitHub
 	Lusk website	Site de Lusk
 	A free PDF workbench by the Lusk association, adapted from PdfCraft (ArtCraft Team). MIT OR Apache-2.0.	Un atelier PDF libre et gratuit de l'association Lusk, adapté de PdfCraft (ArtCraft Team). Licence MIT ou Apache 2.0.
 	By the Lusk association (loi 1901) · www.lusk.bzh	Par l'association Lusk (loi 1901) · www.lusk.bzh
@@ -4711,9 +4709,72 @@ review-suggestion	Replacement text	Texte de remplacement
 	{service} is not installed on this computer.	{service} n'est pas installé sur cet ordinateur.
 	Open a document from your {service} space ({dir})	Ouvrir un document de votre espace {service} ({dir})
 	Lusk PDF updates	Mises à jour de Lusk PDF
-	Installed version: {v}	Version installée : {v}
 	To check, Lusk PDF only asks GitHub (github.com/declic29/Lusk_Pdf) for the latest version. Nothing about you or your documents is sent, and an update is installed only if you accept it.	Pour vérifier, Lusk PDF demande seulement à GitHub (github.com/declic29/Lusk_Pdf) quelle est la dernière version. Rien sur vous ni sur vos documents n'est envoyé, et une mise à jour ne s'installe que si vous l'acceptez.
 	The web version is always up to date.	La version web est toujours à jour.
 	Lusk PDF Help	Aide de Lusk PDF
 	Your data and your privacy	Vos données et votre vie privée
 	Lusk PDF works offline: no account, no telemetry, and your documents are never sent anywhere. Only the update check asks GitHub for the latest version.	Lusk PDF fonctionne sans connexion : pas de compte, pas de mesure d'audience, et vos documents ne sont jamais envoyés. Seule la recherche des mises à jour demande à GitHub la dernière version.
+	v{from} to {to}	v{from} vers {to}
+	Downloading and installing update…	Téléchargement et installation de la mise à jour…
+	{app} {version} is available with the latest features and bug fixes.	{app} {version} est disponible, avec les dernières nouveautés et corrections.
+	What's new	Nouveautés
+	Restart to Update	Redémarrer pour mettre à jour
+	Update and Restart	Mettre à jour et redémarrer
+	by {developer}	par {developer}
+	Checking for updates…	Recherche des mises à jour…
+	Installing update…	Installation de la mise à jour…
+	Update ready. Close {app} to install it.	La mise à jour est prête. Fermez {app} pour l'installer.
+	The update is installed. Close {app} to finish; it restarts by itself.	La mise à jour est installée. Fermez {app} pour terminer ; il redémarrera tout seul.
+	{app} updated to {version}.	{app} a été mis à jour en version {version}.
+	The update could not be installed: {reason}	La mise à jour n'a pas pu être installée : {reason}
+	{app} {version} is the newest version available.	{app} {version} est la version la plus récente.
+	Could not check for updates.	Impossible de rechercher les mises à jour.
+	All releases are listed at {url}	Toutes les versions sont sur {url}
+	Cannot auto-update this installation type. Please download manually.	Ce type d'installation ne se met pas à jour tout seul. Téléchargez la nouvelle version vous-même.
+	Close {app} to finish	Fermez {app} pour terminer
+	Close {app}	Fermer {app}
+	Couldn't start the update ({error})	Impossible de lancer la mise à jour ({error})
+	Save or close your open work first; the update restarts the app.	Enregistrez ou fermez d'abord vos documents : la mise à jour redémarre l'application.
+	The update failed unexpectedly.	La mise à jour a échoué de façon inattendue.
+	The update stopped unexpectedly.	La mise à jour s'est arrêtée de façon inattendue.
+	A CMap maps a character code to a CID above 65535	Une CMap associe un code de caractère à un CID supérieur à 65535
+	A graphics state has a halftone phase (HTP)	Un état graphique a une phase de trame (HTP)
+	A graphics state has a rendering intent that isn't a name	Un état graphique a une intention de rendu qui n'est pas un nom
+	A graphics state has a transfer function (TR)	Un état graphique a une fonction de transfert (TR)
+	A graphics state has a transfer function (TR2) other than Default	Un état graphique a une fonction de transfert (TR2) autre que Default
+	A graphics state has the rendering intent {}, which isn't a standard one	Un état graphique a l'intention de rendu {}, qui n'est pas standard
+	A graphics state uses the blend mode {}, which ISO 32000-1 doesn't define	Un état graphique utilise le mode de fusion {}, que l'ISO 32000-1 ne définit pas
+	A halftone has a HalftoneName	Une trame a un HalftoneName
+	A halftone has a transfer function, which only a non-primary colorant's halftone may have	Une trame a une fonction de transfert, que seule la trame d'un colorant non primaire peut avoir
+	A halftone has type {}: only types 1 and 5 are allowed	Une trame est de type {} : seuls les types 1 et 5 sont admis
+	A halftone's HalftoneType is missing or isn't an integer	Le HalftoneType d'une trame manque ou n'est pas un entier
+	A name is longer than 127 bytes	Un nom dépasse 127 octets
+	A real number is outside ±3.403 × 10³⁸, or nonzero but within ±1.175 × 10⁻³⁸	Un nombre réel sort de ±3,403 × 10³⁸, ou n'est pas nul mais reste dans ±1,175 × 10⁻³⁸
+	A string is longer than 32767 bytes	Une chaîne dépasse 32767 octets
+	Add 3D model	Ajouter un modèle 3D
+	An integer is outside the 32-bit range	Un entier sort de la plage des 32 bits
+	Edit attachment description	Modifier la description de la pièce jointe
+	Import bookmarks	Importer des signets
+	Metadata stream {object} writes the namespace {namespace} with the prefix {written}, not {prefix}	Le flux de métadonnées {object} écrit l'espace de noms {namespace} avec le préfixe {written}, et non {prefix}
+	Metadata stream {object} writes the namespace {namespace} without a prefix, not with {prefix}	Le flux de métadonnées {object} écrit l'espace de noms {namespace} sans préfixe, et non avec {prefix}
+	Page {} has a boundary smaller than 3 or larger than 14400 units	La page {} a un cadre plus petit que 3 ou plus grand que 14400 unités
+	Page {} has transparency but no device-independent blending colour space or PDF/A output intent	La page {} a de la transparence mais ni espace colorimétrique de fusion indépendant du périphérique, ni intention de sortie PDF/A
+	Prepare grouped text	Préparer le texte groupé
+	Separation colour spaces named {} differ in their alternate space or tint transform	Les espaces colorimétriques Separation nommés {} diffèrent par leur espace de substitution ou leur transformation de teinte
+	Some content could not be read for device colour	Une partie du contenu n'a pas pu être lue pour la couleur du périphérique
+	The XMP extension schema container in metadata stream {object} holds no rdf:Bag	Le conteneur des schémas d'extension XMP du flux de métadonnées {object} ne contient aucun rdf:Bag
+	The XMP extension schema container in metadata stream {object} holds {found}, not one rdf:Bag	Le conteneur des schémas d'extension XMP du flux de métadonnées {object} contient {found}, et non un seul rdf:Bag
+	The XMP extension schema {schema} in metadata stream {object} describes {item} with an empty {entry} entry	Le schéma d'extension XMP {schema} du flux de métadonnées {object} décrit {item} avec une entrée {entry} vide
+	The XMP extension schema {schema} in metadata stream {object} describes {item} without a {entry} entry	Le schéma d'extension XMP {schema} du flux de métadonnées {object} décrit {item} sans entrée {entry}
+	The XMP extension schema {schema} in metadata stream {object} has an empty {entry} entry	Le schéma d'extension XMP {schema} du flux de métadonnées {object} a une entrée {entry} vide
+	The XMP extension schema {schema} in metadata stream {object} has no {entry} entry	Le schéma d'extension XMP {schema} du flux de métadonnées {object} n'a pas d'entrée {entry}
+	The XMP property {property} in metadata stream {object} should have the value type {type}	La propriété XMP {property} du flux de métadonnées {object} devrait avoir le type de valeur {type}
+	The XMP property {property} in metadata stream {object}, written {written}, should have the value type {type}	La propriété XMP {property} du flux de métadonnées {object}, écrite {written}, devrait avoir le type de valeur {type}
+	The file doesn't start with a %PDF-1.0 to %PDF-1.7 header line	Le fichier ne commence pas par une ligne d'en-tête %PDF-1.0 à %PDF-1.7
+	The file header isn't followed by a comment of four bytes above 127	L'en-tête du fichier n'est pas suivi d'un commentaire de quatre octets supérieurs à 127
+	The file identifier (ID) in the trailer isn't two non-empty strings	L'identifiant du fichier (ID) dans le trailer n'est pas formé de deux chaînes non vides
+	The halftone for the colorant {} has no transfer function	La trame du colorant {} n'a pas de fonction de transfert
+	The spot colour {} of a DeviceN colour space isn't in its Colorants dictionary	La couleur d'accompagnement {} d'un espace colorimétrique DeviceN n'est pas dans son dictionnaire Colorants
+	The trailer has no file identifier (ID)	Le trailer n'a pas d'identifiant de fichier (ID)
+	This signature carries certification permissions, but the document does not name it as its certification, so it is checked as an approval signature.	Cette signature porte des autorisations de certification, mais le document ne la désigne pas comme sa certification : elle est donc vérifiée comme une signature d'approbation.
+	the range selects more than {limit} pages	la plage sélectionne plus de {limit} pages

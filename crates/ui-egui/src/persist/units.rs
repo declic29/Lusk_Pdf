@@ -56,7 +56,8 @@ impl Unit {
     /// start, before the user picks one in Preferences.
     pub fn system() -> Unit {
         static SYSTEM: std::sync::OnceLock<Unit> = std::sync::OnceLock::new();
-        *SYSTEM.get_or_init(|| detect().unwrap_or_default())
+        // Lusk PDF : millimetres when the region can't be told, as in France (PdfCraft said inches).
+        *SYSTEM.get_or_init(|| detect().unwrap_or(Unit::Millimetres))
     }
 
     /// A page size given in points, e.g. "210.0 × 297.0 mm".

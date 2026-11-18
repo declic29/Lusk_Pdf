@@ -2578,7 +2578,7 @@ licence = "MIT OR Apache-2.0"
 licence_file = "LICENSE-MIT"
 kind = "data"
 usage = "Interface en français, intégrée par crates/ui-egui/build.rs"
-sha256 = "a4b2612df03c970693e7a2933b8eea7d5e3b24a66282824b7308bc7c7bb65810"
+sha256 = "c4a456d059a976439f42a8b0c105e174d86e81762ece6322dd65af850a0d7c72"
 
 [[asset]]
 path = "assets/dictionaries/fr/fr_FR.aff"

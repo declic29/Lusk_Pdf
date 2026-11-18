@@ -12,6 +12,15 @@ use crate::PdfCraftApp;
 /// Where every PdfCraft release is listed.
 pub const RELEASES_PAGE: &str = "https://github.com/declic29/Lusk_Pdf/releases";
 
+/// Lusk PDF : les fenêtres de mise à jour dans la langue de l'interface (comme Lusk Tab). Leurs
+/// textes anglais sont les clés du catalogue (`i18n/locales/fr/pdfcraft.tsv`).
+#[cfg(not(target_arch = "wasm32"))]
+pub(crate) fn translate(text: &str, args: &[(&str, &str)]) -> String {
+    #[cfg(test)]
+    tests::record(text);
+    craft_update::translate::fill(tl!(text), args)
+}
+
 /// Stands in for the network in tests.
 #[cfg(not(target_arch = "wasm32"))]
 pub type UpdateSource = CheckSource;
@@ -55,7 +64,7 @@ impl Default for Updates {
     fn default() -> Self {
         Self {
             #[cfg(not(target_arch = "wasm32"))]
-            updater: Updater::new(&crate::UPDATE_APP, env!("CARGO_PKG_VERSION")),
+            updater: Updater::new(&crate::UPDATE_APP, env!("CARGO_PKG_VERSION")).with_translator(translate),
             open: false,
             #[cfg(not(target_arch = "wasm32"))]
             startup_check: false,
@@ -119,7 +128,7 @@ impl PdfCraftApp {
     /// Replaces the network with `source` (tests).
     #[cfg(not(target_arch = "wasm32"))]
     pub fn set_update_source(&mut self, source: UpdateSource) {
-        self.updates.updater = Updater::new(&crate::UPDATE_APP, env!("CARGO_PKG_VERSION")).with_source(source);
+        self.updates.updater = Updater::new(&crate::UPDATE_APP, env!("CARGO_PKG_VERSION")).with_translator(translate).with_source(source);
     }
 
     /// Help ▸ Check for updates: ask for the latest release and show the outcome.
@@ -171,7 +180,7 @@ pub(crate) fn dialog(app: &mut PdfCraftApp, ctx: &egui::Context) {
             app.updates.open = false;
         }
         if app.updates.open {
-            let dialog = CheckResultDialog::new(&crate::UPDATE_APP, env!("CARGO_PKG_VERSION"));
+            let dialog = CheckResultDialog::new(&crate::UPDATE_APP, env!("CARGO_PKG_VERSION")).with_translator(translate);
             let response = dialog.show(ctx, app.updates.updater.status());
             answer_result(app, ctx, response);
         }
@@ -215,6 +224,59 @@ fn restart_to_update(app: &mut PdfCraftApp, ctx: &egui::Context) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Every English text the update windows asked [`translate`] for, while recording.
+    static SEEN: std::sync::Mutex<Option<std::collections::BTreeSet<String>>> = std::sync::Mutex::new(None);
+
+    pub(super) fn record(text: &str) {
+        if let Some(seen) = SEEN.lock().unwrap_or_else(std::sync::PoisonError::into_inner).as_mut() {
+            seen.insert(text.to_owned());
+        }
+    }
+
+    /// Lusk PDF : every text of the update windows (each result of Check for updates, and the
+    /// prompt that offers a new version) has its French translation. `LUSK_UPDATE_SHOTS=<folder>`
+    /// also saves a picture of each, in French.
+    #[test]
+    fn the_update_windows_are_in_french() {
+        use craft_update::dialog::StartupPrompt;
+        use craft_update::release::Release;
+        *SEEN.lock().unwrap() = Some(Default::default());
+        let shots = std::env::var_os("LUSK_UPDATE_SHOTS").map(PathBuf::from);
+        let states: [(&str, Option<Status>); 6] = [
+            ("recherche", Some(Status::Checking)),
+            ("a-jour", Some(Status::UpToDate)),
+            ("echec", Some(Status::Failed("délai dépassé".into()))),
+            ("installation", Some(Status::Installing)),
+            ("prete", Some(Status::Ready)),
+            ("proposition", None),
+        ];
+        for (name, status) in states {
+            let dialog = CheckResultDialog::new(&crate::UPDATE_APP, "0.21.1").with_translator(translate);
+            let release =
+                Release { version: craft_update::version::parse("1.0.0"), tag: "v1.0.0".into(), notes: "Nouveautés".into(), ..Release::default() };
+            let mut prompt = StartupPrompt::new(&crate::UPDATE_APP, release, "0.21.1").with_translator(translate);
+            let mut h = egui_kittest::Harness::builder().with_size(egui::vec2(620.0, 420.0)).build_ui(|ui| match &status {
+                Some(status) => {
+                    dialog.show(ui.ctx(), status);
+                }
+                None => {
+                    prompt.show(ui.ctx());
+                }
+            });
+            h.run_steps(4);
+            if let Some(dir) = &shots {
+                std::fs::create_dir_all(dir).unwrap();
+                h.render().unwrap().save(dir.join(format!("maj-{name}.png"))).unwrap();
+            }
+        }
+        let seen = SEEN.lock().unwrap().take().unwrap();
+        assert!(seen.len() > 5, "the windows were drawn: {seen:?}");
+        let fr = crate::i18n::Lang::from_code("fr").unwrap();
+        // « OK » is the same word in French.
+        let missing: Vec<&String> = seen.iter().filter(|k| k.as_str() != "OK" && crate::i18n::tr(fr, k) == k.as_str()).collect();
+        assert!(missing.is_empty(), "update texts without French: {missing:#?}");
+    }
     use crate::CloseRequest;
     use crate::editing::SaveTarget;
     use eframe::App as _;
