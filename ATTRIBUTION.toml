@@ -2908,7 +2908,7 @@ licence = "ISC AND (MIT OR Apache-2.0)"
 licence_file = "assets/app-icon/LICENSE-document.txt"
 kind = "icon"
 usage = "Master artwork for the Windows PDF file type icon; rendered by packaging/icons.py, without fonts or external images"
-sha256 = "c1846603c49dc4a451c5c92ce9cc9e38ad3136b40b86f64c6644ce54750c96e4"
+sha256 = "ab93d5e788f5b5b91741200d62ed9ac2cbe8aeb00c1468ec8b39fd1e58791e2c"
 
 [[asset]]
 path = "assets/app-icon/pdfcraft-document.ico"
@@ -3326,7 +3326,7 @@ licence = "LicenseRef-Lusk-Trademark"
 licence_file = "assets/app-icon/LICENSE-lusk.txt"
 kind = "image"
 usage = "TIFF HiDPI 1x + 2x (palette de 256 couleurs) copié dans le DMG macOS par packaging/macos/package.sh ; contient l'icône de Lusk PDF, le renard de Lusk et le profil sRGB intégré libre de LittleCMS"
-sha256 = "544d3657b0ea012c6374864deca4dc094c081abeaceaf6f7f67d55f3f0bd5b25"
+sha256 = "d13bd4023cd8a5a9eb63ccf495ccae006c25b915e6688f860c0b86a49ba42148"
 
 [[asset]]
 path = "packaging/windows/images/banner.bmp"
