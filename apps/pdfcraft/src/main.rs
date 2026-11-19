@@ -214,6 +214,17 @@ fn main() -> eframe::Result {
     if let Some(result) = craft_update::self_update::finish(&pdfcraft_ui_egui::UPDATE_APP, &std::env::args_os().skip(1).collect::<Vec<_>>()) {
         std::process::exit(i32::from(result.is_err()));
     }
+    // Lusk PDF : le processus de l'écran d'accueil (`splash_window::show`) n'affiche que lui. Avant
+    // le journal, qu'il ne doit pas faire tourner : la fenêtre de travail l'a déjà ouvert.
+    if splash_window::is_child(std::env::args_os().nth(1).as_deref()) {
+        let renderer = if renderer_choice(std::env::var("PDFCRAFT_RENDERER").ok().as_deref()) == RendererChoice::Gl {
+            eframe::Renderer::Glow
+        } else {
+            eframe::Renderer::Wgpu
+        };
+        splash_window::run(renderer, APP_ID, APP_ICON_PNG);
+        std::process::exit(0);
+    }
     // First, so the panic hook and every start-up warning are recorded (`logging`).
     let logger = logging::install();
     if let Some(value) = pdfcraft_platform::crypto_env::dropped() {
@@ -284,9 +295,10 @@ fn main() -> eframe::Result {
     // Set once the app is created, which is after the renderer has started.
     let started = Rc::new(Cell::new(false));
     let first = if choice == RendererChoice::Gl { eframe::Renderer::Glow } else { eframe::Renderer::Wgpu };
-    // Lusk PDF : l'écran d'accueil, dans sa propre petite fenêtre, avant la fenêtre de travail.
+    // Lusk PDF : l'écran d'accueil, dans sa propre petite fenêtre et son propre processus, avant la
+    // fenêtre de travail.
     if splash_window::wanted(launch.control_file.is_some(), std::env::var_os("LUSK_NO_SPLASH").is_some()) {
-        splash_window::run(first, APP_ID, APP_ICON_PNG);
+        splash_window::show();
     }
     let result = eframe::run_native(
         "PdfCraft",

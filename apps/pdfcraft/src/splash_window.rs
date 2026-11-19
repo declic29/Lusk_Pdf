@@ -5,6 +5,14 @@
 //! Elle n'utilise pas les préférences : la fenêtre de travail garde sa taille et sa place.
 //! Si elle ne peut pas s'ouvrir (pas de carte graphique, pas d'écran), l'application démarre
 //! quand même, sans écran d'accueil.
+//!
+//! Elle s'ouvre dans un **processus à part** (ce programme relancé avec `--lusk-splash`), que la
+//! fenêtre de travail attend : sous Windows, avec certains pilotes graphiques (Intel UHD), ouvrir
+//! cette fenêtre puis la fenêtre de travail dans le même processus arrêtait Lusk PDF net
+//! (0xc0000005) avant qu'il ne s'affiche. Ce qui arrive à l'écran d'accueil ne touche plus
+//! l'application : au pire, elle démarre sans lui.
+
+use std::time::{Duration, Instant};
 
 use pdfcraft_ui_egui::splash::{SIZE, Splash};
 
@@ -38,7 +46,47 @@ impl eframe::App for SplashApp {
     }
 }
 
-/// Shows the start-up screen and returns once it has finished (or couldn't show).
+/// The argument that makes this program show only the start-up screen, then exit.
+pub const CHILD_ARG: &str = "--lusk-splash";
+
+/// Whether this process was started to show the start-up screen (its first argument).
+pub fn is_child(first_arg: Option<&std::ffi::OsStr>) -> bool {
+    first_arg.is_some_and(|a| a == CHILD_ARG)
+}
+
+/// The longest the work window waits for the start-up screen (it lasts a few seconds).
+const WAIT: Duration = Duration::from_secs(20);
+
+/// Shows the start-up screen in its own process and returns once it has ended, however it ended:
+/// finished, failed or crashed. A screen still open after [`WAIT`] is closed.
+pub fn show() {
+    let exe = match std::env::current_exe() {
+        Ok(exe) => exe,
+        Err(e) => return log::warn!("écran d'accueil non affiché : {e}"),
+    };
+    let mut child = match std::process::Command::new(exe).arg(CHILD_ARG).spawn() {
+        Ok(child) => child,
+        Err(e) => return log::warn!("écran d'accueil non affiché : {e}"),
+    };
+    let start = Instant::now();
+    loop {
+        match child.try_wait() {
+            Ok(Some(status)) if status.success() => return,
+            Ok(Some(status)) => return log::warn!("écran d'accueil arrêté ({status}) ; Lusk PDF démarre sans lui"),
+            Ok(None) if start.elapsed() < WAIT => std::thread::sleep(Duration::from_millis(30)),
+            Ok(None) => {
+                log::warn!("écran d'accueil toujours ouvert après {} s : refermé", WAIT.as_secs());
+                let _ = child.kill();
+                let _ = child.wait();
+                return;
+            }
+            Err(e) => return log::warn!("écran d'accueil : {e}"),
+        }
+    }
+}
+
+/// Shows the start-up screen and returns once it has finished (or couldn't show). Runs in the
+/// process [`show`] starts.
 pub fn run(renderer: eframe::Renderer, app_id: &str, icon: &[u8]) {
     let mut viewport = egui::ViewportBuilder::default()
         .with_title("Lusk PDF")
@@ -87,5 +135,14 @@ mod tests {
         assert!(!wanted(true, false), "never with the control channel");
         assert!(!wanted(false, true), "never with LUSK_NO_SPLASH");
         assert_eq!(wanted(false, false), !cfg!(target_os = "macos"));
+    }
+
+    #[test]
+    fn only_the_splash_argument_starts_the_splash_process() {
+        use std::ffi::OsStr;
+        assert!(is_child(Some(OsStr::new("--lusk-splash"))));
+        assert!(!is_child(None));
+        assert!(!is_child(Some(OsStr::new("document.pdf"))));
+        assert!(!is_child(Some(OsStr::new("--lusk-splash=1"))));
     }
 }
