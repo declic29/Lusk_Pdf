@@ -86,6 +86,8 @@ pdfcraft-automation = { path = "crates/automation", version = "0.21.0", default-
 pdfcraft-prc = { package = "craft-prc", git = "https://github.com/storytold/craft-libs", version = "0.1.0", rev = "e2dc681a3" }
 craft-prc = { git = "https://github.com/storytold/craft-libs", version = "0.1.0", rev = "e2dc681a3" }
 pdfcraft-prc-render = { path = "crates/prc-render", version = "0.21.0" }
+# Lusk PDF : le correcteur d'orthographe de Lusk Texte (crates/proof).
+lusk-proof = { path = "crates/proof", version = "0.21.0" }
 
 # pdf
 hayro = "0.7.1"

@@ -24,7 +24,7 @@ pdfcraft-fonts = { workspace = true }
 # Lusk PDF : l'image de fond et le logo de l'écran d'accueil (src/splash.rs).
 image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
 # Lusk PDF : le correcteur d'orthographe de Lusk Texte (src/spelling.rs).
-lusk-proof = { path = "../proof" }
+lusk-proof = { workspace = true }
 # Lusk PDF : la palette de commandes cherche sans tenir compte des accents (dialogs/palette.rs).
 unicode-normalization = "0.1"
 pdfcraft-engine = { workspace = true }

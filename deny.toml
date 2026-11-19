@@ -62,6 +62,11 @@ ignore = [
     { id = "RUSTSEC-2026-0370", reason = "zvariant unmaintained; Linux a11y stack via accesskit_unix" },
     { id = "RUSTSEC-2026-0371", reason = "zbus_names unmaintained; Linux a11y stack via accesskit_unix" },
     { id = "RUSTSEC-2026-0372", reason = "zvariant_derive unmaintained; Linux a11y stack via accesskit_unix" },
+    # chrono is unmaintained (no vulnerability, and no fixed release: every version is listed). The
+    # Craft house rules send all calendar work through chrono, and it reaches the tree through the
+    # shared craft-libs crates (craft-mime, craft-pdf); moving off it is a decision for every Craft
+    # app together, not for this one.
+    { id = "RUSTSEC-2026-0543", reason = "chrono unmaintained; required by the Craft time rule, used through craft-libs" },
 ]
 
 # egui's default UI fonts (Ubuntu-Light, Hack, emoji-icon-font): font licences on the AGENTS.md
