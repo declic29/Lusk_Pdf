@@ -1,5 +1,5 @@
-//! Community links (Lusk PDF): the contact button is one click away everywhere; Help menu, About
-//! dialog and home screen open the Lusk association's pages.
+//! Community links (Lusk PDF): the top bar's button opens lusk.bzh from everywhere; the Help menu
+//! and the About dialog open the Lusk association's pages.
 
 use egui_kittest::Harness;
 use egui_kittest::kittest::Queryable;
@@ -18,41 +18,21 @@ fn harness(setup: impl FnOnce(&mut PdfCraftApp) + 'static) -> Harness<'static, P
 }
 
 #[test]
-fn contact_button_in_the_top_bar_writes_to_the_association() {
+fn the_top_bar_button_opens_the_lusk_website() {
     let mut h = harness(|_| {});
-    h.get_by_label("Contact Lusk").click();
+    h.get_by_label("Search on lusk.bzh").click();
     h.run_steps(2);
-    assert_eq!(h.state().last_opened_url.as_deref(), Some(links::DISCORD));
-    assert_eq!(links::DISCORD, "mailto:contact@lusk.bzh");
+    assert_eq!(h.state().last_opened_url.as_deref(), Some("https://www.lusk.bzh"));
+    assert_eq!(links::WEBSITE, "https://www.lusk.bzh");
 }
 
+/// Lusk PDF : l'accueil n'a plus de carte de l'association (ses liens restent dans À propos et le
+/// menu Aide).
 #[test]
-fn home_screen_links() {
-    for (label, url) in [
-        ("Write to the Lusk association", links::DISCORD),
-        ("Lusk PDF web page", "https://www.lusk.bzh"),
-        ("Lusk PDF on GitHub", "https://github.com/declic29/Lusk_Pdf"),
-        ("Lusk website", "https://www.lusk.bzh"),
-    ] {
-        let mut h = harness(|_| {});
-        h.get_by_label("Lusk PDF, by the Lusk association");
-        h.get_by_label(label).click();
-        h.run_steps(2);
-        assert_eq!(h.state().last_opened_url.as_deref(), Some(url), "{label}");
-    }
-}
-
-#[test]
-fn home_community_card_closes_for_this_run() {
-    let mut h = harness(|_| {});
-    h.get_by_label("Lusk PDF, by the Lusk association");
-    h.get_by_label("Close").click();
-    h.run_steps(2);
-    assert!(h.state().community_card_closed);
+fn the_home_screen_has_no_community_card() {
+    let h = harness(|_| {});
     assert!(h.query_by_label("Lusk PDF, by the Lusk association").is_none());
     assert!(h.query_by_label("Write to the Lusk association").is_none());
-    // Not remembered: a fresh app shows the card again.
-    assert!(!PdfCraftApp::new().community_card_closed);
 }
 
 #[test]

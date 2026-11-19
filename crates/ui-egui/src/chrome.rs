@@ -273,9 +273,9 @@ pub fn tab_strip(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
                     if icons::button(ui, "circle-help", button, false, tl!("Keyboard shortcuts")).clicked() {
                         app.dialog = Some(Dialog::Shortcuts);
                     }
-                    // Lusk PDF : un clic pour écrire à l'association, de partout dans l'application.
-                    if icons::button(ui, "send", button, false, tl!("Contact Lusk")).clicked() {
-                        app.execute("help.discord");
+                    // Lusk PDF : un clic pour ouvrir le site de l'association, de partout dans l'application.
+                    if icons::button(ui, "send", button, false, tl!("Search on lusk.bzh")).clicked() {
+                        app.execute("help.website");
                     }
                 });
             });
