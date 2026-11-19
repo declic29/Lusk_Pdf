@@ -61,19 +61,19 @@
          is removed. Releases from before a menu existed (the PDF one came in 0.7.1, the image one in
          0.4.0) never had the key, so updating from one of them counts as a first install; the
          OnlyDetect rows below tell them apart. A value given on the command line wins.
-         Lusk PDF : every release has both menus, from the first one (1.0.0). -->
+         Lusk PDF : every release has both menus, from the first one (1.0.0), so one row detects
+         them both (two identical rows would be the same Upgrade key, which WiX refuses). -->
     <Upgrade Id="DF1BDDAB-0D5E-4E20-B858-F4C287CE1576">
-      <UpgradeVersion Minimum="1.0.0" IncludeMinimum="yes" OnlyDetect="yes" Property="PDFCONTEXTMENURELEASE" />
-      <UpgradeVersion Minimum="1.0.0" IncludeMinimum="yes" OnlyDetect="yes" Property="IMAGECONTEXTMENURELEASE" />
+      <UpgradeVersion Minimum="1.0.0" IncludeMinimum="yes" OnlyDetect="yes" Property="LUSKMENURELEASE" />
     </Upgrade>
     <Property Id="INSTALLPDFCONTEXTMENU" Secure="yes" />
     <Property Id="EXISTINGPDFCONTEXTMENU" Secure="yes">
       </Property>
-    <SetProperty Id="INSTALLPDFCONTEXTMENU" Value="1" After="CraftLoadOption2U" Sequence="first" Condition="NOT INSTALLPDFCONTEXTMENU AND (NOT PDFCONTEXTMENURELEASE OR EXISTINGPDFCONTEXTMENU)" />
+    <SetProperty Id="INSTALLPDFCONTEXTMENU" Value="1" After="CraftLoadOption2U" Sequence="first" Condition="NOT INSTALLPDFCONTEXTMENU AND (NOT LUSKMENURELEASE OR EXISTINGPDFCONTEXTMENU)" />
     <Property Id="INSTALLIMAGECONTEXTMENU" Secure="yes" />
     <Property Id="EXISTINGIMAGECONTEXTMENU" Secure="yes">
       </Property>
-    <SetProperty Id="INSTALLIMAGECONTEXTMENU" Value="1" After="CraftLoadOption2U" Sequence="first" Condition="NOT INSTALLIMAGECONTEXTMENU AND (NOT IMAGECONTEXTMENURELEASE OR EXISTINGIMAGECONTEXTMENU)" />
+    <SetProperty Id="INSTALLIMAGECONTEXTMENU" Value="1" After="CraftLoadOption2U" Sequence="first" Condition="NOT INSTALLIMAGECONTEXTMENU AND (NOT LUSKMENURELEASE OR EXISTINGIMAGECONTEXTMENU)" />
     <UIRef Id="PdfcraftInstallerUI" />
 
     <StandardDirectory Id="ProgramFiles6432Folder">
