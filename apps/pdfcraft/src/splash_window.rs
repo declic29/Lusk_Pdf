@@ -86,8 +86,10 @@ pub fn show() {
 }
 
 /// Shows the start-up screen and returns once it has finished (or couldn't show). Runs in the
-/// process [`show`] starts.
-pub fn run(renderer: eframe::Renderer, app_id: &str, icon: &[u8]) {
+/// process [`show`] starts. `configure_gpu` is the work window's own GPU set-up (which
+/// graphics backends, which GPU): without it, wgpu could pick Vulkan on Windows, which crashed
+/// this window on an Intel UHD (0xc0000005) while the work window, on Direct3D 12, was fine.
+pub fn run(renderer: eframe::Renderer, app_id: &str, icon: &[u8], configure_gpu: fn(&mut eframe::NativeOptions)) {
     let mut viewport = egui::ViewportBuilder::default()
         .with_title("Lusk PDF")
         .with_decorations(false)
@@ -105,12 +107,10 @@ pub fn run(renderer: eframe::Renderer, app_id: &str, icon: &[u8]) {
     // Its own throwaway settings file, never the app's: nothing of this window is kept.
     let persistence_path = Some(std::env::temp_dir().join("lusk-pdf-accueil.ron"));
     let mut options = eframe::NativeOptions { viewport, centered: true, renderer, persist_window: false, persistence_path, ..Default::default() };
-    // DirectX 12 shows a transparent window only through DirectComposition.
-    #[cfg(target_os = "windows")]
-    if std::env::var_os("WGPU_DX12_PRESENTATION_SYSTEM").is_none()
-        && let eframe::egui_wgpu::WgpuSetup::CreateNew(create) = &mut options.wgpu_options.wgpu_setup
-    {
-        create.instance_descriptor.backend_options.dx12.presentation_system = eframe::wgpu::Dx12SwapchainKind::DxgiFromVisual;
+    // The same backends and GPU as the work window. On Windows that is Direct3D 12 presenting
+    // through DirectComposition, which is also what shows a transparent window.
+    if matches!(renderer, eframe::Renderer::Wgpu) {
+        configure_gpu(&mut options);
     }
     options.system_font_fallback = false;
     let result = eframe::run_native(

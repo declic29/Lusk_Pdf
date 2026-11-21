@@ -222,7 +222,7 @@ fn main() -> eframe::Result {
         } else {
             eframe::Renderer::Wgpu
         };
-        splash_window::run(renderer, APP_ID, APP_ICON_PNG);
+        splash_window::run(renderer, APP_ID, APP_ICON_PNG, configure_gpu);
         std::process::exit(0);
     }
     // First, so the panic hook and every start-up warning are recorded (`logging`).
