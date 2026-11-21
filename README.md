@@ -16,9 +16,6 @@
   <a href="https://github.com/declic29/Lusk_Pdf/issues">Signaler un problème</a>
 </p>
 
-> Lusk PDF est en cours de préparation : la première version publique sera la 1.0.0. Les liens de
-> téléchargement ci-dessous fonctionneront dès sa publication.
-
 ## Lusk PDF en bref
 
 Lusk PDF ouvre, lit et modifie les fichiers PDF, sous Windows, macOS et Linux. Il fonctionne

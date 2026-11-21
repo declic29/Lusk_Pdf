@@ -59,7 +59,7 @@ Claude de Philippe. État au 18 novembre 2026.
   de Lusk Diapo) ; ligne Lusk dans LICENSE-MIT. Logo et image source de l'icône ajoutés, avec
   leurs entrées dans `ATTRIBUTION.toml` (ATTRIBUTION.md régénéré par `cargo xtask assets
   --write`). Gardés pour l'instant : `ci.yml`, `packaging-lint.yml`, `release.yml` (remplacé à
-  l'étape Publication), `AGENTS.md` (règles techniques et politique des images, sur lesquelles
+  l'étape Publication, le 21 novembre), `AGENTS.md` (règles techniques et politique des images, sur lesquelles
   s'appuie `cargo xtask assets`), les marques ArtCraft et les contributeurs (retirés à l'étape
   Marque, avec le code qui les affiche).
 
@@ -162,6 +162,14 @@ Claude de Philippe. État au 18 novembre 2026.
   - Test : `the_updater_reads_the_names_of_the_lusk_pdf_packages` vérifie que la mise à jour
     reconnaît chaque fichier publié.
   - Pas repris : Flatpak et FreeBSD (hors publication Lusk), qui gardent les noms PdfCraft.
+
+- 21 novembre 2026, **publication (étape 9)** : `release.yml` devient le workflow « Publication »
+  de Lusk (repris de Lusk Diapo), sur étiquette `v*` ou à la main : Windows x64 (.msi et
+  portable), macOS universel (.dmg, machine `macos-15` gratuite) et Linux x86_64 (AppImage, .deb,
+  .rpm, .tar.gz), empreintes et Release en brouillon avec les copies aux noms courts du README. Il
+  ne passe plus par les workflows partagés de storytold (macOS sur `macos-15-xlarge` payant, et
+  Linux arrêté depuis le 20 novembre par `rust-channel`, qui demande Python 3.11). Version 1.0.0.
+  Le dépôt est public (« Leave fork network », puis « Change visibility »).
 
 ## À savoir
 

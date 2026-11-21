@@ -1,5 +1,12 @@
 # Releasing PdfCraft
 
+> **Lusk PDF.** Ce qui suit décrit la publication de PdfCraft d'origine, qui n'est plus utilisée.
+> Lusk PDF se publie avec son propre workflow « Publication » (`.github/workflows/release.yml`,
+> repris de Lusk Texte) : augmenter la version du `Cargo.toml` (et `Cargo.lock`), pousser, puis
+> poser l'étiquette `v<version>`. Le workflow fabrique Windows x64, macOS universel et Linux
+> x86_64 et prépare une Release en brouillon ; on teste le brouillon, puis « Publish release ».
+> Le mode d'emploi complet est en tête de ce workflow.
+
 Every push to the `release` branch runs `.github/workflows/release.yml`. It builds installers for
 macOS, Windows, Linux, FreeBSD and the web, signs the ones it has certificates for, and creates or
 updates a **draft** GitHub Release named `PdfCraft v<version>`. Nobody sees a draft until a
