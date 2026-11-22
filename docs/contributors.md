@@ -1,3 +1,5 @@
+> **Lusk PDF.** La fenêtre À propos de Lusk PDF n'a plus les onglets Contributeurs et Modèles : elle garde seulement À propos et Mises à jour. Ce qui suit décrit PdfCraft d'origine.
+
 # Contributors in the About window
 
 **About ▸ Contributors** credits everyone who contributed to PdfCraft, and **About ▸ Models** credits

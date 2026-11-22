@@ -1,4 +1,4 @@
-//! Modal dialogs: Document Properties, Keyboard Shortcuts, About (with the Contributors and Models credits).
+//! Modal dialogs: Document Properties, Keyboard Shortcuts, About (and its Updates tab).
 
 use egui::{Align, Layout};
 
@@ -11,7 +11,6 @@ pub(super) mod appearance;
 pub mod bookmark_styles_ui;
 pub(super) mod comment_props;
 pub(super) mod convert_colours_ui;
-pub(super) mod credits;
 pub(super) mod hairlines_ui;
 pub(super) mod marks_ui;
 pub(super) mod pageboxes;
@@ -1657,12 +1656,12 @@ fn dialog_shortcuts(ui: &mut egui::Ui) -> bool {
 /// `Dialog::About` content. Returns `false` when it has its own buttons and no footer is wanted.
 fn dialog_about(ui: &mut egui::Ui, app: &mut PdfCraftApp, req: &mut Pending) -> bool {
     let t = Tokens::get(ui.ctx());
-    // Tabs About · Contributors · Models.
+    // Lusk PDF : deux onglets, À propos et Mises à jour (pas de Contributeurs ni de Modèles).
     let tab_id = egui::Id::unique("about_tab");
     let mut tab = ui.data_mut(|d| d.get_temp::<u8>(tab_id)).unwrap_or(0);
     ui.horizontal_wrapped(|ui| {
         // Lusk PDF : un onglet Mises à jour, comme la page Fichier › Mises à jour de Lusk Texte.
-        for (i, label) in ["About", "Contributors", "Models", "Updates"].into_iter().enumerate() {
+        for (i, label) in ["About", "Updates"].into_iter().enumerate() {
             let i = i as u8;
             if widgets::mode_tab(ui, tl!(label), tab == i).clicked() {
                 tab = i;
@@ -1672,9 +1671,7 @@ fn dialog_about(ui: &mut egui::Ui, app: &mut PdfCraftApp, req: &mut Pending) -> 
     ui.data_mut(|d| d.insert_temp(tab_id, tab));
     ui.separator();
     match tab {
-        1 => crate::credits::contributors_ui(ui),
-        2 => crate::credits::models_ui(ui),
-        3 => about_updates(ui, app, req),
+        1 => about_updates(ui, app, req),
         _ => {
             ui.horizontal(|ui| {
                 widgets::lusk_mark(ui, 44.0);

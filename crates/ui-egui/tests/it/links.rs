@@ -80,19 +80,15 @@ fn settled<'a>(h: &'a mut Harness<'static, PdfCraftApp>, label: &'a str) -> egui
     panic!("{label:?} never appeared or never stopped moving");
 }
 
+/// Lusk PDF : la fenêtre À propos n'a que deux onglets, À propos et Mises à jour.
 #[test]
-fn about_dialog_has_contributors_and_models_tabs() {
+fn about_dialog_has_only_about_and_updates_tabs() {
     let mut h = harness(|app| app.dialog = Some(Dialog::About));
-    settled(&mut h, "Contributors").click();
-    // The owner is always in the compiled-in credits (contributors/contributors.json), shown by username.
-    settled(&mut h, "@echelon");
-    settled(&mut h, "Table").click();
-    settled(&mut h, "PRs");
-    settled(&mut h, "Display name").click();
-    settled(&mut h, "Brandon Thomas");
-    settled(&mut h, "Models").click();
-    h.run_steps(4);
-    assert!(h.query_all_by_label("Anthropic").count() >= 1);
+    settled(&mut h, "Updates");
+    assert!(h.query_all_by_label("About").count() >= 1);
+    for gone in ["Contributors", "Models", "Display name", "Real name"] {
+        assert!(h.query_by_label(gone).is_none(), "{gone} is still shown");
+    }
 }
 
 /// Lusk PDF : « Raccourcis clavier », dans la fenêtre d'aide, ouvre bien la liste des raccourcis

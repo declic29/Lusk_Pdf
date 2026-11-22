@@ -501,31 +501,6 @@ pub static TOOL_GROUPS: &[ToolGroup] = &[
             ],
         }],
     },
-    ToolGroup {
-        id: "search_index",
-        label: "Add search index",
-        icon: "file-search",
-        hue: GREEN,
-        badge: None,
-        availability: Planned("M12"),
-        sections: &[ToolSection { title: "Index", items: &[item("Manage embedded index", "file-search", "search.index", Planned("M12"))] }],
-    },
-    ToolGroup {
-        id: "javascript",
-        label: "Use JavaScript",
-        icon: "braces",
-        hue: BLUE,
-        badge: None,
-        availability: Planned("M6"),
-        sections: &[ToolSection {
-            title: "JavaScript",
-            items: &[
-                item("Console", "braces", "js.console", Planned("M6")),
-                item("Document JavaScripts", "file-text", "js.document", Planned("M6")),
-                item("Document actions", "list-checks", "js.actions", Planned("M6")),
-            ],
-        }],
-    },
 ];
 
 pub fn group(id: &str) -> Option<&'static ToolGroup> {
@@ -546,7 +521,7 @@ pub static TOOL_CATEGORIES: &[ToolCategory] = &[
     ToolCategory { label: "Review & Compare", groups: &["comment", "stamp", "compare", "measure"] },
     ToolCategory { label: "Forms & Signatures", groups: &["fill_sign", "form", "certificate"] },
     ToolCategory { label: "Protect & Standardize", groups: &["protect", "redact", "accessibility", "standards", "print_production"] },
-    ToolCategory { label: "Customize & Automate", groups: &["actions", "javascript", "search_index"] },
+    ToolCategory { label: "Customize & Automate", groups: &["actions"] },
 ];
 
 #[cfg(test)]
