@@ -524,7 +524,7 @@ fn dialog_body(ui: &mut egui::Ui, app: &mut PdfCraftApp, dialog: Dialog, req: &m
                 return false;
             }
         }
-        Dialog::Help => crate::help::dialog(ui, app),
+        Dialog::Help => crate::help::dialog(ui, app, &mut req.next),
         Dialog::About => {
             if !dialog_about(ui, app, req) {
                 return false;

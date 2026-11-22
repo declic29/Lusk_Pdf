@@ -237,9 +237,6 @@
 	Advanced unit formats	Formats d’unités avancés
 	Advanced…	Avancé…
 	After Sign, enter the OTT code from the mSzafir app in CloudSigner's window and approve the signature in the app. With CloudSigner's persistent OTT code on, the code is asked for only once every few minutes.	Après Signer, saisissez le code OTT de l'app mSzafir dans la fenêtre de CloudSigner et approuvez la signature dans l'app. Avec le code OTT persistant activé dans CloudSigner, le code n'est demandé qu'une fois toutes les quelques minutes.
-	AI Assistant	Assistant IA
-	AI assistant	Assistant IA
-	AI chat isn't available in the web build; use the desktop app or CLI.	Le chat IA n’est pas disponible dans la version web ; utilisez l’application de bureau ou l’interface en ligne de commande.
 	Algorithm	Algorithme
 	Align bottom	Aligner en bas
 	Align fields	Aligner les champs
@@ -326,10 +323,7 @@ calendar date	April	avril
 	ArtCraft website	Site web d'ArtCraft
 	As declared in the PDF	Tel que déclaré dans le PDF
 	Ask	Demander
-	Ask about this document	Interroger ce document
 	Ask Agent	Demander à l’agent
-	Ask AI about this document	Interroger l'IA sur ce document
-	Ask AI to change the formatting	Demander à l’IA de modifier la mise en forme
 	Ask anything	Posez n'importe quelle question
 	Ask before a document opens in Full Screen mode	Demander avant qu'un document s'ouvre en mode plein écran
 	Ask in any language	Posez vos questions dans n'importe quelle langue
@@ -434,7 +428,6 @@ certificate	Basic constraints	Contraintes de base
 	Bring All to Front	Tout ramener au premier plan
 	Bring forward	Avancer d’un plan
 	Bring to front	Mettre au premier plan
-	Bring your own model (off by default)	Apportez votre propre modèle (désactivé par défaut)
 	Browser's print dialog	Boîte de dialogue d'impression du navigateur
 	Bulleted list	Liste à puces
 	Butt	Extrémité plate
@@ -1879,7 +1872,6 @@ calendar weekday	Mo	Lu
 	Navigation links are not repetitive	Les liens de navigation ne sont pas répétitifs
 	Navigation tab	Onglet de navigation
 	Needs a module such as OpenSC or p11-kit installed. The token's own PIN pad is used when it has one.	Nécessite un module tel qu'OpenSC ou p11-kit installé. Le clavier PIN propre au jeton est utilisé lorsqu'il en possède un.
-	needs an AI provider (off by default)	nécessite un fournisseur d'IA (désactivé par défaut)
 	Needs manual check	Vérification manuelle requise
 	Needs {disk} GB of disk	Exige {disk} Go de disque
 	Needs {ram} GB of RAM	Exige {ram} Go de RAM
@@ -2150,7 +2142,6 @@ animation effects	On	Activés
 	Optimizing… removing user data	Optimisation… suppression des données utilisateur
 	Optimizing… writing the copy	Optimisation… écriture de la copie
 	Optional	Facultatif
-	Optional: needs an AI provider you configure	Facultatif : nécessite un fournisseur d'IA que vous configurez
 	Options for this reply	Options de cette réponse
 	Order · top calculates first	Ordre · le haut est calculé en premier
 	Organization Name	Nom de l'organisation
@@ -3194,7 +3185,6 @@ certificate	Subject	Titulaire
 	Summarize	Résumer
 	Summarize comments	Résumer les commentaires
 	Summarize Options	Options du résumé
-	Summarize with AI	Résumer avec l'IA
 	Superscript	Exposant
 	Surfaces	Surfaces
 	Swap width and height	Permuter largeur et hauteur
@@ -3704,7 +3694,6 @@ calendar weekday	Th	Je
 	TR must be a child of Table, THead, TBody, or TFoot	TR doit être un enfant de Table, THead, TBody ou TFoot
 	Transfer format: {format}.	Format de transfert : {format}.
 	Transform image	Transformer l'image
-	Translate with AI	Traduire avec l'IA
 	Trim marks	Traits de coupe
 	Trim the picture with its handles; Enter or Done applies	Recadrez l'image avec ses poignées ; Entrée ou Terminé applique
 	Trust	Confiance
@@ -4435,7 +4424,6 @@ review-suggestion	Replacement text	Texte de remplacement
 	Example set file	Fichier de jeu d'exemple
 	Filters	Filtres
 	Flatten curved page	Aplatir la page courbe
-	For scripts and AI agents	Pour les scripts et les agents IA
 	For the rulers, the grid, page sizes and margins. Clicking the corner between the rulers steps to the next unit.	Pour les règles, la grille, les tailles de page et les marges. Cliquer sur le coin entre les règles passe à l'unité suivante.
 	Grey	Gris
 	Grid lines	Lignes de la grille

@@ -135,7 +135,6 @@ fn tile(ui: &mut egui::Ui, t: &Tokens, g: &ToolGroup, items: &[&'static str]) ->
         match g.availability {
             Availability::Ready => String::new(),
             Availability::Planned(m) => format!("{} · {m}", tl!("Planned")),
-            Availability::Provider => g.badge.map(|b| tl!(b).to_owned()).unwrap_or_default(),
         }
     } else {
         items.iter().take(MATCHES_SHOWN).map(|l| tl!(l)).collect::<Vec<_>>().join(" · ")

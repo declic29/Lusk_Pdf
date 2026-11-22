@@ -31,8 +31,10 @@ pub(crate) const PRIVACY: usize = 6;
 const TEXT: f32 = 14.0;
 const LINE: f32 = 22.0;
 
-/// The Help dialog's content: the contents on the left, the page on the right.
-pub(crate) fn dialog(ui: &mut Ui, app: &mut PdfCraftApp) {
+/// The Help dialog's content: the contents on the left, the page on the right. `next` is the
+/// dialog that replaces this one at the end of the frame (the keyboard shortcuts): setting
+/// `app.dialog` here would be undone, since the dialog frame puts its own dialog back.
+pub(crate) fn dialog(ui: &mut Ui, app: &mut PdfCraftApp, next: &mut Option<crate::Dialog>) {
     let t = Tokens::get(ui.ctx());
     let page = app.help_page.min(GUIDES.len() - 1);
     ui.horizontal_top(|ui| {
@@ -49,7 +51,7 @@ pub(crate) fn dialog(ui: &mut Ui, app: &mut PdfCraftApp) {
             ui.separator();
             ui.add_space(6.0);
             if nav_item(ui, "circle-help", tl!("Keyboard shortcuts"), false) {
-                app.dialog = Some(crate::Dialog::Shortcuts);
+                *next = Some(crate::Dialog::Shortcuts);
             }
         });
         // As tall as the window allows, so the dialog's buttons stay on screen.

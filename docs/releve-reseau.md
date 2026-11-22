@@ -37,8 +37,8 @@ PdfCraft : chercher `ureq`, `reqwest`, `TcpStream`, `TcpListener`, `UdpSocket`, 
 - Signatures numériques : les adresses OCSP et CRL des certificats sont lues mais jamais
   contactées ; l'horodatage en ligne (`sign.timestamp`) n'est pas réalisé.
 - OCR : modèles intégrés aux installateurs, reconnaissance sur l'ordinateur.
-- Outils d'IA (`ai.summary`, `ai.ask`, `ai.translate`) : affichés comme indisponibles, sans
-  aucun code de connexion.
+- Aucun outil d'IA : Lusk PDF a retiré le groupe « Assistant IA » de PdfCraft (qui n'avait de
+  toute façon aucun code de connexion).
 - Correcteur d'orthographe, polices, rendu, export, impression : entièrement locaux.
 - OneDrive et Google Drive : Lusk PDF ouvre seulement le dossier local synchronisé.
 

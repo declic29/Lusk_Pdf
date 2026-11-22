@@ -94,3 +94,18 @@ fn about_dialog_has_contributors_and_models_tabs() {
     h.run_steps(4);
     assert!(h.query_all_by_label("Anthropic").count() >= 1);
 }
+
+/// Lusk PDF : « Raccourcis clavier », dans la fenêtre d'aide, ouvre bien la liste des raccourcis
+/// (avant, la fenêtre d'aide se remettait aussitôt à sa place).
+#[test]
+fn the_help_window_opens_the_keyboard_shortcuts() {
+    let mut h = harness(|app| {
+        app.execute("help.guide");
+    });
+    h.run_steps(2);
+    assert_eq!(h.state().dialog, Some(Dialog::Help));
+    // The top bar has a "Keyboard shortcuts" button too; the help window's entry comes after it.
+    h.get_all_by_label("Keyboard shortcuts").last().expect("the help window lists the shortcuts").click();
+    h.run_steps(3);
+    assert_eq!(h.state().dialog, Some(Dialog::Shortcuts));
+}
