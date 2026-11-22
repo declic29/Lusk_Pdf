@@ -2598,7 +2598,6 @@ certificate	Public key	Clé publique
 	Rename bookmark	Renommer le signet
 	Rename “{name}”	Renommer « {name} »
 	Renamed to {name}	Renommé en {name}
-	Rendering: hayro (bootstrap) · UI: egui · Icons: Lucide (ISC) · Fonts: Inter, JetBrains Mono, Dancing Script (OFL)	Affichage : hayro · Interface : egui · Icônes : Lucide (ISC) · Polices : Inter, JetBrains Mono, Dancing Script (OFL) · Correcteur : dictionnaires Grammalecte et An Drouizig (MPL)
 	Rendering…	Rendu en cours…
 	Reopen Closed Tab	Rouvrir l’onglet fermé
 	Reopen the files that were open when PdfCraft last closed	Rouvrir les fichiers qui étaient ouverts lors de la dernière fermeture de Lusk PDF
@@ -4680,7 +4679,7 @@ review-suggestion	Replacement text	Texte de remplacement
 	by	×
 	Write to the Lusk association	Écrire à l'association Lusk
 	Lusk website	Site de Lusk
-	A free PDF workbench by the Lusk association, adapted from PdfCraft (ArtCraft Team). MIT OR Apache-2.0.	Un atelier PDF libre et gratuit de l'association Lusk, adapté de PdfCraft (ArtCraft Team). Licence MIT ou Apache 2.0.
+	A free PDF workbench by the Lusk association.	Un atelier PDF libre et gratuit de l'association Lusk.
 	By the Lusk association (loi 1901) · www.lusk.bzh	Par l'association Lusk (loi 1901) · www.lusk.bzh
 	Search on lusk.bzh	Chercher sur lusk.bzh
 	Breton	Breton

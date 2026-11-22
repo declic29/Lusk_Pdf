@@ -1681,14 +1681,9 @@ fn dialog_about(ui: &mut egui::Ui, app: &mut PdfCraftApp, req: &mut Pending) -> 
                 });
             });
             ui.add_space(6.0);
-            ui.label(tl!("A free PDF workbench by the Lusk association, adapted from PdfCraft (ArtCraft Team). MIT OR Apache-2.0."));
-            ui.label(
-                egui::RichText::new(tl!(
-                    "Rendering: hayro (bootstrap) · UI: egui · Icons: Lucide (ISC) · Fonts: Inter, JetBrains Mono, Dancing Script (OFL)"
-                ))
-                .color(t.text_muted)
-                .small(),
-            );
+            // Lusk PDF : une seule phrase. Les crédits et licences (PdfCraft, hayro, egui, Lucide,
+            // polices, dictionnaires) restent dans NOTICE et ATTRIBUTION.md, installés avec Lusk PDF.
+            ui.label(tl!("A free PDF workbench by the Lusk association."));
             ui.add_space(12.0);
             // Lusk PDF : la tête du renard de l'association, comme dans Lusk Texte.
             ui.horizontal(|ui| {
