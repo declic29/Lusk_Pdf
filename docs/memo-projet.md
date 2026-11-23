@@ -191,4 +191,5 @@ Claude de Philippe. État au 18 novembre 2026.
 ## À faire (dans l'ordre du cahier des charges)
 
 6. (reste) Enregistrer sous avec OneDrive et Google Drive, si l'association le souhaite.
-9. Publication : workflow « Publication », version 1.0.0.
+9. Publication : workflow « Publication », version 1.0.1 (23 novembre 2026 : écran de
+   chargement, aide, outils retirés, À propos ; c'est elle que reprend l'installateur Lusk Office).
