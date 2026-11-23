@@ -1,7 +1,6 @@
 # Lusk PDF : copie de craft-update (storytold/craft-libs, commit e2dc681, MIT OR Apache-2.0),
-# avec une seule modification : la mise à jour cherche les fichiers de la Release sous tous les
-# noms de l'application (`App::stems`, donc aussi `Lusk-Pdf-<version>-…`), pas seulement sous
-# son identifiant technique `pdfcraft`. Voir LISEZ-MOI.md.
+# modifiée : mise à jour sans signature de code, éditeur « Lusk » reconnu, fichiers cherchés sous
+# tous les noms de l'application. Voir LISEZ-MOI.md.
 [package]
 name = "craft-update"
 description = "Release checking, downloading, installing and self-updating for the Craft App Suite and ArtCraft Launcher"

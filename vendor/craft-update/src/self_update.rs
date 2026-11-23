@@ -16,8 +16,14 @@
 //! | Linux `.deb` / `.rpm` | the system package manager, with the password prompt; then restart |
 //! | Linux Flatpak | reinstall the bundle on the same installation (per-user, or system-wide through `pkexec`); then restart |
 //!
-//! Anything else (FreeBSD, a development build, an unsigned Windows copy) gets the download link
-//! instead.
+//! Anything else (FreeBSD, a development build) gets the download link instead.
+//!
+//! Lusk : les logiciels de l'association ne sont pas signés (pas de certificat de signature de
+//! code). Une copie Windows non signée se met quand même à jour : le fichier ne peut venir que du
+//! lien de téléchargement GitHub de la Release de l'application, et son empreinte SHA-256 publiée
+//! dans la même Release est vérifiée avant toute installation (`install::check_download_link`,
+//! `install::download`). Une copie signée, elle, n'accepte toujours qu'un fichier signé par le
+//! même éditeur (`signed_like`).
 
 use std::ffi::OsString;
 use std::path::{Path, PathBuf};
@@ -188,23 +194,10 @@ pub fn is_self_updating(app: &App) -> bool {
     std::env::current_exe().is_ok_and(|exe| can_self_update_at(app, &exe, std::env::var_os(DEV_VAR).is_some()))
 }
 
-/// [`is_self_updating`] for a known executable and opt-in setting. On Windows the update helper
-/// installs nothing for an unsigned copy, so only a signed one is offered the update; [`DEV_VAR`]
-/// still offers it, to try the self-update.
+/// [`is_self_updating`] for a known executable and opt-in setting. Lusk : signée ou non, une copie
+/// installée se voit proposer la mise à jour (voir l'en-tête du module).
 fn can_self_update_at(app: &App, exe: &Path, opted_in: bool) -> bool {
-    current_at(app, exe, opted_in).is_some() && (opted_in || is_signed(exe))
-}
-
-/// Whether `exe` carries a valid Authenticode signature.
-#[cfg(windows)]
-fn is_signed(exe: &Path) -> bool {
-    verifysign::verify_file(exe).is_ok()
-}
-
-/// Only Windows refuses an unsigned copy's update.
-#[cfg(not(windows))]
-fn is_signed(_exe: &Path) -> bool {
-    true
+    current_at(app, exe, opted_in).is_some()
 }
 
 /// Whether `release` has a file the self-update can install this copy from. Only a standalone
@@ -1664,12 +1657,13 @@ fn same_cache_as_helper(app: &App, paths: &Paths, exe: &Path) -> Result<(), Stri
 }
 
 /// Accepts `file` when it carries a valid Authenticode signature from the same publisher as
-/// `reference`, this program. Refuses an unsigned file, another publisher's, and every file when
-/// `reference` itself isn't signed.
+/// `reference`, this program. Refuses an unsigned file and another publisher's. Lusk : when
+/// `reference` itself isn't signed (the association's builds), every file is accepted: what it
+/// installs was already checked against the release's published SHA-256.
 #[cfg(windows)]
 fn signed_like(app: &App, reference: &Path, file: &Path) -> Result<(), String> {
     let publisher = |path: &Path| verifysign::verify_file(path).map(|signature| signature.subject_name());
-    let ours = publisher(reference).map_err(|e| format!("this copy of {} isn't signed ({e}), so it doesn't install updates", app.name))?;
+    let Ok(ours) = publisher(reference) else { return Ok(()) };
     let theirs = publisher(file).map_err(|e| format!("{} isn't signed ({e})", file.display()))?;
     if ours == theirs { Ok(()) } else { Err(format!("{} isn't signed by {}'s publisher", file.display(), app.name)) }
 }
@@ -3076,7 +3070,8 @@ mod tests {
         gone.id()
     }
 
-    /// A catalog-signed program matches itself; an unsigned one never does, on either side.
+    /// A catalog-signed program matches itself and refuses an unsigned file; an unsigned copy
+    /// (Lusk) accepts any.
     #[cfg(windows)]
     #[test]
     fn a_file_must_be_signed_by_the_launchers_own_publisher() {
@@ -3085,19 +3080,19 @@ mod tests {
         let unsigned = std::env::current_exe().unwrap();
         assert_eq!(signed_like(&crate::suite::LAUNCHER, &cmd, &cmd), Ok(()));
         assert!(signed_like(&crate::suite::LAUNCHER, &cmd, &unsigned).is_err_and(|e| e.contains("isn't signed")));
-        assert!(signed_like(&crate::suite::LAUNCHER, &unsigned, &cmd).is_err_and(|e| e.contains("doesn't install updates")));
+        assert_eq!(signed_like(&crate::suite::LAUNCHER, &unsigned, &cmd), Ok(()));
+        assert_eq!(signed_like(&crate::suite::LAUNCHER, &unsigned, &unsigned), Ok(()));
     }
 
-    /// An unsigned copy gets the download link instead of an update it cannot install, unless
-    /// [`DEV_VAR`] asks to try the self-update.
+    /// Lusk : an unsigned copy is offered the self-update too.
     #[cfg(windows)]
     #[test]
-    fn only_a_signed_copy_is_offered_the_self_update() {
+    fn an_unsigned_copy_is_offered_the_self_update() {
         let dir = tempfile::tempdir().unwrap();
         let unsigned = dir.path().join("artcraft-launcher.exe");
         std::fs::write(&unsigned, "MZ").unwrap();
         std::fs::write(dir.path().join("portable.txt"), "").unwrap();
-        assert!(!can_self_update_at(&crate::suite::LAUNCHER, &unsigned, false));
+        assert!(can_self_update_at(&crate::suite::LAUNCHER, &unsigned, false));
         assert!(can_self_update_at(&crate::suite::LAUNCHER, &unsigned, true));
         assert!(can_self_update_at(&crate::suite::LAUNCHER, &system_program("cmd.exe"), false));
     }
@@ -3108,9 +3103,10 @@ mod tests {
     #[test]
     fn an_unsigned_launcher_refuses_to_update_before_it_quits() {
         let dir = tempfile::tempdir().unwrap();
+        // Lusk : not for its signature any more, but still for a program that isn't its own.
         for install in [Install::Msi(system_program("msiexec.exe")), Install::Portable(system_program("msiexec.exe"))] {
             let error = windows_precheck(&crate::suite::LAUNCHER, &install, &Paths::under(dir.path())).unwrap_err();
-            assert!(error.contains("isn't signed"), "{error}");
+            assert!(!error.contains("isn't signed"), "{error}");
         }
     }
 
