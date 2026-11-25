@@ -1,20 +1,35 @@
 <p align="center">
-  <img src="assets/app-icon/lusk-pdf-logo.png" width="320" alt="Logo de Lusk PDF : un livre rouge ouvert et le mot PdF en dégradé jaune, orange et bleu">
+  <img src="docs/fiche/banniere.jpg" alt="Lusk PDF : vos documents vous appartiennent.">
 </p>
 
-<h1 align="center">Lusk PDF</h1>
+<h3 align="center">Vos documents vous appartiennent.</h3>
 
 <p align="center">
-  <b>Vos documents vous appartiennent.</b><br>
-  Un logiciel libre et gratuit pour lire, annoter, remplir, signer et organiser vos PDF, porté par
-  l'association Lusk (loi 1901).
+  Un logiciel libre et gratuit pour lire, annoter, remplir, signer et organiser vos PDF, porté par l'association Lusk (loi 1901).<br>
+  Pour Windows, macOS et Linux. Sans compte, sans publicité, et vos fichiers restent chez vous.
+</p>
+
+<p align="center">
+  <a href="https://github.com/declic29/Lusk_Pdf/releases/latest/download/Lusk-Pdf-Windows.msi"><img src="https://img.shields.io/badge/Windows-T%C3%A9l%C3%A9charger-1e7be0?style=for-the-badge" alt="Télécharger pour Windows"></a>
+  <a href="https://github.com/declic29/Lusk_Pdf/releases/latest/download/Lusk-Pdf-Mac.dmg"><img src="https://img.shields.io/badge/macOS-T%C3%A9l%C3%A9charger-0d2b52?style=for-the-badge&logo=apple&logoColor=white" alt="Télécharger pour macOS"></a>
+  <a href="https://github.com/declic29/Lusk_Pdf/releases/latest/download/Lusk-Pdf-Linux.deb"><img src="https://img.shields.io/badge/Linux-T%C3%A9l%C3%A9charger-f7941d?style=for-the-badge&logo=linux&logoColor=white" alt="Télécharger pour Linux"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/declic29/Lusk_Pdf/releases/latest"><img src="https://img.shields.io/github/v/release/declic29/Lusk_Pdf?label=version&color=1e7be0" alt="Dernière version"></a>
+  <img src="https://img.shields.io/badge/prix-gratuit-2e9e5b" alt="Gratuit">
+  <img src="https://img.shields.io/badge/langue-fran%C3%A7ais-0d2b52" alt="En français">
+  <a href="https://www.lusk.bzh"><img src="https://img.shields.io/badge/lusk.bzh-site-f7941d" alt="lusk.bzh"></a>
 </p>
 
 <p align="center">
   <a href="https://www.lusk.bzh"><b>lusk.bzh</b></a> ·
-  <a href="https://github.com/declic29/Lusk_Pdf/releases/latest">Télécharger</a> ·
+  <a href="https://github.com/declic29/Lusk_Pdf/releases">Toutes les versions</a> ·
+  <a href="https://github.com/declic29/LuskOffice">Toute la suite avec Lusk Office</a> ·
   <a href="https://github.com/declic29/Lusk_Pdf/issues">Signaler un problème</a>
 </p>
+
+---
 
 ## Lusk PDF en bref
 
@@ -58,8 +73,9 @@ chaque fichier, pour vérifier un téléchargement.
 Une fois Lusk PDF installé, **Aide › Rechercher des mises à jour…** cherche et installe les
 nouvelles versions.
 
-**macOS.** Ouvrez le `.dmg` et glissez Lusk PDF dans Applications. La première fois, faites un
-clic droit sur l'application puis **Ouvrir**.
+**macOS.** Ouvrez le `.dmg` et glissez Lusk PDF dans Applications. L'application n'a pas de
+certificat Apple : la première fois, macOS la bloque ; ouvrez **Réglages Système › Confidentialité
+et sécurité**, puis cliquez sur **Ouvrir quand même**.
 
 **Linux.** Rendez l'AppImage exécutable (`chmod +x`) puis lancez-la, ou installez le paquet de
 votre distribution.
@@ -77,6 +93,23 @@ votre distribution.
 - Le **journal** se trouve dans le dossier de données de l'application : `%APPDATA%\PdfCraft\`
   (Windows), `~/Library/Application Support/PdfCraft/` (macOS) ou `~/.local/share/pdfcraft/`
   (Linux). Joignez-le à un signalement de problème.
+
+## La suite Lusk
+
+Lusk PDF fait partie de la suite libre et gratuite de l'association Lusk. Avec
+**[Lusk Office](https://github.com/declic29/LuskOffice)**, un seul programme installe d'un coup les logiciels que vous cochez
+(Windows, Linux et Mac).
+
+<table>
+  <tr>
+    <td width="50%"><a href="https://github.com/declic29/LuskTX"><img src="https://raw.githubusercontent.com/declic29/LuskOffice/main/docs/lusk-texte.jpg" alt="Lusk Texte"></a></td>
+    <td width="50%"><a href="https://github.com/declic29/LuskTab"><img src="https://raw.githubusercontent.com/declic29/LuskOffice/main/docs/lusk-tab.jpg" alt="Lusk Tab"></a></td>
+  </tr>
+  <tr>
+    <td width="50%"><a href="https://github.com/declic29/Lusk-Diapo"><img src="https://raw.githubusercontent.com/declic29/LuskOffice/main/docs/lusk-diapo.jpg" alt="Lusk Diapo"></a></td>
+    <td width="50%"><a href="https://www.lusk.bzh"><img src="https://raw.githubusercontent.com/declic29/LuskOffice/main/docs/lusk-bzh.jpg" alt="Lusk.bzh"></a></td>
+  </tr>
+</table>
 
 ## Compiler Lusk PDF
 
